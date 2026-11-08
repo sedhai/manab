@@ -1,1 +1,95 @@
-you are invited 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manab's Hub | Welcome</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Russo One (Blocky/Gaming) & Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Russo+One&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <script>
+    // Tailwind Theme Configuration (Roblox Style)
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            gaming: ['"Russo One"', 'sans-serif'],
+            sans: ['"Inter"', 'sans-serif'],
+          },
+          colors: {
+            roblox: {
+              bg: '#111216',      
+              surface: '#232527', 
+              border: '#393B3D',
+              red: '#F63A3A',
+              redDark: '#C12626',
+              text: '#FFFFFF',
+              muted: '#B8B8B8'
+            }
+          },
+          backgroundImage: {
+            'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z' fill='%23232527' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E\")",
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #111216;
+      color: #FFFFFF;
+    }
+    
+    /* Roblox-style 3D Button Utility */
+    .btn-3d-red {
+      background-color: #F63A3A;
+      box-shadow: 0 6px 0 #C12626;
+      transition: all 0.1s ease;
+    }
+    .btn-3d-red:active {
+      transform: translateY(6px);
+      box-shadow: 0 0 0 #C12626;
+    }
+    .btn-3d-red:hover {
+      filter: brightness(1.1);
+    }
+  </style>
+</head>
+
+<body class="font-sans bg-roblox-bg bg-grid-pattern bg-fixed min-h-screen flex items-center justify-center p-4">
+
+  <div class="bg-roblox-surface/95 border-2 border-roblox-border rounded-2xl p-8 md:p-16 max-w-2xl w-full text-center shadow-2xl backdrop-blur-sm relative overflow-hidden">
+    <!-- Decorative Accents -->
+    <div class="absolute top-0 right-0 w-32 h-32 bg-roblox-red/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-32 h-32 bg-roblox-red/10 rounded-full blur-3xl -ml-10 -mb-10 pointer-events-none"></div>
+
+    <div class="text-roblox-red text-6xl mb-6 drop-shadow-lg">
+      <i class="fa-brands fa-codepen"></i>
+    </div>
+
+    <h1 class="font-gaming text-5xl md:text-6xl text-white mb-4 uppercase tracking-widest drop-shadow-md">
+      Welcome
+    </h1>
+    
+    <p class="text-roblox-muted text-lg md:text-xl font-medium mb-10 max-w-md mx-auto">
+      You have arrived at Manab's central hub. A new event server is currently active!
+    </p>
+
+    <a href="birthday.html" class="inline-block w-full sm:w-auto btn-3d-red text-white font-gaming text-xl md:text-2xl uppercase tracking-wider px-8 py-5 rounded-lg flex items-center justify-center gap-4 mx-auto border-2 border-[#ff6b6b]">
+      <i class="fa-solid fa-gamepad"></i> 
+      Join Manab's 9th Birthday Party
+    </a>
+  </div>
+
+</body>
+</html>
