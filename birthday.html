@@ -1,95 +1,568 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manab's Hub | Welcome</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Google Fonts: Russo One (Blocky/Gaming) & Inter (Body) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Russo+One&display=swap" rel="stylesheet">
-  
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <script>
-    // Tailwind Theme Configuration (Roblox Style)
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            gaming: ['"Russo One"', 'sans-serif'],
-            sans: ['"Inter"', 'sans-serif'],
-          },
-          colors: {
-            roblox: {
-              bg: '#111216',      
-              surface: '#232527', 
-              border: '#393B3D',
-              red: '#F63A3A',
-              redDark: '#C12626',
-              text: '#FFFFFF',
-              muted: '#B8B8B8'
-            }
-          },
-          backgroundImage: {
-            'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z' fill='%23232527' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E\")",
-          }
-        }
-      }
-    };
-  </script>
-
-  <style>
-    body {
-      background-color: #111216;
-      color: #FFFFFF;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manab's 9th Birthday Invitation</title>
     
-    /* Roblox-style 3D Button Utility */
-    .btn-3d-red {
-      background-color: #F63A3A;
-      box-shadow: 0 6px 0 #C12626;
-      transition: all 0.1s ease;
-    }
-    .btn-3d-red:active {
-      transform: translateY(6px);
-      box-shadow: 0 0 0 #C12626;
-    }
-    .btn-3d-red:hover {
-      filter: brightness(1.1);
-    }
-  </style>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tone.js for the 8-bit tune -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121417;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 32px 32px;
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        .roblox-font {
+            font-family: 'Bungee', cursive;
+        }
+        .roblox-btn {
+            background: #e52521;
+            border-bottom: 5px solid #8B0000;
+            transition: all 0.1s ease;
+        }
+        .roblox-btn:hover {
+            filter: brightness(1.1);
+        }
+        .roblox-btn:active {
+            border-bottom: 0px;
+            transform: translateY(5px);
+        }
+        .card-bg {
+            background: rgba(26, 29, 36, 0.94);
+            border: 3px solid #3c424f;
+            box-shadow: 0 16px 36px rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Characters Stage */
+        #roblox-characters-stage {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 30;
+        }
+
+        .rbx-character {
+            position: absolute;
+            width: 58px;
+            height: 90px;
+            cursor: pointer;
+            pointer-events: auto;
+            transform-origin: center center;
+            user-select: none;
+            filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.6));
+            will-change: transform, left, top;
+        }
+
+        /* Roblox Avatar Block CSS Construction */
+        .rbx-head {
+            position: absolute;
+            top: 0;
+            left: 17px;
+            width: 24px;
+            height: 22px;
+            border-radius: 4px;
+            border: 2px solid #111;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            line-height: 1;
+        }
+        .rbx-stud {
+            position: absolute;
+            top: -4px;
+            left: 24px;
+            width: 10px;
+            height: 4px;
+            border-radius: 2px 2px 0 0;
+            border: 1px solid #111;
+        }
+        .rbx-torso {
+            position: absolute;
+            top: 22px;
+            left: 13px;
+            width: 32px;
+            height: 34px;
+            border-radius: 2px;
+            border: 2px solid #111;
+            box-sizing: border-box;
+        }
+        .rbx-arm-l {
+            position: absolute;
+            top: 22px;
+            left: 1px;
+            width: 12px;
+            height: 34px;
+            border-radius: 2px;
+            border: 2px solid #111;
+            box-sizing: border-box;
+        }
+        .rbx-arm-r {
+            position: absolute;
+            top: 22px;
+            right: 1px;
+            width: 12px;
+            height: 34px;
+            border-radius: 2px;
+            border: 2px solid #111;
+            box-sizing: border-box;
+        }
+        .rbx-leg-l {
+            position: absolute;
+            top: 56px;
+            left: 13px;
+            width: 15px;
+            height: 32px;
+            border-radius: 0 0 2px 2px;
+            border: 2px solid #111;
+            box-sizing: border-box;
+        }
+        .rbx-leg-r {
+            position: absolute;
+            top: 56px;
+            right: 13px;
+            width: 15px;
+            height: 32px;
+            border-radius: 0 0 2px 2px;
+            border: 2px solid #111;
+            box-sizing: border-box;
+        }
+        .rbx-bubble {
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            color: #111;
+            font-family: 'Bungee', cursive;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            border: 2px solid #000;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+            pointer-events: none;
+        }
+        .rbx-character.oof .rbx-bubble {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-6px);
+        }
+        .rbx-character.hovered {
+            filter: drop-shadow(0 0 16px rgba(255, 235, 59, 0.9));
+        }
+    </style>
+
+    <!-- CONFIGURATION VARIABLES (Easy to update later) -->
+    <script>
+        window.PARTY_CONFIG = {
+            childName: "Manab",
+            birthdayAge: "9th",
+            partyDateText: "Wednesday, January 6, 2027",
+            countdownTarget: "2027-01-06T00:00:00",
+            partyTimeText: "TBD — Coming Soon!",
+            partyVenueName: "Venue To Be Announced",
+            partyVenueAddress: "Stay tuned! We will update you with exact directions soon.",
+            formSubmitEmail: "manab@sedhai.com"
+        };
+    </script>
 </head>
+<body class="relative flex flex-col items-center justify-center p-4">
 
-<body class="font-sans bg-roblox-bg bg-grid-pattern bg-fixed min-h-screen flex items-center justify-center p-4">
+    <!-- FLOATING & JUMPING ROBLOX CHARACTERS CONTAINER -->
+    <div id="roblox-characters-stage"></div>
 
-  <div class="bg-roblox-surface/95 border-2 border-roblox-border rounded-2xl p-8 md:p-16 max-w-2xl w-full text-center shadow-2xl backdrop-blur-sm relative overflow-hidden">
-    <!-- Decorative Accents -->
-    <div class="absolute top-0 right-0 w-32 h-32 bg-roblox-red/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
-    <div class="absolute bottom-0 left-0 w-32 h-32 bg-roblox-red/10 rounded-full blur-3xl -ml-10 -mb-10 pointer-events-none"></div>
-
-    <div class="text-roblox-red text-6xl mb-6 drop-shadow-lg">
-      <i class="fa-brands fa-codepen"></i>
+    <!-- WELCOME / UNLOCK OVERLAY (Bypasses Autoplay Restrictions) -->
+    <div id="welcome-modal" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-90 p-4 transition-opacity duration-500">
+        <div class="card-bg p-8 rounded-xl text-center max-w-md w-full relative z-50">
+            <div class="inline-block bg-red-600 text-white roblox-font text-xs uppercase px-3 py-1 rounded mb-3 tracking-wider">
+                Official Invite
+            </div>
+            <h1 class="roblox-font text-3xl mb-4 text-white">You're Invited!</h1>
+            <p id="welcome-message" class="mb-6 text-gray-300">Click below to open the invitation card for Manab's Birthday Party!</p>
+            <button onclick="openInvitation()" class="roblox-font roblox-btn w-full py-4 rounded text-xl text-white shadow-lg cursor-pointer">
+                OPEN INVITATION
+            </button>
+        </div>
     </div>
 
-    <h1 class="font-gaming text-5xl md:text-6xl text-white mb-4 uppercase tracking-widest drop-shadow-md">
-      Welcome
-    </h1>
-    
-    <p class="text-roblox-muted text-lg md:text-xl font-medium mb-10 max-w-md mx-auto">
-      You have arrived at Manab's central hub. A new event server is currently active!
-    </p>
+    <!-- MAIN INVITATION CONTENT -->
+    <div id="main-content" class="max-w-2xl w-full hidden opacity-0 transition-opacity duration-1000 my-8 relative z-20">
+        
+        <!-- Header Section -->
+        <div class="card-bg rounded-xl p-8 mb-6 text-center border-t-8 border-t-red-600">
+            <h1 class="roblox-font text-4xl md:text-5xl text-white mb-2 tracking-wide">
+                <span id="display-name">Manab</span>'s <span id="display-age" class="text-red-500">9th</span> Level Up!
+            </h1>
+            <p class="text-xl text-gray-300 mt-2">You are officially invited to celebrate with us!</p>
+            
+            <div class="mt-6 bg-black bg-opacity-60 p-4 rounded-lg inline-block border border-gray-700">
+                <p class="text-xs text-gray-400 uppercase tracking-widest roblox-font">Countdown to Party Time</p>
+                <div id="countdown" class="roblox-font text-2xl md:text-3xl text-yellow-400 mt-2">
+                    Loading...
+                </div>
+            </div>
+        </div>
 
-    <a href="birthday.html" class="inline-block w-full sm:w-auto btn-3d-red text-white font-gaming text-xl md:text-2xl uppercase tracking-wider px-8 py-5 rounded-lg flex items-center justify-center gap-4 mx-auto border-2 border-[#ff6b6b]">
-      <i class="fa-solid fa-gamepad"></i> 
-      Join Manab's 9th Birthday Party
-    </a>
-  </div>
+        <!-- Event Details Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div class="card-bg rounded-xl p-6">
+                <h3 class="roblox-font text-xl text-yellow-400 mb-3 border-b border-gray-700 pb-2">📅 When</h3>
+                <p id="display-date" class="font-bold text-lg text-white"></p>
+                <p id="display-time" class="text-gray-300 mt-1"></p>
+            </div>
+            <div class="card-bg rounded-xl p-6">
+                <h3 class="roblox-font text-xl text-yellow-400 mb-3 border-b border-gray-700 pb-2">📍 Where</h3>
+                <p id="display-venue" class="font-bold text-lg text-white"></p>
+                <p id="display-address" class="text-gray-300 mt-1 text-sm"></p>
+            </div>
+        </div>
 
+        <!-- RSVP Form Section -->
+        <div class="card-bg rounded-xl p-8">
+            <h2 class="roblox-font text-2xl text-center mb-6 text-white tracking-wide">RSVP for Parents</h2>
+            
+            <form id="rsvp-form" method="POST" class="space-y-4">
+                <!-- FormSubmit Configuration -->
+                <input type="hidden" name="_subject" value="New Birthday RSVP for Manab!">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_autoresponse" value="Thank you for RSVPing to Manab's 9th Birthday! We have received your response. We will update you with the time and venue soon.">
+                <input type="hidden" name="_replyto" id="reply-to" value="">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-300 mb-1">Child's Name *</label>
+                        <input type="text" name="Child_Name" id="child-name-input" required class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white focus:outline-none focus:border-red-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-300 mb-1">Parent's Name *</label>
+                        <input type="text" name="Parent_Name" required class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white focus:outline-none focus:border-red-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-1">Parent's Email * (For confirmation)</label>
+                    <input type="email" name="email" required class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white focus:outline-none focus:border-red-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-1">Food Allergies / Dietary Requirements</label>
+                    <input type="text" name="Allergies" placeholder="e.g. Peanuts, Dairy, Vegetarian, None" class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white focus:outline-none focus:border-red-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-1">Recommendations or Notes from Parents</label>
+                    <textarea name="Recommendations" rows="3" placeholder="Any suggestions or questions for Manab's parents?" class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white focus:outline-none focus:border-red-500"></textarea>
+                </div>
+
+                <button type="submit" class="roblox-font roblox-btn w-full py-4 mt-4 rounded text-xl text-white shadow-lg cursor-pointer">
+                    SEND RSVP
+                </button>
+            </form>
+        </div>
+
+        <p class="text-center text-xs text-gray-500 mt-6 pb-8">
+            Tip: Hover over the jumping Roblox avatars to freeze them, or tap them to make them run away!
+        </p>
+    </div>
+
+    <script>
+        // 1. Populate details from config
+        document.getElementById('display-name').innerText = window.PARTY_CONFIG.childName;
+        document.getElementById('display-age').innerText = window.PARTY_CONFIG.birthdayAge;
+        document.getElementById('display-date').innerText = window.PARTY_CONFIG.partyDateText;
+        document.getElementById('display-time').innerText = window.PARTY_CONFIG.partyTimeText;
+        document.getElementById('display-venue').innerText = window.PARTY_CONFIG.partyVenueName;
+        document.getElementById('display-address').innerText = window.PARTY_CONFIG.partyVenueAddress;
+        
+        // Setup FormSubmit URL & Reply-to
+        document.getElementById('rsvp-form').action = `https://formsubmit.co/${window.PARTY_CONFIG.formSubmitEmail}`;
+        document.getElementById('reply-to').value = window.PARTY_CONFIG.formSubmitEmail;
+
+        // 2. Check URL parameters for guest name (?guest=Name)
+        const urlParams = new URLSearchParams(window.location.search);
+        const guestName = urlParams.get('guest');
+        
+        if (guestName) {
+            document.getElementById('welcome-message').innerText = `Hey ${guestName}! You're invited to celebrate ${window.PARTY_CONFIG.childName}'s Birthday!`;
+            document.getElementById('child-name-input').value = guestName;
+        }
+
+        // 3. Countdown Timer Logic
+        const targetDate = new Date(window.PARTY_CONFIG.countdownTarget).getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById("countdown").innerHTML = "IT'S PARTY TIME!";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60));
+            const minutes = Math.floor((distance % (1000 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }, 1000);
+
+        // 4. Tone.js 8-bit Happy Birthday Tune
+        async function playBirthdayTune() {
+            try {
+                await Tone.start();
+                const synth = new Tone.Synth({
+                    oscillator: { type: "square" },
+                    envelope: { attack: 0.04, decay: 0.15, sustain: 0.2, release: 0.6 }
+                }).toDestination();
+                
+                synth.volume.value = -8;
+                const now = Tone.now();
+                
+                synth.triggerAttackRelease("G4", "8n", now);
+                synth.triggerAttackRelease("G4", "8n", now + 0.28);
+                synth.triggerAttackRelease("A4", "4n", now + 0.56);
+                synth.triggerAttackRelease("G4", "4n", now + 1.12);
+                synth.triggerAttackRelease("C5", "4n", now + 1.68);
+                synth.triggerAttackRelease("B4", "2n", now + 2.24);
+            } catch(e) {
+                console.log("Audio waiting for user gesture:", e);
+            }
+        }
+
+        // 5. Open Invitation Modal Action
+        function openInvitation() {
+            const modal = document.getElementById('welcome-modal');
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 500);
+
+            const content = document.getElementById('main-content');
+            content.classList.remove('hidden');
+            setTimeout(() => {
+                content.style.opacity = '1';
+            }, 100);
+
+            playBirthdayTune();
+            
+            confetti({
+                particleCount: 160,
+                spread: 85,
+                origin: { y: 0.6 },
+                colors: ['#e52521', '#ffffff', '#0055ff', '#ffdd00']
+            });
+        }
+
+        /* -----------------------------------------------------------
+           PARABOLIC ROBLOX CHARACTERS PHYSICS ENGINE
+           - Random jumping parabolic arcs (gravity + initial velocity)
+           - Hover to pause & float
+           - Click / Touch to flee ("OOF!")
+        ------------------------------------------------------------*/
+        const characterThemes = [
+            { name: "Classic Noob", head: "#FFE600", torso: "#0055FF", leg: "#98FB98", arm: "#FFE600", face: "•‿•" },
+            { name: "Bacon Boy", head: "#F5C396", torso: "#D32F2F", leg: "#37474F", arm: "#F5C396", face: "¬‿¬" },
+            { name: "Guest", head: "#FFE600", torso: "#212121", leg: "#1565C0", arm: "#FFE600", face: "•_•" },
+            { name: "Builder", head: "#F5C396", torso: "#FF9800", leg: "#424242", arm: "#F5C396", face: "★‿★" },
+            { name: "Cyan Spark", head: "#E0F7FA", torso: "#00BCD4", leg: "#006064", arm: "#E0F7FA", face: "^‿^" }
+        ];
+
+        class RobloxCharacter {
+            constructor(theme, stage) {
+                this.theme = theme;
+                this.stage = stage;
+                this.el = null;
+                this.width = 58;
+                this.height = 90;
+
+                // Physics state
+                this.x = Math.random() * (window.innerWidth - this.width);
+                this.y = Math.random() * (window.innerHeight - this.height);
+                this.vx = (Math.random() - 0.5) * 4;
+                this.vy = -(6 + Math.random() * 8); // launch velocity
+                this.gravity = 0.28;
+                this.bounceDecay = 0.95;
+                this.groundY = window.innerHeight - this.height - 10;
+
+                this.isHovered = false;
+                this.isScared = false;
+                this.facing = this.vx >= 0 ? 1 : -1;
+                this.floatOffset = 0;
+
+                this.createDOM();
+                this.bindEvents();
+            }
+
+            createDOM() {
+                const el = document.createElement('div');
+                el.className = 'rbx-character';
+                el.innerHTML = `
+                    <div class="rbx-bubble">OOF!</div>
+                    <div class="rbx-stud" style="background:${this.theme.head}"></div>
+                    <div class="rbx-head" style="background:${this.theme.head}">${this.theme.face}</div>
+                    <div class="rbx-torso" style="background:${this.theme.torso}"></div>
+                    <div class="rbx-arm-l" style="background:${this.theme.arm}"></div>
+                    <div class="rbx-arm-r" style="background:${this.theme.arm}"></div>
+                    <div class="rbx-leg-l" style="background:${this.theme.leg}"></div>
+                    <div class="rbx-leg-r" style="background:${this.theme.leg}"></div>
+                `;
+                this.stage.appendChild(el);
+                this.el = el;
+            }
+
+            bindEvents() {
+                // Hover stops the character
+                this.el.addEventListener('mouseenter', () => {
+                    if (!this.isScared) {
+                        this.isHovered = true;
+                        this.el.classList.add('hovered');
+                    }
+                });
+
+                this.el.addEventListener('mouseleave', () => {
+                    this.isHovered = false;
+                    this.el.classList.remove('hovered');
+                });
+
+                // Click or Touch triggers runaway sprint
+                const runaway = (e) => {
+                    e.stopPropagation();
+                    this.scareAway();
+                };
+                this.el.addEventListener('click', runaway);
+                this.el.addEventListener('touchstart', runaway, { passive: true });
+            }
+
+            scareAway() {
+                if (this.isScared) return;
+                this.isScared = true;
+                this.isHovered = false;
+                this.el.classList.remove('hovered');
+                this.el.classList.add('oof');
+
+                // Launch fast parabolic trajectory off screen
+                const direction = (Math.random() > 0.5 ? 1 : -1);
+                this.vx = direction * (14 + Math.random() * 8);
+                this.vy = -(12 + Math.random() * 8);
+                this.facing = this.vx > 0 ? 1 : -1;
+
+                // Respawn after running off
+                setTimeout(() => {
+                    this.respawn();
+                }, 2200);
+            }
+
+            respawn() {
+                this.isScared = false;
+                this.el.classList.remove('oof');
+                this.x = Math.random() * (window.innerWidth - this.width);
+                this.y = window.innerHeight - this.height - 10;
+                this.launchNewArc();
+            }
+
+            launchNewArc() {
+                this.groundY = window.innerHeight - this.height - (Math.random() * 40);
+                // Parabolic trajectory: vx constant horizontal velocity, vy vertical impulse with gravity
+                this.vx = (Math.random() - 0.5) * 6;
+                if (Math.abs(this.vx) < 1.5) this.vx = this.vx < 0 ? -2 : 2;
+                this.vy = -(9 + Math.random() * 8);
+                this.facing = this.vx >= 0 ? 1 : -1;
+            }
+
+            update() {
+                const screenW = window.innerWidth;
+                const screenH = window.innerHeight;
+
+                if (this.isHovered) {
+                    // Stop in place, float smoothly
+                    this.floatOffset += 0.05;
+                    const bob = Math.sin(this.floatOffset) * 4;
+                    this.el.style.transform = `translate3d(${this.x}px, ${this.y + bob}px, 0) scaleX(${this.facing})`;
+                    return;
+                }
+
+                if (this.isScared) {
+                    // Extreme fleeing trajectory
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.vy += this.gravity * 0.9;
+                    const spin = (this.vx > 0 ? 1 : -1) * 15;
+                    this.el.style.transform = `translate3d(${this.x}px, ${this.y}px, 0) scaleX(${this.facing}) rotate(${spin}deg)`;
+                    return;
+                }
+
+                // Regular Parabolic Motion: y = y0 + vy*t + 0.5*g*t^2
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += this.gravity; // Gravity pulling downward
+
+                // Horizontal screen edge bounce
+                if (this.x <= 0) {
+                    this.x = 0;
+                    this.vx = -this.vx;
+                    this.facing = 1;
+                } else if (this.x >= screenW - this.width) {
+                    this.x = screenW - this.width;
+                    this.vx = -this.vx;
+                    this.facing = -1;
+                }
+
+                // Ground landing -> launch next parabolic jump
+                if (this.y >= this.groundY) {
+                    this.y = this.groundY;
+                    this.launchNewArc();
+                }
+
+                // Ceiling soft redirect
+                if (this.y < 10) {
+                    this.y = 10;
+                    this.vy = 2;
+                }
+
+                // Leg walking/jumping animation tilt
+                const tilt = Math.sin(Date.now() / 150) * 6;
+                this.el.style.transform = `translate3d(${this.x}px, ${this.y}px, 0) scaleX(${this.facing}) rotate(${tilt}deg)`;
+            }
+        }
+
+        // Initialize Characters
+        const stage = document.getElementById('roblox-characters-stage');
+        const characters = characterThemes.map(theme => new RobloxCharacter(theme, stage));
+
+        function animateCharacters() {
+            characters.forEach(c => c.update());
+            requestAnimationFrame(animateCharacters);
+        }
+        requestAnimationFrame(animateCharacters);
+
+        // Adjust boundaries on resize
+        window.addEventListener('resize', () => {
+            characters.forEach(c => {
+                c.groundY = window.innerHeight - c.height - 10;
+            });
+        });
+    </script>
 </body>
 </html>
