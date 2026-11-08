@@ -1,1 +1,477 @@
-you are invited for manabsbirthday
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manab's 9th Birthday Bash | Roblox Theme</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Russo One (Blocky/Gaming) & Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Russo+One&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Canvas Confetti & Tone.js (Web Audio) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+  <script>
+    // =========================================================================
+    // ⚙️ EASY CONFIGURATION VARIABLES (UPDATE THESE AS DETAILS GET FINALIZED)
+    // =========================================================================
+    window.PARTY_CONFIG = {
+      // Child's details
+      childName: "Manab",
+      birthdayAge: "9th",
+      
+      // Date & Countdown
+      partyDateText: "Wednesday, January 6, 2027",
+      countdownTargetDate: "2027-01-06T14:00:00", // Format: YYYY-MM-DDTHH:MM:SS
+      
+      // Venue & Time
+      partyTimeText: "TBD — Mission Time Pending",
+      partyVenueName: "The Secret Base (TBD)",
+      partyVenueAddress: "Coordinates will be updated soon. Stay alert!",
+      
+      // FormSubmit Email Destination
+      formSubmitEmail: "manab@sedhai.com",
+      
+      // Contact info for questions
+      contactEmailDisplay: "manab@sedhai.com",
+      confirmationReplyEmail: "manab@sedhai.com"
+    };
+
+    // Tailwind Theme Configuration (Roblox Style)
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            gaming: ['"Russo One"', 'sans-serif'],
+            sans: ['"Inter"', 'sans-serif'],
+          },
+          colors: {
+            roblox: {
+              bg: '#111216',      // Dark slate/black app background
+              surface: '#232527', // Lighter panel background
+              border: '#393B3D',
+              green: '#00B06F',   // Roblox Play button green
+              greenDark: '#008554',
+              red: '#F63A3A',
+              redDark: '#C12626',
+              text: '#FFFFFF',
+              muted: '#B8B8B8'
+            }
+          },
+          backgroundImage: {
+            'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z' fill='%23232527' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E\")",
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #111216;
+      color: #FFFFFF;
+      overflow-x: hidden;
+    }
+    
+    /* Roblox-style 3D Button Utility */
+    .btn-3d-green {
+      background-color: #00B06F;
+      box-shadow: 0 4px 0 #008554;
+      transition: all 0.1s ease;
+    }
+    .btn-3d-green:active {
+      transform: translateY(4px);
+      box-shadow: 0 0 0 #008554;
+    }
+    
+    .btn-3d-red {
+      background-color: #F63A3A;
+      box-shadow: 0 4px 0 #C12626;
+      transition: all 0.1s ease;
+    }
+    .btn-3d-red:active {
+      transform: translateY(4px);
+      box-shadow: 0 0 0 #C12626;
+    }
+
+    /* Modal overlay blurs the background */
+    .modal-active #main-content {
+      filter: blur(8px);
+      pointer-events: none;
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #111216; }
+    ::-webkit-scrollbar-thumb { background: #393B3D; border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: #555; }
+  </style>
+</head>
+
+<body class="font-sans bg-roblox-bg bg-grid-pattern bg-fixed min-h-screen relative flex flex-col items-center">
+
+  <!-- ================= WELCOME MODAL (PLAYER LOGIN) ================= -->
+  <div id="player-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300">
+    <div class="bg-roblox-surface border-2 border-roblox-border rounded-xl p-8 max-w-sm w-full mx-4 shadow-2xl text-center transform scale-100 transition-transform duration-300 shadow-[0_0_40px_rgba(0,176,111,0.2)]">
+      <div class="text-4xl mb-4 text-roblox-red animate-pulse">
+        <i class="fa-solid fa-gamepad"></i>
+      </div>
+      <h2 class="font-gaming text-2xl mb-2 text-white uppercase tracking-wider">Join Experience</h2>
+      <p class="text-roblox-muted text-sm mb-6 font-medium">Server: Manab's 9th Birthday</p>
+      
+      <div class="text-left mb-6">
+        <label for="modal-player-name" class="block text-xs font-bold text-roblox-muted uppercase tracking-wider mb-2">Enter Player Name</label>
+        <input type="text" id="modal-player-name" placeholder="e.g. RobloxGamer123" class="w-full bg-roblox-bg border-2 border-roblox-border rounded text-white px-4 py-3 focus:outline-none focus:border-roblox-green transition-colors font-gaming placeholder:font-sans placeholder:text-gray-600">
+      </div>
+      
+      <button id="join-game-btn" class="w-full btn-3d-green text-white font-gaming text-xl uppercase tracking-wider py-4 rounded flex items-center justify-center gap-3">
+        <i class="fa-solid fa-play text-sm"></i> Play
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <div id="main-content" class="w-full max-w-5xl mx-auto px-4 sm:px-6 py-6 transition-all duration-500 opacity-0 hidden">
+    
+    <!-- HEADER -->
+    <header class="bg-roblox-surface/90 border border-roblox-border rounded-xl p-4 flex flex-col md:flex-row items-center justify-between shadow-lg backdrop-blur-md mb-8 sticky top-4 z-40">
+      <div class="flex items-center gap-3 mb-4 md:mb-0">
+        <div class="w-10 h-10 bg-roblox-red rounded flex items-center justify-center text-white shadow-inner">
+          <i class="fa-solid fa-cube text-xl"></i>
+        </div>
+        <div class="font-gaming text-xl uppercase tracking-wide">
+          <span id="header-child-name" class="text-white">Manab</span>'s <span id="header-age" class="text-roblox-green">9th</span> Lvl
+        </div>
+      </div>
+      <nav class="flex gap-4">
+        <a href="#mission-brief" class="font-gaming text-sm uppercase text-roblox-muted hover:text-white transition-colors">Mission Brief</a>
+        <a href="#rsvp-zone" class="font-gaming text-sm uppercase text-roblox-green hover:text-roblox-greenDark transition-colors">RSVP Now</a>
+      </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="bg-roblox-surface border border-roblox-border rounded-2xl p-8 md:p-12 shadow-xl mb-12 relative overflow-hidden text-center">
+      <!-- Decorative background elements -->
+      <div class="absolute top-0 right-0 w-64 h-64 bg-roblox-green/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+      <div class="absolute bottom-0 left-0 w-64 h-64 bg-roblox-red/5 rounded-full blur-3xl -ml-20 -mb-20 pointer-events-none"></div>
+
+      <!-- Dynamic Welcome Message -->
+      <div id="dynamic-welcome" class="inline-block bg-roblox-bg border border-roblox-border rounded-full px-6 py-2 mb-6 font-gaming text-roblox-green text-sm md:text-base uppercase tracking-widest shadow-inner">
+        Awaiting Player...
+      </div>
+
+      <h1 class="font-gaming text-5xl md:text-7xl uppercase text-white mb-4 drop-shadow-lg leading-tight tracking-wide">
+        Level Up To <span id="hero-age" class="text-roblox-red">9</span>!
+      </h1>
+      <p class="text-roblox-muted text-lg md:text-xl font-medium max-w-2xl mx-auto mb-10">
+        Gear up for an epic birthday quest celebrating <span id="hero-child-name">Manab</span>! Mini-games, loot drops (cake), and maximum fun await.
+      </p>
+
+      <!-- COUNTDOWN TIMER -->
+      <div class="bg-roblox-bg border-2 border-roblox-border rounded-xl p-6 inline-block w-full max-w-3xl">
+        <h3 class="font-gaming text-roblox-muted text-sm uppercase tracking-widest mb-4">Time Until Server Launch</h3>
+        <div class="grid grid-cols-4 gap-2 md:gap-4 text-center">
+          <div class="bg-roblox-surface rounded p-3 md:p-4 border border-roblox-border/50">
+            <div id="timer-days" class="font-gaming text-3xl md:text-5xl text-white">00</div>
+            <div class="text-roblox-muted text-[10px] md:text-xs font-bold uppercase mt-1">Days</div>
+          </div>
+          <div class="bg-roblox-surface rounded p-3 md:p-4 border border-roblox-border/50">
+            <div id="timer-hours" class="font-gaming text-3xl md:text-5xl text-roblox-green">00</div>
+            <div class="text-roblox-muted text-[10px] md:text-xs font-bold uppercase mt-1">Hours</div>
+          </div>
+          <div class="bg-roblox-surface rounded p-3 md:p-4 border border-roblox-border/50">
+            <div id="timer-minutes" class="font-gaming text-3xl md:text-5xl text-roblox-red">00</div>
+            <div class="text-roblox-muted text-[10px] md:text-xs font-bold uppercase mt-1">Mins</div>
+          </div>
+          <div class="bg-roblox-surface rounded p-3 md:p-4 border border-roblox-border/50">
+            <div id="timer-seconds" class="font-gaming text-3xl md:text-5xl text-white">00</div>
+            <div class="text-roblox-muted text-[10px] md:text-xs font-bold uppercase mt-1">Secs</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISSION DETAILS -->
+    <section id="mission-brief" class="mb-12">
+      <div class="flex items-center gap-3 mb-6">
+        <i class="fa-solid fa-clipboard-list text-roblox-green text-2xl"></i>
+        <h2 class="font-gaming text-2xl uppercase tracking-wider">Mission Briefing</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Date -->
+        <div class="bg-roblox-surface border border-roblox-border rounded-xl p-6 hover:border-roblox-green transition-colors">
+          <div class="text-roblox-green text-3xl mb-4"><i class="fa-solid fa-calendar-check"></i></div>
+          <h3 class="font-gaming text-lg text-white mb-2 uppercase">Launch Date</h3>
+          <p id="card-date" class="text-roblox-muted font-medium">January 6, 2027</p>
+        </div>
+        
+        <!-- Time -->
+        <div class="bg-roblox-surface border border-roblox-border rounded-xl p-6 hover:border-roblox-red transition-colors">
+          <div class="text-roblox-red text-3xl mb-4"><i class="fa-solid fa-clock"></i></div>
+          <h3 class="font-gaming text-lg text-white mb-2 uppercase">Server Time</h3>
+          <p id="card-time" class="text-roblox-muted font-medium">TBD — Pending</p>
+        </div>
+
+        <!-- Venue -->
+        <div class="bg-roblox-surface border border-roblox-border rounded-xl p-6 hover:border-white transition-colors">
+          <div class="text-white text-3xl mb-4"><i class="fa-solid fa-map-location-dot"></i></div>
+          <h3 class="font-gaming text-lg text-white mb-2 uppercase">Coordinates</h3>
+          <p id="card-venue" class="text-white font-bold mb-1">TBD Base</p>
+          <p id="card-address" class="text-roblox-muted text-sm">Will update soon.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RSVP FORM ZONE -->
+    <section id="rsvp-zone" class="bg-roblox-surface border-2 border-roblox-border rounded-2xl p-6 md:p-10 shadow-2xl relative">
+      <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-roblox-bg border-2 border-roblox-border px-6 py-2 rounded font-gaming uppercase tracking-widest text-roblox-green">
+        Comms Terminal
+      </div>
+
+      <div class="text-center mb-8 mt-4">
+        <h2 class="font-gaming text-3xl uppercase text-white mb-2">Secure Your Slot!</h2>
+        <p class="text-roblox-muted font-medium">Submit your RSVP so we can configure the server capacity.</p>
+      </div>
+
+      <form id="rsvp-form" method="POST" class="max-w-2xl mx-auto space-y-6">
+        <!-- FormSubmit Hidden Config -->
+        <input type="hidden" name="_subject" id="form-subject" value="🎮 RSVP for Manab's 9th Birthday!">
+        <input type="hidden" name="_autoresponse" id="form-autoresponse" value="Thanks for confirming your slot for Manab's Birthday! We'll send updated coordinates (venue/time) soon.">
+        <input type="hidden" name="_replyto" id="form-replyto" value="manab@sedhai.com">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+
+        <!-- Attendance Radio -->
+        <div class="bg-roblox-bg p-4 rounded-xl border border-roblox-border">
+          <label class="block font-gaming text-sm uppercase text-roblox-muted mb-3">Status <span class="text-roblox-red">*</span></label>
+          <div class="grid grid-cols-2 gap-4">
+            <label class="cursor-pointer">
+              <input type="radio" name="Attendance" value="Joining the Server!" checked class="peer sr-only">
+              <div class="text-center p-3 rounded border-2 border-roblox-border peer-checked:border-roblox-green peer-checked:bg-roblox-green/10 text-roblox-muted peer-checked:text-white font-gaming transition-all">
+                <i class="fa-solid fa-check text-roblox-green mr-1"></i> Joining
+              </div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="Attendance" value="Offline (Cannot Attend)" class="peer sr-only">
+              <div class="text-center p-3 rounded border-2 border-roblox-border peer-checked:border-roblox-red peer-checked:bg-roblox-red/10 text-roblox-muted peer-checked:text-white font-gaming transition-all">
+                <i class="fa-solid fa-xmark text-roblox-red mr-1"></i> Offline
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Child Name (Prefilled) -->
+          <div>
+            <label class="block font-gaming text-xs uppercase text-roblox-muted mb-2">Player / Child Name <span class="text-roblox-red">*</span></label>
+            <input type="text" id="rsvp-child-name" name="Child_Name" required class="w-full bg-roblox-bg border border-roblox-border rounded text-white px-4 py-3 focus:outline-none focus:border-roblox-green transition-colors font-medium">
+          </div>
+          
+          <!-- Parent Name -->
+          <div>
+            <label class="block font-gaming text-xs uppercase text-roblox-muted mb-2">Parent / Admin Name <span class="text-roblox-red">*</span></label>
+            <input type="text" name="Parent_Name" required class="w-full bg-roblox-bg border border-roblox-border rounded text-white px-4 py-3 focus:outline-none focus:border-roblox-green transition-colors font-medium">
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block font-gaming text-xs uppercase text-roblox-muted mb-2">Parent Email (For Updates) <span class="text-roblox-red">*</span></label>
+          <input type="email" name="email" required class="w-full bg-roblox-bg border border-roblox-border rounded text-white px-4 py-3 focus:outline-none focus:border-roblox-green transition-colors font-medium" placeholder="name@example.com">
+        </div>
+
+        <!-- Allergies -->
+        <div>
+          <label class="block font-gaming text-xs uppercase text-roblox-muted mb-2">Dietary Restrictions / Allergies</label>
+          <textarea name="Allergies" rows="2" class="w-full bg-roblox-bg border border-roblox-border rounded text-white px-4 py-3 focus:outline-none focus:border-roblox-green transition-colors font-medium" placeholder="HP potions only? Let us know!"></textarea>
+        </div>
+        
+        <!-- Notes -->
+        <div>
+          <label class="block font-gaming text-xs uppercase text-roblox-muted mb-2">Message / Recommendations</label>
+          <textarea name="Notes" rows="2" class="w-full bg-roblox-bg border border-roblox-border rounded text-white px-4 py-3 focus:outline-none focus:border-roblox-green transition-colors font-medium" placeholder="Any special requests or messages?"></textarea>
+        </div>
+
+        <button type="submit" class="w-full btn-3d-red text-white font-gaming text-xl uppercase tracking-wider py-4 rounded mt-4 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-satellite-dish"></i> Transmit RSVP
+        </button>
+      </form>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="mt-12 mb-6 text-center border-t border-roblox-border pt-6">
+      <div class="font-gaming text-xl text-white mb-2 uppercase">
+        Manab's Birthday Event
+      </div>
+      <p class="text-roblox-muted text-sm font-medium">
+        Support Contact: <a href="mailto:manab@sedhai.com" class="text-roblox-green hover:underline">manab@sedhai.com</a>
+      </p>
+    </footer>
+
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const cfg = window.PARTY_CONFIG;
+
+      // 1. POPULATE CONFIG DATA INTO UI
+      document.getElementById("header-child-name").textContent = cfg.childName;
+      document.getElementById("header-age").textContent = cfg.birthdayAge;
+      document.getElementById("hero-child-name").textContent = cfg.childName;
+      document.getElementById("hero-age").textContent = parseInt(cfg.birthdayAge); // Strips 'th' for blocky look
+
+      document.getElementById("card-date").textContent = cfg.partyDateText;
+      document.getElementById("card-time").textContent = cfg.partyTimeText;
+      document.getElementById("card-venue").textContent = cfg.partyVenueName;
+      document.getElementById("card-address").textContent = cfg.partyVenueAddress;
+
+      // Setup FormSubmit URL & hidden fields
+      const form = document.getElementById("rsvp-form");
+      form.action = "https://formsubmit.co/" + encodeURIComponent(cfg.formSubmitEmail);
+      document.getElementById("form-subject").value = `🎮 New RSVP for ${cfg.childName}'s Birthday!`;
+      document.getElementById("form-replyto").value = cfg.confirmationReplyEmail;
+
+      // 2. COUNTDOWN TIMER LOGIC
+      const targetDate = new Date(cfg.countdownTargetDate).getTime();
+      function updateTimer() {
+        const now = new Date().getTime();
+        const dist = targetDate - now;
+
+        if (dist <= 0) {
+          document.getElementById("timer-days").textContent = "00";
+          document.getElementById("timer-hours").textContent = "00";
+          document.getElementById("timer-minutes").textContent = "00";
+          document.getElementById("timer-seconds").textContent = "00";
+          return;
+        }
+
+        const d = Math.floor(dist / (1000 * 60 * 60 * 24));
+        const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((dist % (1000 * 60)) / 1000);
+
+        document.getElementById("timer-days").textContent = d < 10 ? "0"+d : d;
+        document.getElementById("timer-hours").textContent = h < 10 ? "0"+h : h;
+        document.getElementById("timer-minutes").textContent = m < 10 ? "0"+m : m;
+        document.getElementById("timer-seconds").textContent = s < 10 ? "0"+s : s;
+      }
+      setInterval(updateTimer, 1000);
+      updateTimer();
+
+      // 3. TONE.JS 8-BIT BIRTHDAY TUNE
+      async function play8BitBirthdayTune() {
+        // Ensure Tone is started on user gesture
+        await Tone.start();
+        
+        // Create an 8-bit style synth (square wave)
+        const synth = new Tone.Synth({
+          oscillator: { type: "square" },
+          envelope: { attack: 0.05, decay: 0.2, sustain: 0.2, release: 1 }
+        }).toDestination();
+
+        // Reduce volume slightly
+        synth.volume.value = -8;
+
+        const now = Tone.now();
+        const tempo = 0.3; // Speed of notes
+
+        // Happy Birthday Melody (Notes and timings)
+        // C4, C4, D4, C4, F4, E4
+        synth.triggerAttackRelease("C4", "8n", now);
+        synth.triggerAttackRelease("C4", "8n", now + tempo * 0.5);
+        synth.triggerAttackRelease("D4", "4n", now + tempo * 1.5);
+        synth.triggerAttackRelease("C4", "4n", now + tempo * 3.5);
+        synth.triggerAttackRelease("F4", "4n", now + tempo * 5.5);
+        synth.triggerAttackRelease("E4", "2n", now + tempo * 7.5);
+
+        // C4, C4, D4, C4, G4, F4
+        const offset2 = tempo * 10;
+        synth.triggerAttackRelease("C4", "8n", now + offset2);
+        synth.triggerAttackRelease("C4", "8n", now + offset2 + tempo * 0.5);
+        synth.triggerAttackRelease("D4", "4n", now + offset2 + tempo * 1.5);
+        synth.triggerAttackRelease("C4", "4n", now + offset2 + tempo * 3.5);
+        synth.triggerAttackRelease("G4", "4n", now + offset2 + tempo * 5.5);
+        synth.triggerAttackRelease("F4", "2n", now + offset2 + tempo * 7.5);
+      }
+
+      // 4. CONFETTI EFFECT
+      function shootConfetti() {
+        const duration = 2000;
+        const end = Date.now() + duration;
+
+        (function frame() {
+          confetti({
+            particleCount: 5,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: ['#00B06F', '#F63A3A', '#FFFFFF']
+          });
+          confetti({
+            particleCount: 5,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: ['#00B06F', '#F63A3A', '#FFFFFF']
+          });
+
+          if (Date.now() < end) {
+            requestAnimationFrame(frame);
+          }
+        }());
+      }
+
+      // 5. MODAL INTERACTION & ONBOARDING
+      const modal = document.getElementById("player-modal");
+      const mainContent = document.getElementById("main-content");
+      const joinBtn = document.getElementById("join-game-btn");
+      const playerNameInput = document.getElementById("modal-player-name");
+      
+      // Ensure body has modal-active class initially
+      document.body.classList.add("modal-active");
+
+      joinBtn.addEventListener("click", () => {
+        let playerName = playerNameInput.value.trim();
+        if (!playerName) playerName = "Guest Player";
+
+        // Pre-fill the RSVP form
+        document.getElementById("rsvp-child-name").value = playerName;
+
+        // Update Welcome Text
+        document.getElementById("dynamic-welcome").innerHTML = `<i class="fa-solid fa-user-astronaut mr-2"></i> Welcome to the party, <span class="text-white">${playerName}</span>!`;
+
+        // Hide Modal, Reveal Main Content
+        modal.classList.add("opacity-0", "pointer-events-none");
+        document.body.classList.remove("modal-active");
+        
+        mainContent.classList.remove("hidden");
+        // Slight delay for smooth reveal
+        setTimeout(() => {
+          mainContent.classList.remove("opacity-0");
+          // Trigger Effects
+          shootConfetti();
+          play8BitBirthdayTune();
+        }, 100);
+      });
+      
+      // Allow hitting Enter in input field to join
+      playerNameInput.addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') {
+              joinBtn.click();
+          }
+      });
+    });
+  </script>
+</body>
+</html>
