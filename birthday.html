@@ -7,7 +7,7 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tone.js for the 8-bit tune -->
+    <!-- Tone.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -44,21 +44,47 @@
             backdrop-filter: blur(8px);
         }
 
-        /* Welcome Banner */
+        /* Letter Unfolding Animation */
+        @keyframes unfoldLetter {
+            0% { transform: scaleY(0.02) scaleX(0); opacity: 0; }
+            40% { transform: scaleY(0.02) scaleX(1); opacity: 1; }
+            100% { transform: scaleY(1) scaleX(1); opacity: 1; }
+        }
+        .letter-open-anim {
+            animation: unfoldLetter 1.2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            transform-origin: center center;
+        }
+
+        /* Centered Welcome Banner */
         #custom-welcome-banner {
             position: fixed;
-            top: -100px;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%) scale(0);
             background: #FFD700;
             color: #111;
-            padding: 15px 30px;
-            border-radius: 10px;
+            padding: 20px 40px;
+            border-radius: 12px;
             border: 4px solid #fff;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.8);
             z-index: 100;
-            transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-align: center;
+        }
+        #custom-welcome-banner.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Delivery Messenger Overlay */
+        #delivery-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Characters Stage & CSS Models */
@@ -68,11 +94,12 @@
             pointer-events: none;
             overflow: hidden;
             z-index: 30;
+            transition: opacity 0.3s;
         }
 
         .rbx-character {
             position: absolute;
-            width: 46px; /* slightly smaller to fit screen */
+            width: 46px;
             height: 72px;
             cursor: pointer;
             pointer-events: auto;
@@ -81,33 +108,18 @@
             filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.6));
             will-change: transform;
         }
-
-        .rbx-head {
-            position: absolute; top: 0; left: 13px; width: 20px; height: 18px;
-            border-radius: 3px; border: 2px solid #111; box-sizing: border-box;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 8px; line-height: 1;
+        .rbx-head, .rbx-torso, .rbx-arm-l, .rbx-arm-r, .rbx-leg-l, .rbx-leg-r {
+            position: absolute;
+            border: 2px solid #111;
+            box-sizing: border-box;
         }
-        .rbx-torso {
-            position: absolute; top: 18px; left: 10px; width: 26px; height: 28px;
-            border-radius: 2px; border: 2px solid #111; box-sizing: border-box;
-        }
-        .rbx-arm-l {
-            position: absolute; top: 18px; left: 0px; width: 10px; height: 28px;
-            border-radius: 2px; border: 2px solid #111; box-sizing: border-box;
-        }
-        .rbx-arm-r {
-            position: absolute; top: 18px; right: 0px; width: 10px; height: 28px;
-            border-radius: 2px; border: 2px solid #111; box-sizing: border-box;
-        }
-        .rbx-leg-l {
-            position: absolute; top: 46px; left: 10px; width: 12px; height: 26px;
-            border-radius: 0 0 2px 2px; border: 2px solid #111; box-sizing: border-box;
-        }
-        .rbx-leg-r {
-            position: absolute; top: 46px; right: 10px; width: 12px; height: 26px;
-            border-radius: 0 0 2px 2px; border: 2px solid #111; box-sizing: border-box;
-        }
+        .rbx-head { top: 0; left: 13px; width: 20px; height: 18px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 8px; line-height: 1; }
+        .rbx-torso { top: 18px; left: 10px; width: 26px; height: 28px; border-radius: 2px; }
+        .rbx-arm-l { top: 18px; left: 0px; width: 10px; height: 28px; border-radius: 2px; }
+        .rbx-arm-r { top: 18px; right: 0px; width: 10px; height: 28px; border-radius: 2px; }
+        .rbx-leg-l { top: 46px; left: 10px; width: 12px; height: 26px; border-radius: 0 0 2px 2px; }
+        .rbx-leg-r { top: 46px; right: 10px; width: 12px; height: 26px; border-radius: 0 0 2px 2px; }
+        
         .rbx-bubble {
             position: absolute; top: -24px; left: 50%; transform: translateX(-50%);
             background: white; color: #111; font-family: 'Bungee', cursive;
@@ -115,9 +127,9 @@
             white-space: nowrap; opacity: 0; pointer-events: none;
         }
         .rbx-character.oof .rbx-bubble {
-            opacity: 1; transform: translateX(-50%) translateY(-4px); transition: opacity 0.2s, transform 0.2s;
+            opacity: 1; transform: translateX(-50%) translateY(-4px); transition: opacity 0.1s, transform 0.1s;
         }
-        .rbx-character.hovered { filter: drop-shadow(0 0 12px rgba(255, 235, 59, 0.9)); }
+        .rbx-character.hovered { filter: drop-shadow(0 0 16px rgba(255, 235, 59, 1)); z-index: 50; }
         
         .rbx-letter {
             position: absolute; top: -45px; left: 50%; transform: translateX(-50%);
@@ -126,9 +138,65 @@
             opacity: 0; transition: opacity 0.3s; pointer-events: none;
         }
         .rbx-character.has-letter .rbx-letter { opacity: 1; }
+
+        /* Floating Control Panel */
+        #bot-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            border: 2px solid #444;
+            padding: 8px 12px;
+            border-radius: 8px;
+            z-index: 90;
+            display: flex;
+            gap: 8px;
+            backdrop-filter: blur(4px);
+        }
+        .control-btn {
+            font-family: 'Bungee', cursive;
+            font-size: 10px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .control-btn:hover { transform: scale(1.05); }
+
+        /* Status Selection Buttons */
+        .status-choice-btn {
+            border: 2px solid #475569;
+            background: #1e293b;
+            color: #cbd5e1;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .status-choice-btn.selected-yes {
+            background: #15803d;
+            border-color: #22c55e;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+        }
+        .status-choice-btn.selected-maybe {
+            background: #b45309;
+            border-color: #f59e0b;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+        }
+        .status-choice-btn.selected-no {
+            background: #b91c1c;
+            border-color: #ef4444;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
     </style>
 
-    <!-- CONFIGURATION VARIABLES -->
+    <!-- CONFIGURATION VARIABLES (Easy to update) -->
     <script>
         window.PARTY_CONFIG = {
             childName: "Manab",
@@ -138,41 +206,49 @@
             partyTimeText: "TBD — Coming Soon!",
             partyVenueName: "Venue To Be Announced",
             partyVenueAddress: "Stay tuned! We will update you with exact directions soon.",
-            formSubmitEmail: "manab@sedhai.com"
+            formSubmitToken: "bf70e5e8f05685d6ec1f076eac716430",
+            replyToEmail: "manab@sedhai.com",
+            // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
+            googleSheetWebhookUrl: "" 
         };
     </script>
 </head>
 <body class="relative flex flex-col items-center justify-center p-4">
 
-    <div id="custom-welcome-banner" class="roblox-font text-2xl"></div>
+    <!-- Center Popup Welcome Banner -->
+    <div id="custom-welcome-banner" class="roblox-font text-3xl"></div>
+    
+    <!-- Character Stage -->
     <div id="roblox-characters-stage"></div>
+
+    <!-- Floating Character Controls -->
+    <div id="bot-controls">
+        <button onclick="toggleBots(false)" class="control-btn bg-gray-600 hover:bg-gray-500">HIDE BOTS</button>
+        <button onclick="toggleBots(true)" class="control-btn bg-blue-600 hover:bg-blue-500">SHOW BOTS</button>
+        <button onclick="startChoreography()" class="control-btn bg-red-600 hover:bg-red-500">ANIMATE!</button>
+    </div>
 
     <!-- WELCOME MODAL -->
     <div id="welcome-modal" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-95 p-4 transition-opacity duration-500">
         <div class="card-bg p-8 rounded-xl text-center max-w-md w-full relative z-50">
-            <div class="inline-block bg-red-600 text-white roblox-font text-xs uppercase px-3 py-1 rounded mb-3 tracking-wider">
-                Official Invite
-            </div>
+            <div class="inline-block bg-red-600 text-white roblox-font text-xs uppercase px-3 py-1 rounded mb-3 tracking-wider">Official Invite</div>
             <h1 class="roblox-font text-3xl mb-4 text-white">You're Invited!</h1>
             <p id="welcome-instruction" class="mb-4 text-gray-300">Who is opening this invitation?</p>
-            
             <input type="text" id="guest-name-input" placeholder="Enter Child's Name..." class="w-full bg-gray-900 border border-gray-600 rounded p-3 text-white focus:outline-none focus:border-yellow-400 text-center mb-6 text-lg roblox-font">
-            
             <button onclick="openInvitation()" class="roblox-font roblox-btn w-full py-4 rounded text-xl text-white shadow-lg cursor-pointer">
-                OPEN INVITATION
+                OPEN ENVELOPE
             </button>
         </div>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main-content" class="max-w-2xl w-full hidden opacity-0 transition-opacity duration-1000 my-8 relative z-20">
+    <!-- MAIN CONTENT (Envelope Opening) -->
+    <div id="main-content" class="max-w-2xl w-full hidden opacity-0 my-8 relative z-20">
         <!-- Header -->
         <div class="card-bg rounded-xl p-8 mb-6 text-center border-t-8 border-t-red-600">
             <h1 class="roblox-font text-4xl md:text-5xl text-white mb-2 tracking-wide">
                 <span id="display-name">Manab</span>'s <span id="display-age" class="text-red-500">9th</span> Level Up!
             </h1>
             <p class="text-xl text-gray-300 mt-2">You are officially invited to celebrate with us!</p>
-            
             <div class="mt-6 bg-black bg-opacity-60 p-4 rounded-lg inline-block border border-gray-700">
                 <p class="text-xs text-gray-400 uppercase tracking-widest roblox-font">Countdown to Party Time</p>
                 <div id="countdown" class="roblox-font text-2xl md:text-3xl text-yellow-400 mt-2">Loading...</div>
@@ -193,70 +269,139 @@
             </div>
         </div>
 
-        <!-- RSVP -->
-        <div class="card-bg rounded-xl p-8">
-            <h2 class="roblox-font text-2xl text-center mb-6 text-white tracking-wide">RSVP for Parents</h2>
-            <form id="rsvp-form" method="POST" class="space-y-4">
+        <!-- RSVP Form Section -->
+        <div class="card-bg rounded-xl p-8" id="rsvp-section">
+            <h2 class="roblox-font text-2xl text-center mb-2 text-white tracking-wide">RSVP for Parents</h2>
+            <p class="text-center text-sm text-gray-400 mb-6">Let us know if your child will join the adventure!</p>
+
+            <!-- 1. ATTENDANCE BUTTON CHOICES -->
+            <div class="space-y-3 mb-6">
+                <label class="block text-sm font-semibold text-gray-300">Will your child be attending? *</label>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <button type="button" onclick="selectStatus('Attending')" id="btn-status-yes" class="status-choice-btn">
+                        🎉 <span id="label-child-name">Child</span> would love to attend!
+                    </button>
+                    <button type="button" onclick="selectStatus('Maybe')" id="btn-status-maybe" class="status-choice-btn">
+                        🤔 Maybe / Unsure
+                    </button>
+                    <button type="button" onclick="selectStatus('Declined')" id="btn-status-no" class="status-choice-btn">
+                        😢 Can't attend
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. DETAILS FORM (Expands after status selection) -->
+            <form id="rsvp-form" class="space-y-4 hidden">
+                <input type="hidden" name="Attendance_Status" id="input-status-value">
                 <input type="hidden" name="_subject" value="New Birthday RSVP for Manab!">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_template" value="table">
-                <input type="hidden" name="_autoresponse" value="Thank you for RSVPing to Manab's 9th Birthday! We have received your response.">
+                <input type="hidden" name="_autoresponse" value="Thank you for RSVPing to Manab's 9th Birthday! We have recorded your response.">
                 <input type="hidden" name="_replyto" id="reply-to" value="">
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-semibold text-gray-300 mb-1">Child's Name *</label>
-                        <input type="text" name="Child_Name" id="rsvp-child-name" required class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white">
+                        <input type="text" name="Child_Name" id="rsvp-child-name" required class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white focus:border-red-500 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-300 mb-1">Parent's Name *</label>
-                        <input type="text" name="Parent_Name" required class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white">
+                        <label class="block text-sm font-semibold text-gray-300 mb-1">Parent's Full Name *</label>
+                        <input type="text" name="Parent_Name" id="rsvp-parent-name" required class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white focus:border-red-500 focus:outline-none">
                     </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-1">Parent's Email *</label>
-                    <input type="email" name="email" required class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-300 mb-1">Phone Number or Email *</label>
+                        <input type="text" name="Contact_Info" id="rsvp-contact" placeholder="Phone or email" required class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white focus:border-red-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-300 mb-1">Number of Attendees (Kids + Adults)</label>
+                        <input type="number" name="Attendee_Count" id="rsvp-attendees" min="1" max="10" value="1" class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white focus:border-red-500 focus:outline-none">
+                    </div>
                 </div>
+
                 <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-1">Food Allergies / Dietary</label>
-                    <input type="text" name="Allergies" placeholder="e.g. Peanuts, None" class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white">
+                    <label class="block text-sm font-semibold text-gray-300 mb-1">Food Allergies / Dietary Needs</label>
+                    <input type="text" name="Allergies" id="rsvp-allergies" placeholder="e.g. Peanuts, Dairy, Vegetarian, None" class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white focus:border-red-500 focus:outline-none">
                 </div>
+
                 <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-1">Recommendations or Notes</label>
-                    <textarea name="Recommendations" rows="3" class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white"></textarea>
+                    <label class="block text-sm font-semibold text-gray-300 mb-1">Recommendations or Notes from Parents</label>
+                    <textarea name="Recommendations" id="rsvp-notes" rows="2" placeholder="Any suggestions or questions?" class="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white focus:border-red-500 focus:outline-none"></textarea>
                 </div>
-                <button type="submit" class="roblox-font roblox-btn w-full py-4 mt-4 rounded text-xl text-white shadow-lg">SEND RSVP</button>
+
+                <!-- Parental Agreement Checkbox -->
+                <div class="bg-gray-900/80 p-4 rounded border border-gray-700 flex items-start gap-3 mt-4">
+                    <input type="checkbox" id="rsvp-agreement" required class="mt-1 w-5 h-5 accent-red-600 rounded cursor-pointer">
+                    <label for="rsvp-agreement" class="text-sm text-gray-300 cursor-pointer">
+                        <span class="font-bold text-white">Parent Consent & Agreement:</span> I confirm that I agree for my child to attend Manab's 9th Birthday Party, follow venue safety guidelines, and will accompany or arrange supervision as needed. *
+                    </label>
+                </div>
+
+                <!-- Submit Button container that gets grabbed -->
+                <div id="submit-wrapper" class="relative pt-2">
+                    <button type="submit" id="btn-submit-rsvp" class="roblox-font roblox-btn w-full py-4 rounded text-xl text-white shadow-lg cursor-pointer">
+                        ✉️ SEND RSVP TO MANAB'S PARENTS
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 
+    <!-- DELIVERY CARRIER ANIMATION OVERLAY -->
+    <div id="delivery-overlay">
+        <div id="carrier-box" class="relative flex flex-col items-center">
+            <!-- Delivery Character Avatar -->
+            <div id="messenger-bot" class="relative mb-6" style="width: 58px; height: 90px;">
+                <div class="rbx-head" style="background:#FFE600; width:26px; height:22px; left:16px;">•‿•</div>
+                <div class="rbx-torso" style="background:#0055FF; width:34px; height:36px; top:22px; left:12px;"></div>
+                <div class="rbx-arm-l" style="background:#FFE600; width:12px; height:36px; top:22px; left:0;"></div>
+                <div class="rbx-arm-r" style="background:#FFE600; width:12px; height:36px; top:22px; right:0;"></div>
+                <div class="rbx-leg-l" style="background:#98FB98; width:16px; height:32px; top:58px; left:12px;"></div>
+                <div class="rbx-leg-r" style="background:#98FB98; width:16px; height:32px; top:58px; right:12px;"></div>
+            </div>
+
+            <!-- Envelope In Hand -->
+            <div id="flying-envelope" class="bg-yellow-100 border-4 border-yellow-500 rounded p-4 text-black text-center shadow-2xl flex items-center gap-3">
+                <span class="text-3xl">✉️</span>
+                <div class="text-left">
+                    <p class="roblox-font text-xs text-red-600">CONFIDENTIAL DELIVERY</p>
+                    <p class="font-bold text-sm">To: Manab's Parents</p>
+                </div>
+            </div>
+
+            <p id="delivery-msg" class="roblox-font text-xl text-yellow-400 mt-6 text-center animate-pulse">
+                Delivering letter to Manab's parents...
+            </p>
+        </div>
+    </div>
+
     <script>
-        // 1. Initial Setup
+        // 1. Data Initialization
         document.getElementById('display-name').innerText = window.PARTY_CONFIG.childName;
         document.getElementById('display-age').innerText = window.PARTY_CONFIG.birthdayAge;
         document.getElementById('display-date').innerText = window.PARTY_CONFIG.partyDateText;
         document.getElementById('display-time').innerText = window.PARTY_CONFIG.partyTimeText;
         document.getElementById('display-venue').innerText = window.PARTY_CONFIG.partyVenueName;
         document.getElementById('display-address').innerText = window.PARTY_CONFIG.partyVenueAddress;
-        document.getElementById('rsvp-form').action = `https://formsubmit.co/${window.PARTY_CONFIG.formSubmitEmail}`;
-        document.getElementById('reply-to').value = window.PARTY_CONFIG.formSubmitEmail;
+        document.getElementById('reply-to').value = window.PARTY_CONFIG.replyToEmail;
 
-        // 2. LocalStorage & Name Management
         const nameInput = document.getElementById('guest-name-input');
         const rsvpChildName = document.getElementById('rsvp-child-name');
+        const labelChildName = document.getElementById('label-child-name');
         
         let guestName = localStorage.getItem('guestName') || new URLSearchParams(window.location.search).get('guest');
-        
         if (guestName) {
             nameInput.value = guestName;
+            labelChildName.innerText = guestName;
             document.getElementById('welcome-instruction').innerText = `Welcome back, ${guestName}!`;
         }
 
-        // 3. Countdown
+        // 2. Countdown Logic
         const targetDate = new Date(window.PARTY_CONFIG.countdownTarget).getTime();
         setInterval(() => {
-            const now = new Date().getTime();
-            const dist = targetDate - now;
+            const dist = targetDate - new Date().getTime();
             if (dist < 0) return document.getElementById("countdown").innerHTML = "IT'S PARTY TIME!";
             const d = Math.floor(dist / (1000 * 60 * 60 * 24));
             const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -265,7 +410,7 @@
             document.getElementById("countdown").innerHTML = `${d}d ${h}h ${m}m ${s}s`;
         }, 1000);
 
-        // 4. Open Action & Performance Sequence
+        // 3. Open Envelope Action
         function openInvitation() {
             let enteredName = nameInput.value.trim();
             if (!enteredName) {
@@ -273,32 +418,29 @@
                 nameInput.placeholder = "Please enter your name!";
                 return;
             }
-            
-            // Save & Set
             localStorage.setItem('guestName', enteredName);
             rsvpChildName.value = enteredName;
+            labelChildName.innerText = enteredName;
 
-            // UI Transitions
             const modal = document.getElementById('welcome-modal');
             modal.style.opacity = '0';
             setTimeout(() => modal.style.display = 'none', 500);
 
             const content = document.getElementById('main-content');
             content.classList.remove('hidden');
-            setTimeout(() => content.style.opacity = '1', 100);
+            content.classList.add('letter-open-anim');
 
-            // Welcome Banner
             const banner = document.getElementById('custom-welcome-banner');
-            banner.innerText = `Welcome ${enteredName}! Let's Party!`;
-            banner.style.top = '20px';
-            setTimeout(() => banner.style.top = '-100px', 400);
+            banner.innerText = `Welcome ${enteredName}!\nLet's Party!`;
+            setTimeout(() => banner.classList.add('show'), 800);
+            setTimeout(() => banner.classList.remove('show'), 3500);
 
-            // Audio & Confetti
             playBirthdayTune();
-            confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 }, colors: ['#e52521', '#ffffff', '#FFD700'] });
+            setTimeout(() => {
+                confetti({ particleCount: 200, spread: 120, origin: { y: 0.5 }, colors: ['#e52521', '#ffffff', '#FFD700'] });
+            }, 800);
 
-            // Start Choreography
-            startChoreography();
+            setTimeout(startChoreography, 1500);
         }
 
         async function playBirthdayTune() {
@@ -316,7 +458,131 @@
             } catch(e) {}
         }
 
-        // 5. Choreography Engine
+        // 4. Status Selection Handler
+        function selectStatus(status) {
+            document.getElementById('input-status-value').value = status;
+            
+            const btnYes = document.getElementById('btn-status-yes');
+            const btnMaybe = document.getElementById('btn-status-maybe');
+            const btnNo = document.getElementById('btn-status-no');
+
+            btnYes.className = 'status-choice-btn' + (status === 'Attending' ? ' selected-yes' : '');
+            btnMaybe.className = 'status-choice-btn' + (status === 'Maybe' ? ' selected-maybe' : '');
+            btnNo.className = 'status-choice-btn' + (status === 'Declined' ? ' selected-no' : '');
+
+            // Unfold the full form
+            const form = document.getElementById('rsvp-form');
+            form.classList.remove('hidden');
+            form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // 5. RSVP Submission & Character Grab Delivery Animation
+        document.getElementById('rsvp-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const agree = document.getElementById('rsvp-agreement').checked;
+            if (!agree) {
+                alert("Please agree to the parental supervision statement to proceed.");
+                return;
+            }
+
+            // Extract all form values
+            const formData = {
+                timestamp: new Date().toISOString(),
+                child_name: document.getElementById('rsvp-child-name').value,
+                parent_name: document.getElementById('rsvp-parent-name').value,
+                attendance_status: document.getElementById('input-status-value').value || 'Attending',
+                contact_info: document.getElementById('rsvp-contact').value,
+                attendee_count: document.getElementById('rsvp-attendees').value || '1',
+                allergies: document.getElementById('rsvp-allergies').value || 'None',
+                notes: document.getElementById('rsvp-notes').value || '',
+                agree_rules: true
+            };
+
+            // 1. Save locally as JSON history
+            let localSubmissions = JSON.parse(localStorage.getItem('all_rsvps') || '[]');
+            localSubmissions.push(formData);
+            localStorage.setItem('all_rsvps', JSON.stringify(localSubmissions));
+
+            // 2. Trigger the Character Grab-and-Deliver Animation
+            const overlay = document.getElementById('delivery-overlay');
+            const box = document.getElementById('carrier-box');
+            const msg = document.getElementById('delivery-msg');
+            
+            overlay.style.display = 'flex';
+            box.style.transform = 'translateY(120px) scale(0.6)';
+            box.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+
+            // Character pops up and grabs envelope
+            setTimeout(() => {
+                box.style.transform = 'translateY(0) scale(1)';
+            }, 50);
+
+            // Fly away upwards into the sky
+            setTimeout(() => {
+                box.style.transition = 'all 1s ease-in';
+                box.style.transform = 'translateY(-600px) scale(0.4)';
+            }, 1800);
+
+            // 3. Sync to Google Sheets Web App (if configured)
+            if (window.PARTY_CONFIG.googleSheetWebhookUrl) {
+                try {
+                    fetch(window.PARTY_CONFIG.googleSheetWebhookUrl, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+                } catch(err) {
+                    console.log("Sheet sync error:", err);
+                }
+            }
+
+            // 4. Forward to FormSubmit for email backup
+            const formBody = new URLSearchParams();
+            for (const key in formData) {
+                formBody.append(key, formData[key]);
+            }
+            formBody.append('_subject', `New RSVP: ${formData.child_name} (${formData.attendance_status})`);
+            formBody.append('_replyto', window.PARTY_CONFIG.replyToEmail);
+            
+            fetch(`https://formsubmit.co/ajax/${window.PARTY_CONFIG.formSubmitToken}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: formBody.toString()
+            }).catch(() => {});
+
+            // Final confirmation display
+            setTimeout(() => {
+                msg.classList.remove('animate-pulse');
+                msg.innerHTML = `✅ Response Sent to Manab's Parents!<br><span class="text-sm text-gray-300">Thank you, ${formData.parent_name}!</span>`;
+                box.style.transition = 'all 0.5s ease-out';
+                box.style.transform = 'translateY(0) scale(1)';
+                
+                confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
+
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    document.getElementById('rsvp-section').innerHTML = `
+                        <div class="text-center py-8">
+                            <div class="text-5xl mb-3">🎉</div>
+                            <h3 class="roblox-font text-2xl text-yellow-400 mb-2">RSVP Received!</h3>
+                            <p class="text-gray-300">We've saved your details and sent a confirmation to Manab's parents.</p>
+                            <p class="text-xs text-gray-500 mt-4">Status: <span class="text-white font-bold">${formData.attendance_status}</span> for <span class="text-white font-bold">${formData.child_name}</span></p>
+                        </div>
+                    `;
+                }, 3000);
+            }, 3000);
+        });
+
+        // 6. Character Stage, Physics & Controls
+        function toggleBots(show) {
+            document.getElementById('roblox-characters-stage').style.opacity = show ? '1' : '0';
+            if(show) {
+                characters.forEach(c => { if(c.y > window.innerHeight) c.y = -50; });
+            }
+        }
+
         const themes = [
             { head: "#FFE600", torso: "#0055FF", leg: "#98FB98", arm: "#FFE600", face: "•‿•" },
             { head: "#F5C396", torso: "#D32F2F", leg: "#37474F", arm: "#F5C396", face: "¬‿¬" },
@@ -325,14 +591,12 @@
             { head: "#E0F7FA", torso: "#00BCD4", leg: "#006064", arm: "#E0F7FA", face: "^‿^" }
         ];
 
-        const targetPhrase = "HAPPY BIRTHDAY MANAB"; // 18 letters
+        const targetPhrase = "HAPPY BIRTHDAY MANAB";
         const lettersArr = targetPhrase.replace(/ /g, '').split('');
 
         class ChoreographedCharacter {
             constructor(letter, index, stage) {
-                this.letter = letter;
-                this.index = index;
-                this.stage = stage;
+                this.letter = letter; this.index = index; this.stage = stage;
                 this.theme = themes[Math.floor(Math.random() * themes.length)];
                 
                 this.width = 46; this.height = 72;
@@ -341,9 +605,8 @@
                 this.vx = (Math.random() - 0.5) * 6;
                 this.vy = -(6 + Math.random() * 8);
                 
-                this.state = 'BOUNCING'; // BOUNCING, EXITING, ENTERING, LINING_UP, SCRAMMING
-                this.targetX = 0; this.targetY = 0;
-                this.isPerforming = false; // Prevents hover/click interference
+                this.state = 'BOUNCING';
+                this.isHovered = false;
 
                 this.el = document.createElement('div');
                 this.el.className = 'rbx-character';
@@ -359,53 +622,54 @@
                 `;
                 this.stage.appendChild(this.el);
 
-                // Normal interactions
+                // Hover stops completely, mouse leaving launches crazy jump
                 this.el.addEventListener('mouseenter', () => {
-                    if (!this.isPerforming && this.state === 'BOUNCING') this.el.classList.add('hovered');
+                    this.isHovered = true;
+                    this.el.classList.add('hovered');
                 });
-                this.el.addEventListener('mouseleave', () => this.el.classList.remove('hovered'));
-                
-                const scare = (e) => {
-                    if (!this.isPerforming && this.state === 'BOUNCING') {
-                        this.state = 'SCRAMMING';
-                        this.el.classList.remove('hovered');
-                        this.el.classList.add('oof');
-                        this.vx = (Math.random() > 0.5 ? 1 : -1) * 15;
-                        this.vy = -15;
-                        setTimeout(() => { this.state = 'BOUNCING'; this.el.classList.remove('oof'); this.y = -50; }, 2000);
-                    }
-                };
-                this.el.addEventListener('click', scare);
-                this.el.addEventListener('touchstart', scare, {passive: true});
+                this.el.addEventListener('mouseleave', () => {
+                    this.isHovered = false;
+                    this.el.classList.remove('hovered');
+                    this.el.classList.add('oof');
+                    this.state = 'SCRAMMING';
+                    this.vy = -(15 + Math.random() * 20);
+                    this.vx = (Math.random() - 0.5) * 35;
+                    setTimeout(() => {
+                        this.el.classList.remove('oof');
+                        if(this.state === 'SCRAMMING') this.state = 'BOUNCING';
+                    }, 1500);
+                });
             }
 
             update(targets) {
+                if (this.isHovered) return;
+
                 const ground = window.innerHeight - this.height;
                 const facing = this.vx >= 0 ? 1 : -1;
-                let tilt = 0;
+                let spin = 0;
 
                 if (this.state === 'BOUNCING' || this.state === 'SCRAMMING' || this.state === 'EXITING') {
                     this.x += this.vx;
                     this.y += this.vy;
-                    this.vy += 0.3; // Gravity
+                    this.vy += 0.4;
 
                     if (this.state === 'BOUNCING') {
                         if (this.x < 0 || this.x > window.innerWidth - this.width) this.vx *= -1;
                         if (this.y >= ground) { this.y = ground; this.vy = -(8 + Math.random() * 6); }
-                        tilt = Math.sin(Date.now() / 150) * 6;
+                        spin = Math.sin(Date.now() / 150) * 6;
+                    } else {
+                        spin = (this.vx > 0 ? 1 : -1) * (this.vy * 2);
                     }
                 } 
                 else if (this.state === 'ENTERING' || this.state === 'LINING_UP') {
                     const t = targets[this.index];
                     this.x += (t.x - this.x) * 0.08;
                     this.y += (t.y - this.y) * 0.08;
-                    
                     if (Math.abs(t.x - this.x) < 2 && Math.abs(t.y - this.y) < 2) {
-                        this.state = 'LINING_UP'; // Lock in place
+                        this.state = 'LINING_UP';
                     }
                 }
 
-                const spin = (this.state === 'SCRAMMING' || this.state === 'EXITING') ? (this.vx > 0 ? 1 : -1) * (this.vy * 2) : tilt;
                 this.el.style.transform = `translate3d(${this.x}px, ${this.y}px, 0) scaleX(${this.state === 'LINING_UP' ? 1 : facing}) rotate(${spin}deg)`;
             }
         }
@@ -416,18 +680,14 @@
 
         function calculateTargets() {
             const targets = [];
-            // Rows: HAPPY (5), BIRTHDAY (8), MANAB (5)
             const rows = [5, 8, 5];
             const charW = 46; const gap = window.innerWidth < 600 ? 5 : 15;
             const startY = 120; const rowH = 100;
-            let cIndex = 0;
 
             rows.forEach((len, r) => {
                 const totalW = len * charW + (len - 1) * gap;
                 const startX = (window.innerWidth - totalW) / 2;
-                for(let i=0; i<len; i++) {
-                    targets.push({ x: startX + i * (charW + gap), y: startY + r * rowH });
-                }
+                for(let i=0; i<len; i++) targets.push({ x: startX + i * (charW + gap), y: startY + r * rowH });
             });
             return targets;
         }
@@ -439,17 +699,14 @@
         }
         requestAnimationFrame(animate);
 
-        // Sequence Logic
         function startChoreography() {
-            // 1. Rocket out
+            toggleBots(true);
             characters.forEach(c => {
-                c.isPerforming = true;
                 c.state = 'EXITING';
                 c.vx = (Math.random() - 0.5) * 20;
                 c.vy = -20 - Math.random() * 10;
             });
 
-            // 2. Re-enter from top with letters
             setTimeout(() => {
                 characters.forEach(c => {
                     c.el.classList.add('has-letter');
@@ -459,24 +716,21 @@
                 });
             }, 1500);
 
-            // 3. Hold formation, then Scram
             setTimeout(() => {
                 characters.forEach(c => {
                     c.state = 'SCRAMMING';
                     c.el.classList.remove('has-letter');
                     c.el.classList.add('oof');
-                    c.vx = (Math.random() > 0.5 ? 1 : -1) * (10 + Math.random() * 10);
-                    c.vy = -10 - Math.random() * 10;
+                    c.vx = (Math.random() > 0.5 ? 1 : -1) * (15 + Math.random() * 15);
+                    c.vy = -15 - Math.random() * 15;
                 });
             }, 7500);
 
-            // 4. Return to normal bouncing
             setTimeout(() => {
                 characters.forEach(c => {
-                    c.isPerforming = false;
                     c.el.classList.remove('oof');
                     c.state = 'BOUNCING';
-                    c.y = -50;
+                    if (c.y > window.innerHeight) c.y = -50;
                 });
             }, 9500);
         }
@@ -485,4 +739,3 @@
     </script>
 </body>
 </html>
-
