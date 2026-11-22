@@ -74,7 +74,6 @@
         .control-btn { font-family: 'Bungee', cursive; font-size: 10px; padding: 6px 10px; border-radius: 6px; color: white; cursor: pointer; transition: transform 0.15s; }
         .control-btn:hover { transform: scale(1.05); }
 
-        /* VIP Lanyard (Admin Print) */
         .vip-pass { background: #ffffff; color: #111; border: 6px solid #111; border-radius: 18px; position: relative; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45); page-break-inside: avoid; break-inside: avoid; }
         .vip-hole { width: 56px; height: 11px; background: #e5e7eb; border-radius: 20px; margin: 12px auto 0; box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.35); }
         .barcode { height: 30px; width: 100%; opacity: 0.75; background: repeating-linear-gradient(90deg, #000, #000 2px, transparent 2px, transparent 5px, #000 5px, #000 6px, transparent 6px, transparent 10px, #000 10px, #000 15px, transparent 15px, transparent 18px); }
@@ -83,7 +82,7 @@
 
         @media print {
             body { background: #ffffff !important; color: #000000 !important; margin: 0; padding: 0; }
-            .no-print, #welcome-modal, #rsvp-section, #existing-rsvp-card, #roblox-characters-stage, #bot-controls, #bulk-toolbar, #host-stats-bar, #host-filter-bar, #db-status-badge { display: none !important; }
+            .no-print, #welcome-modal, #rsvp-section, #existing-rsvp-card, #roblox-characters-stage, #bot-controls, #bulk-toolbar, #host-stats-bar, #db-status-badge { display: none !important; }
             #main-content { display: block !important; opacity: 1 !important; margin: 0 !important; max-width: 100% !important; }
             #printable-flyer { box-shadow: none !important; border: 6px solid #e52521 !important; margin: 0 auto; }
             #host-dashboard { display: block !important; padding: 0 !important; max-width: 100% !important; }
@@ -97,7 +96,7 @@
 
     <script>
         window.PARTY_CONFIG = {
-            googleSheetWebhookUrl: "https://script.google.com/macros/s/AKfycbwvCoGETc-UDxEA01F1GWDbszt7X0n4ufoPeeiW4r_Y-Z35QdhzVA7uuxg2j9l5DkfLbA/exec", // <-- PASTE YOUR APPS SCRIPT URL HERE!
+            googleSheetWebhookUrl: "https://script.google.com/macros/s/AKfycbw4WeUZP9DWko6cFTUGiaPckqaUVLJO5krTYGTB_lPaWBHhIS1eROi1rJXxjIuRZJP9RA/exec",
             websiteUrl: "https://Manab.sedhai.com/birthday.html",
             childName: "Manab", birthdayAge: "9th", countdownTarget: "2027-01-06T14:00:00",
             partyDateText: "Wednesday, January 6, 2027", partyTimeText: "2:00 PM – 5:00 PM",
@@ -107,9 +106,9 @@
 </head>
 <body class="relative flex flex-col items-center justify-center p-4">
 
-    <!-- DB Status Indicator -->
-    <div id="db-status-badge" class="fixed top-4 right-4 z-50 flex items-center gap-2 bg-gray-900/80 px-3 py-1.5 rounded-full border border-gray-600 backdrop-blur">
-        <div id="db-status-dot" class="status-dot dot-green animate-pulse"></div>
+    <!-- DB Status Indicator (Symbol Only) -->
+    <div id="db-status-badge" title="Google Sheet Connection" class="fixed top-4 right-4 z-50 flex items-center justify-center bg-gray-900/80 p-2.5 rounded-full border border-gray-600 backdrop-blur">
+        <span id="db-status-dot" class="status-dot dot-yellow animate-pulse"></span>
     </div>
 
     <div id="roblox-characters-stage" class="no-print"></div>
@@ -158,22 +157,21 @@
                 <h2 class="roblox-font text-2xl text-white">Manab's Birthday Command Center</h2>
             </div>
             <div class="flex flex-wrap gap-3">
-                <button onclick="renderHostView('list')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-lg shadow">📋 Guest List</button>
-                <button onclick="renderHostView('invites')" class="bg-red-600 hover:bg-red-500 text-white font-bold px-4 py-2.5 rounded-lg shadow">🎟️ VIP Passes</button>
-                <button onclick="window.print()" class="bg-green-600 hover:bg-green-500 text-white font-bold px-5 py-2.5 rounded-lg shadow">🖨️ PRINT PDF</button>
+                <button onclick="renderHostView('list')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-lg shadow cursor-pointer">📋 Guest List</button>
+                <button onclick="renderHostView('invites')" class="bg-red-600 hover:bg-red-500 text-white font-bold px-4 py-2.5 rounded-lg shadow cursor-pointer">🎟️ VIP Passes</button>
+                <button onclick="window.print()" class="bg-green-600 hover:bg-green-500 text-white font-bold px-5 py-2.5 rounded-lg shadow cursor-pointer">🖨️ PRINT PDF</button>
             </div>
         </div>
 
-        <div id="host-stats-bar" class="grid grid-cols-2 md:grid-cols-6 gap-3 mb-6"></div>
+        <div id="host-stats-bar" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6"></div>
         <div id="host-content-area"></div>
     </div>
 
     <!-- 3. PERSONALIZED GUEST FLYER -->
     <div id="main-content" class="max-w-2xl w-full hidden opacity-0 my-6 relative z-20">
-        
         <div class="flex justify-between items-center mb-4 no-print">
             <span class="text-xs text-gray-300 bg-gray-900/90 px-3 py-1.5 rounded-lg border border-gray-700">VIP Code: <strong id="badge-code" class="text-yellow-400"></strong></span>
-            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-500 text-white roblox-font text-xs px-4 py-2.5 rounded-lg flex items-center gap-2">🖨️ PRINT FLYER</button>
+            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-500 text-white roblox-font text-xs px-4 py-2.5 rounded-lg flex items-center gap-2 cursor-pointer">🖨️ PRINT FLYER</button>
         </div>
 
         <div id="returning-top-banner" class="hidden card-bg border-green-500 rounded-2xl p-5 mb-6 text-center no-print">
@@ -206,7 +204,7 @@
             </div>
 
             <div class="bg-yellow-100 border-2 border-yellow-400 rounded-xl p-3 text-xs text-gray-800 font-semibold">
-                🎟️ Connected VIP Code(s): <span id="flyer-code-display" class="roblox-font text-base text-red-600 ml-1"></span>
+                🎟️ Connected VIP Code(s) for <strong id="flyer-footer-name">Guest</strong>: <span id="flyer-code-display" class="roblox-font text-base text-red-600 ml-1"></span>
                 <span class="block text-gray-600 font-normal mt-0.5">Manage RSVP online at <span id="flyer-url-display" class="underline"></span></span>
             </div>
         </div>
@@ -228,7 +226,7 @@
                 <p class="md:col-span-2"><strong class="text-white">Allergies / Dietary:</strong> <span id="saved-allergies"></span></p>
                 <p class="md:col-span-2"><strong class="text-white">Notes:</strong> <span id="saved-notes"></span></p>
             </div>
-            <button type="button" onclick="openAmendForm()" class="w-full bg-yellow-400 hover:bg-yellow-300 text-black roblox-font text-sm py-3 rounded-xl shadow">✏️ AMEND / UPDATE RSVP</button>
+            <button type="button" onclick="openAmendForm()" class="w-full bg-yellow-400 hover:bg-yellow-300 text-black roblox-font text-sm py-3 rounded-xl shadow cursor-pointer">✏️ AMEND / UPDATE RSVP</button>
         </div>
 
         <!-- RSVP FORM SECTION -->
@@ -334,11 +332,32 @@
             dot.className = `status-dot dot-${color} animate-pulse`;
         }
 
-        document.getElementById('friend-code-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') verifyFriendCode(); });
+        // Ping Google Sheet on page load to verify connection and show green dot
+        window.addEventListener('DOMContentLoaded', async () => {
+            setDbStatus('yellow');
+            try {
+                const res = await fetch(window.PARTY_CONFIG.googleSheetWebhookUrl);
+                const data = await res.json();
+                if (data && data.config) {
+                    liveConfig = data.config;
+                    applyEventDetails(liveConfig);
+                }
+                setDbStatus('green');
+            } catch (err) {
+                setDbStatus('red');
+            }
+        });
+
+        document.getElementById('friend-code-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') verifyFriendCode();
+        });
+
         setInterval(() => {
             const t = new Date(window.PARTY_CONFIG.countdownTarget).getTime() - Date.now();
-            if (t < 0) { document.getElementById("countdown").innerText = "IT'S PARTY TIME!"; return; }
-            document.getElementById("countdown").innerText = `${Math.floor(t / 86400000)}d ${Math.floor((t % 86400000) / 3600000)}h ${Math.floor((t % 3600000) / 60000)}m ${Math.floor((t % 60000) / 1000)}s`;
+            const el = document.getElementById("countdown");
+            if (!el) return;
+            if (t < 0) { el.innerText = "IT'S PARTY TIME!"; return; }
+            el.innerText = `${Math.floor(t / 86400000)}d ${Math.floor((t % 86400000) / 3600000)}h ${Math.floor((t % 3600000) / 60000)}m ${Math.floor((t % 60000) / 1000)}s`;
         }, 1000);
 
         function applyEventDetails(cfg) {
@@ -371,7 +390,7 @@
             try {
                 const response = await fetch(`${window.PARTY_CONFIG.googleSheetWebhookUrl}?code=${encodeURIComponent(code)}`);
                 const data = await response.json();
-                if (!data.valid) throw new Error("Invalid");
+                if (!data.valid) throw new Error(data.error || "Invalid");
 
                 liveConfig = data.config || {};
                 applyEventDetails(liveConfig);
@@ -413,7 +432,7 @@
             } catch (err) {
                 loading.classList.add('hidden');
                 btn.classList.remove('hidden');
-                errorText.innerText = "Code not found! Check your invitation.";
+                errorText.innerText = "Code not found! Please check your invitation.";
                 errorText.classList.remove('hidden');
                 setDbStatus('red');
                 setTimeout(() => setDbStatus('green'), 3000);
@@ -492,7 +511,7 @@
         document.getElementById('rsvp-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const payload = {
-                codes: verifiedFamilyCodes, // Send Array for Sibling Syncing
+                codes: verifiedFamilyCodes,
                 child_name: verifiedChildName,
                 parent_name: document.getElementById('rsvp-parent-name').value.trim(),
                 attendance_status: document.getElementById('input-status-value').value || 'Attending',
@@ -505,7 +524,6 @@
             };
 
             const overlay = document.getElementById('delivery-overlay');
-            const box = document.getElementById('carrier-box');
             overlay.style.display = 'flex';
             setDbStatus('yellow');
             
@@ -546,7 +564,7 @@
             const guestOnly = allHostData.filter(g => g.role.toLowerCase() !== 'host');
             
             if (type === 'invites') {
-                container.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 gap-6">${guestOnly.map(g => `
+                container.innerHTML = `<div class="bulk-grid grid grid-cols-1 md:grid-cols-2 gap-6">${guestOnly.map(g => `
                     <div class="vip-pass text-center flex flex-col"><div class="vip-hole"></div><div class="bg-red-600 text-white py-2.5 mt-3"><h2 class="roblox-font text-2xl tracking-widest">VIP PARTY PASS</h2></div>
                         <div class="p-5 flex-1 bg-white">
                             <p class="text-gray-500 font-bold uppercase text-[11px]">Specially Invited Guest</p><h4 class="roblox-font text-2xl text-blue-600 mt-0.5 mb-3">${g.firstName} ${g.lastName}</h4>
@@ -557,9 +575,9 @@
                         </div><div class="barcode"></div></div>`).join('')}</div>`;
             } else {
                 container.innerHTML = `<div class="card-bg p-4 rounded-2xl overflow-x-auto bg-white">
-                    <table class="w-full text-left border-collapse border border-gray-300 text-xs">
-                        <thead class="bg-gray-100 uppercase"><tr><th class="p-2 border border-gray-300">Code</th><th class="p-2 border border-gray-300">Name</th><th class="p-2 border border-gray-300">Status</th><th class="p-2 border border-gray-300">Parent</th><th class="p-2 border border-gray-300">Phone</th><th class="p-2 border border-gray-300">Email</th><th class="p-2 border border-gray-300">Ttl</th><th class="p-2 border border-gray-300">Notes</th></tr></thead>
-                        <tbody>${guestOnly.map(g => `<tr class="hover:bg-gray-50"><td class="p-2 border border-gray-300 text-red-600 font-bold">${g.code}</td><td class="p-2 border border-gray-300 font-bold">${g.firstName} ${g.lastName}</td><td class="p-2 border border-gray-300 font-bold text-${g.status==='Attending'?'green':g.status==='Declined'?'red':'amber'}-600">${g.status||'Awaiting'}</td><td class="p-2 border border-gray-300">${g.parent}</td><td class="p-2 border border-gray-300">${g.phone}</td><td class="p-2 border border-gray-300">${g.email}</td><td class="p-2 border border-gray-300 font-bold">${g.attendees}</td><td class="p-2 border border-gray-300">${g.notes}</td></tr>`).join('')}</tbody>
+                    <table class="w-full text-left text-gray-900 border-collapse border border-gray-300 text-xs">
+                        <thead class="bg-gray-100 uppercase"><tr><th class="p-2 border border-gray-300">Code</th><th class="p-2 border border-gray-300">Child Name</th><th class="p-2 border border-gray-300">Status</th><th class="p-2 border border-gray-300">Parent</th><th class="p-2 border border-gray-300">Phone</th><th class="p-2 border border-gray-300">Email</th><th class="p-2 border border-gray-300">Ttl</th><th class="p-2 border border-gray-300">Allergies</th><th class="p-2 border border-gray-300">Notes</th></tr></thead>
+                        <tbody>${guestOnly.map(g => `<tr class="hover:bg-gray-50"><td class="p-2 border border-gray-300 text-red-600 font-bold">${g.code}</td><td class="p-2 border border-gray-300 font-bold">${g.firstName} ${g.lastName}</td><td class="p-2 border border-gray-300 font-bold text-${g.status==='Attending'?'green':g.status==='Declined'?'red':'amber'}-600">${g.status||'Awaiting'}</td><td class="p-2 border border-gray-300">${g.parent||'-'}</td><td class="p-2 border border-gray-300">${g.phone||'-'}</td><td class="p-2 border border-gray-300">${g.email||'-'}</td><td class="p-2 border border-gray-300 font-bold">${g.attendees||'-'}</td><td class="p-2 border border-gray-300">${g.allergies||'-'}</td><td class="p-2 border border-gray-300">${g.notes||'-'}</td></tr>`).join('')}</tbody>
                     </table></div>`;
             }
         }
@@ -617,7 +635,26 @@
             });
             requestAnimationFrame(animateAllBots);
         }
-        function toggleBots(show) { stage.style.opacity = show ? '1' : '0'; stage.style.pointerEvents = show ? 'auto' : 'none'; }
+
+        function toggleBots(show) {
+            stage.style.opacity = show ? '1' : '0';
+            stage.style.pointerEvents = show ? 'auto' : 'none';
+        }
+
+        async function playBirthdayTune() {
+            try {
+                await Tone.start();
+                const synth = new Tone.Synth({ oscillator: { type: "square" }, envelope: { attack: 0.05, decay: 0.2, sustain: 0.2, release: 1 } }).toDestination();
+                synth.volume.value = -12;
+                const now = Tone.now();
+                synth.triggerAttackRelease("G4", "8n", now);
+                synth.triggerAttackRelease("G4", "8n", now + 0.3);
+                synth.triggerAttackRelease("A4", "4n", now + 0.6);
+                synth.triggerAttackRelease("G4", "4n", now + 1.2);
+                synth.triggerAttackRelease("C5", "4n", now + 1.8);
+                synth.triggerAttackRelease("B4", "2n", now + 2.4);
+            } catch (e) {}
+        }
     </script>
 </body>
 </html>
