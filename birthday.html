@@ -20,262 +20,70 @@
                 linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
             background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
-            color: white;
-            overflow-x: hidden;
-            min-height: 100vh;
+            color: white; overflow-x: hidden; min-height: 100vh;
         }
         .roblox-font { font-family: 'Bungee', cursive; }
-        .roblox-btn {
-            background: #e52521;
-            border-bottom: 5px solid #8B0000;
-            transition: all 0.12s ease;
-            cursor: pointer;
-        }
+        .roblox-btn { background: #e52521; border-bottom: 5px solid #8B0000; transition: all 0.12s ease; cursor: pointer; }
         .roblox-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
         .roblox-btn:active { border-bottom: 0px; transform: translateY(4px); }
 
-        .card-bg {
-            background: rgba(24, 27, 34, 0.94);
-            border: 3px solid #374151;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(10px);
-        }
+        .card-bg { background: rgba(24, 27, 34, 0.94); border: 3px solid #374151; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75); backdrop-filter: blur(10px); }
 
-        /* Letter Opening Animation */
-        @keyframes unfoldLetter {
-            0% { transform: scaleY(0.02) scaleX(0); opacity: 0; }
-            45% { transform: scaleY(0.02) scaleX(1); opacity: 1; }
-            100% { transform: scaleY(1) scaleX(1); opacity: 1; }
-        }
-        .letter-open-anim {
-            animation: unfoldLetter 1.1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-            transform-origin: center center;
-        }
+        @keyframes unfoldLetter { 0% { transform: scaleY(0.02) scaleX(0); opacity: 0; } 45% { transform: scaleY(0.02) scaleX(1); opacity: 1; } 100% { transform: scaleY(1) scaleX(1); opacity: 1; } }
+        .letter-open-anim { animation: unfoldLetter 1.1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards; transform-origin: center center; }
 
-        /* Spinner */
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.12);
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            border-left-color: #e52521;
-            animation: spin 0.9s linear infinite;
-            display: inline-block;
-        }
+        .spinner { border: 4px solid rgba(255, 255, 255, 0.12); width: 38px; height: 38px; border-radius: 50%; border-left-color: #e52521; animation: spin 0.9s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Printable Flyer Card */
-        #printable-flyer {
-            background: #ffffff;
-            color: #111827;
-            border: 8px solid #e52521;
-            border-radius: 18px;
-            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.85);
-            position: relative;
-            overflow: hidden;
-        }
-        #printable-flyer::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            opacity: 0.05;
-            pointer-events: none;
-            background-image: radial-gradient(#000 2px, transparent 2px);
-            background-size: 20px 20px;
-        }
+        /* DB Connection Indicator */
+        .status-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px currentColor; transition: background-color 0.3s, color 0.3s; }
+        .dot-green { background-color: #22c55e; color: #22c55e; }
+        .dot-yellow { background-color: #facc15; color: #facc15; }
+        .dot-red { background-color: #ef4444; color: #ef4444; }
 
-        /* Attendance Choice Buttons */
-        .status-choice-btn {
-            border: 2px solid #475569;
-            background: #1e293b;
-            color: #cbd5e1;
-            padding: 14px 12px;
-            border-radius: 10px;
-            font-weight: 600;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-        }
+        #printable-flyer { background: #ffffff; color: #111827; border: 8px solid #e52521; border-radius: 18px; box-shadow: 0 24px 50px rgba(0, 0, 0, 0.85); position: relative; overflow: hidden; }
+        #printable-flyer::before { content: ""; position: absolute; inset: 0; opacity: 0.05; pointer-events: none; background-image: radial-gradient(#000 2px, transparent 2px); background-size: 20px 20px; }
+
+        .status-choice-btn { border: 2px solid #475569; background: #1e293b; color: #cbd5e1; padding: 14px 12px; border-radius: 10px; font-weight: 600; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; }
         .status-choice-btn:hover { border-color: #94a3b8; }
-        .status-choice-btn.yes-highlight {
-            border-color: #22c55e;
-            background: rgba(21, 128, 61, 0.22);
-            color: #f0fdf4;
-        }
-        .status-choice-btn.selected-yes {
-            background: #15803d;
-            border-color: #4ade80;
-            color: #ffffff;
-            box-shadow: 0 0 22px rgba(34, 197, 94, 0.55);
-            transform: scale(1.02);
-        }
-        .status-choice-btn.selected-maybe {
-            background: #b45309;
-            border-color: #fbbf24;
-            color: #ffffff;
-            box-shadow: 0 0 16px rgba(245, 158, 11, 0.45);
-        }
-        .status-choice-btn.selected-no {
-            background: #b91c1c;
-            border-color: #f87171;
-            color: #ffffff;
-            box-shadow: 0 0 16px rgba(239, 68, 68, 0.45);
-        }
+        .status-choice-btn.yes-highlight { border-color: #22c55e; background: rgba(21, 128, 61, 0.22); color: #f0fdf4; }
+        .status-choice-btn.selected-yes { background: #15803d; border-color: #4ade80; color: #ffffff; box-shadow: 0 0 22px rgba(34, 197, 94, 0.55); transform: scale(1.02); }
+        .status-choice-btn.selected-maybe { background: #b45309; border-color: #fbbf24; color: #ffffff; box-shadow: 0 0 16px rgba(245, 158, 11, 0.45); }
+        .status-choice-btn.selected-no { background: #b91c1c; border-color: #f87171; color: #ffffff; box-shadow: 0 0 16px rgba(239, 68, 68, 0.45); }
 
-        /* Animated Roblox Characters Stage */
-        #roblox-characters-stage {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 35;
-            transition: opacity 0.3s;
-        }
-        .rbx-character {
-            position: absolute;
-            width: 44px;
-            height: 70px;
-            cursor: pointer;
-            pointer-events: auto;
-            transform-origin: center center;
-            user-select: none;
-            filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.65));
-            will-change: transform;
-        }
-        .rbx-head, .rbx-torso, .rbx-arm-l, .rbx-arm-r, .rbx-leg-l, .rbx-leg-r {
-            position: absolute;
-            border: 2px solid #111;
-            box-sizing: border-box;
-        }
-        .rbx-head { top: 0; left: 12px; width: 20px; height: 18px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 8px; line-height: 1; }
+        #roblox-characters-stage { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 35; transition: opacity 0.3s; }
+        .rbx-character { position: absolute; width: 44px; height: 70px; cursor: pointer; pointer-events: auto; transform-origin: center center; user-select: none; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.65)); will-change: transform; }
+        .rbx-head, .rbx-torso, .rbx-arm-l, .rbx-arm-r, .rbx-leg-l, .rbx-leg-r { position: absolute; border: 2px solid #111; box-sizing: border-box; }
+        .rbx-head { top: 0; left: 12px; width: 20px; height: 18px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 8px; }
         .rbx-torso { top: 18px; left: 9px; width: 26px; height: 27px; border-radius: 2px; }
         .rbx-arm-l { top: 18px; left: 0px; width: 9px; height: 27px; border-radius: 2px; }
         .rbx-arm-r { top: 18px; right: 0px; width: 9px; height: 27px; border-radius: 2px; }
         .rbx-leg-l { top: 45px; left: 9px; width: 12px; height: 25px; border-radius: 0 0 2px 2px; }
         .rbx-leg-r { top: 45px; right: 9px; width: 12px; height: 25px; border-radius: 0 0 2px 2px; }
 
-        .rbx-bubble {
-            position: absolute;
-            top: -24px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            color: #111;
-            font-family: 'Bungee', cursive;
-            font-size: 9px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            border: 2px solid #000;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-        }
+        .rbx-bubble { position: absolute; top: -24px; left: 50%; transform: translateX(-50%); background: white; color: #111; font-family: 'Bungee', cursive; font-size: 9px; padding: 2px 6px; border-radius: 4px; border: 2px solid #000; white-space: nowrap; opacity: 0; pointer-events: none; }
         .rbx-character.oof .rbx-bubble { opacity: 1; transform: translateX(-50%) translateY(-4px); }
         .rbx-character.hovered { filter: drop-shadow(0 0 16px rgba(255, 235, 59, 1)); z-index: 60; }
 
-        .rbx-balloon {
-            position: absolute;
-            top: -58px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 34px;
-            height: 42px;
-            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: inset -4px -4px 8px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-        .rbx-balloon-string {
-            position: absolute;
-            bottom: -17px;
-            left: 50%;
-            width: 2px;
-            height: 17px;
-            background: rgba(255, 255, 255, 0.7);
-        }
-        .rbx-letter {
-            font-family: 'Bungee', cursive;
-            font-size: 19px;
-            color: #fff;
-            text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
-        }
+        .rbx-balloon { position: absolute; top: -58px; left: 50%; transform: translateX(-50%); width: 34px; height: 42px; border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%; display: flex; align-items: center; justify-content: center; box-shadow: inset -4px -4px 8px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+        .rbx-balloon-string { position: absolute; bottom: -17px; left: 50%; width: 2px; height: 17px; background: rgba(255, 255, 255, 0.7); }
+        .rbx-letter { font-family: 'Bungee', cursive; font-size: 19px; color: #fff; text-shadow: 1px 1px 0 #000, -1px -1px 0 #000; }
         .rbx-character.has-balloon .rbx-balloon { opacity: 1; }
 
-        /* Floating Bot Control Bar */
-        #bot-controls {
-            position: fixed;
-            bottom: 16px;
-            right: 16px;
-            background: rgba(17, 24, 39, 0.9);
-            border: 2px solid #374151;
-            padding: 8px 10px;
-            border-radius: 10px;
-            z-index: 80;
-            display: none;
-            gap: 6px;
-            backdrop-filter: blur(6px);
-        }
-        .control-btn {
-            font-family: 'Bungee', cursive;
-            font-size: 10px;
-            padding: 6px 10px;
-            border-radius: 6px;
-            color: white;
-            cursor: pointer;
-            transition: transform 0.15s;
-        }
+        #bot-controls { position: fixed; bottom: 16px; right: 16px; background: rgba(17, 24, 39, 0.9); border: 2px solid #374151; padding: 8px 10px; border-radius: 10px; z-index: 80; display: none; gap: 6px; backdrop-filter: blur(6px); }
+        .control-btn { font-family: 'Bungee', cursive; font-size: 10px; padding: 6px 10px; border-radius: 6px; color: white; cursor: pointer; transition: transform 0.15s; }
         .control-btn:hover { transform: scale(1.05); }
 
-        /* VIP Lanyard Pass Styling (Host Bulk Print) */
-        .vip-pass {
-            background: #ffffff;
-            color: #111;
-            border: 6px solid #111;
-            border-radius: 18px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
-            page-break-inside: avoid;
-            break-inside: avoid;
-        }
-        .vip-hole {
-            width: 56px;
-            height: 11px;
-            background: #e5e7eb;
-            border-radius: 20px;
-            margin: 12px auto 0;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.35);
-        }
-        .barcode {
-            height: 30px;
-            width: 100%;
-            opacity: 0.75;
-            background: repeating-linear-gradient(90deg, #000, #000 2px, transparent 2px, transparent 5px, #000 5px, #000 6px, transparent 6px, transparent 10px, #000 10px, #000 15px, transparent 15px, transparent 18px);
-        }
+        /* VIP Lanyard (Admin Print) */
+        .vip-pass { background: #ffffff; color: #111; border: 6px solid #111; border-radius: 18px; position: relative; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45); page-break-inside: avoid; break-inside: avoid; }
+        .vip-hole { width: 56px; height: 11px; background: #e5e7eb; border-radius: 20px; margin: 12px auto 0; box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.35); }
+        .barcode { height: 30px; width: 100%; opacity: 0.75; background: repeating-linear-gradient(90deg, #000, #000 2px, transparent 2px, transparent 5px, #000 5px, #000 6px, transparent 6px, transparent 10px, #000 10px, #000 15px, transparent 15px, transparent 18px); }
 
-        /* Delivery Overlay */
-        #delivery-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 999;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+        #delivery-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); z-index: 999; display: none; flex-direction: column; align-items: center; justify-content: center; }
 
-        /* PRINT STYLES */
         @media print {
             body { background: #ffffff !important; color: #000000 !important; margin: 0; padding: 0; }
-            .no-print, #welcome-modal, #rsvp-section, #existing-rsvp-card, #roblox-characters-stage, #bot-controls, #bulk-toolbar, #host-stats-bar, #host-filter-bar {
-                display: none !important;
-            }
+            .no-print, #welcome-modal, #rsvp-section, #existing-rsvp-card, #roblox-characters-stage, #bot-controls, #bulk-toolbar, #host-stats-bar, #host-filter-bar, #db-status-badge { display: none !important; }
             #main-content { display: block !important; opacity: 1 !important; margin: 0 !important; max-width: 100% !important; }
             #printable-flyer { box-shadow: none !important; border: 6px solid #e52521 !important; margin: 0 auto; }
             #host-dashboard { display: block !important; padding: 0 !important; max-width: 100% !important; }
@@ -289,152 +97,101 @@
 
     <script>
         window.PARTY_CONFIG = {
-            googleSheetWebhookUrl: "https://script.google.com/macros/s/AKfycbz5lt1hwbZUjmxJoWDF507zOu5RdeqJKO3yPOzU7I6zp3FNFGjXd_yef0HWSyV_YciJ5w/exec",
+            googleSheetWebhookUrl: "https://script.google.com/macros/s/AKfycbwvCoGETc-UDxEA01F1GWDbszt7X0n4ufoPeeiW4r_Y-Z35QdhzVA7uuxg2j9l5DkfLbA/exec", // <-- PASTE YOUR APPS SCRIPT URL HERE!
             websiteUrl: "https://Manab.sedhai.com/birthday.html",
-            childName: "Manab",
-            birthdayAge: "9th",
-            countdownTarget: "2027-01-06T14:00:00",
-            partyDateText: "Wednesday, January 6, 2027",
-            partyTimeText: "2:00 PM – 5:00 PM",
-            partyVenueName: "Venue To Be Announced",
-            partyVenueAddress: "Details updating soon!"
+            childName: "Manab", birthdayAge: "9th", countdownTarget: "2027-01-06T14:00:00",
+            partyDateText: "Wednesday, January 6, 2027", partyTimeText: "2:00 PM – 5:00 PM",
+            partyVenueName: "Venue To Be Announced", partyVenueAddress: "Details updating soon!"
         };
     </script>
 </head>
 <body class="relative flex flex-col items-center justify-center p-4">
 
-    <!-- Animated Roblox Characters Stage -->
-    <div id="roblox-characters-stage" class="no-print"></div>
+    <!-- DB Status Indicator -->
+    <div id="db-status-badge" class="fixed top-4 right-4 z-50 flex items-center gap-2 bg-gray-900/80 px-3 py-1.5 rounded-full border border-gray-600 backdrop-blur">
+        <div id="db-status-dot" class="status-dot dot-green animate-pulse"></div>
+    </div>
 
-    <!-- Floating Bot Controls -->
+    <div id="roblox-characters-stage" class="no-print"></div>
     <div id="bot-controls" class="no-print">
         <button onclick="toggleBots(false)" class="control-btn bg-gray-700 hover:bg-gray-600">HIDE BOTS</button>
         <button onclick="toggleBots(true)" class="control-btn bg-blue-600 hover:bg-blue-500">SHOW BOTS</button>
         <button onclick="launchBalloonParade()" class="control-btn bg-red-600 hover:bg-red-500">🎈 BALLOON PARADE</button>
     </div>
 
-    <!-- 1. WELCOME MODAL (4-Digit Code + MA18 Admin Backdoor) -->
+    <!-- 1. WELCOME MODAL -->
     <div id="welcome-modal" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-95 p-4 transition-opacity duration-500">
         <div class="card-bg p-8 rounded-2xl text-center max-w-md w-full relative z-50">
-            <div class="inline-block bg-red-600 text-white roblox-font text-xs uppercase px-3 py-1 rounded-full mb-3 tracking-wider">
-                Official VIP Pass
-            </div>
+            <div class="inline-block bg-red-600 text-white roblox-font text-xs uppercase px-3 py-1 rounded-full mb-3 tracking-wider">Official VIP Pass</div>
             <h1 class="roblox-font text-3xl mb-2 text-white">Manab's 9th Birthday</h1>
             
             <div id="auth-section">
-                <p class="mb-5 text-gray-300 text-sm">Enter your 4-digit friend code from your invitation pass to unlock your personalized flyer & RSVP.</p>
-                <input type="text" id="friend-code-input" maxlength="4" placeholder="••••" class="w-full bg-gray-900 border-2 border-gray-600 rounded-xl p-4 text-white focus:outline-none focus:border-yellow-400 text-center mb-4 text-3xl roblox-font tracking-[0.5em] uppercase">
+                <p class="mb-5 text-gray-300 text-sm">Enter your 6-digit VIP code from your invitation card to unlock your personalized flyer.</p>
+                <input type="text" id="friend-code-input" maxlength="6" placeholder="••••••" class="w-full bg-gray-900 border-2 border-gray-600 rounded-xl p-4 text-white focus:outline-none focus:border-yellow-400 text-center mb-4 text-3xl roblox-font tracking-[0.5em] uppercase">
                 
-                <button id="verify-btn" onclick="verifyFriendCode()" class="roblox-font roblox-btn w-full py-4 rounded-xl text-xl text-white shadow-lg">
-                    UNLOCK INVITATION
-                </button>
+                <button id="verify-btn" onclick="verifyFriendCode()" class="roblox-font roblox-btn w-full py-4 rounded-xl text-xl text-white shadow-lg">UNLOCK INVITATION</button>
                 
                 <div id="verify-loading" class="hidden mt-4">
                     <div class="spinner"></div>
-                    <p class="text-yellow-400 mt-2 text-sm roblox-font">Checking Guest List...</p>
+                    <p class="text-yellow-400 mt-2 text-sm roblox-font">Connecting Database...</p>
                 </div>
                 <p id="verify-error" class="hidden text-red-400 mt-4 text-sm font-semibold"></p>
             </div>
 
-            <!-- Unlocked State (Standard or Returning Guest) -->
             <div id="unlocked-section" class="hidden">
                 <div id="returning-welcome-box" class="hidden bg-green-900/50 border border-green-500 rounded-xl p-4 mb-5">
                     <p class="roblox-font text-sm text-green-300 mb-1">🎉 WELCOME BACK!</p>
-                    <p id="returning-welcome-text" class="text-sm text-gray-100">We are so excited to see you again! Your saved RSVP details are ready inside.</p>
+                    <p id="returning-welcome-text" class="text-sm text-gray-100">Your RSVP details are saved inside.</p>
                 </div>
-
                 <p class="text-yellow-400 font-bold mb-1 uppercase tracking-wider text-xs">VIP Code Accepted!</p>
                 <p class="text-gray-100 mb-6 text-xl">Special Invitation for <span id="auth-child-name" class="font-extrabold text-yellow-400 underline"></span>!</p>
-                
-                <button onclick="openInvitation()" class="roblox-font roblox-btn w-full py-4 rounded-xl text-xl text-white shadow-lg animate-pulse">
-                    OPEN PERSONALIZED FLYER
-                </button>
+                <button onclick="openInvitation()" class="roblox-font roblox-btn w-full py-4 rounded-xl text-xl text-white shadow-lg animate-pulse">OPEN PERSONALIZED FLYER</button>
             </div>
         </div>
     </div>
 
-    <!-- 2. HOST ADMIN DASHBOARD (Unlocked only with code MA18) -->
+    <!-- 2. HOST ADMIN DASHBOARD -->
     <div id="host-dashboard" class="hidden w-full max-w-6xl mx-auto my-6 z-50">
         <div id="bulk-toolbar" class="card-bg p-6 rounded-2xl mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
-                <div class="inline-block bg-yellow-400 text-black roblox-font text-[10px] px-2.5 py-0.5 rounded mb-1">ADMIN ACCESS: MA18</div>
+                <div class="inline-block bg-yellow-400 text-black roblox-font text-[10px] px-2.5 py-0.5 rounded mb-1">SECURE ADMIN DASHBOARD</div>
                 <h2 class="roblox-font text-2xl text-white">Manab's Birthday Command Center</h2>
-                <p class="text-sm text-gray-400">Live guest list, RSVP statuses, parent contacts, allergies & printable VIP passes.</p>
             </div>
             <div class="flex flex-wrap gap-3">
-                <button onclick="renderHostView('list')" id="tab-list-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-lg shadow cursor-pointer">
-                    📋 RSVP & Guest List
-                </button>
-                <button onclick="renderHostView('invites')" id="tab-invites-btn" class="bg-red-600 hover:bg-red-500 text-white font-bold px-4 py-2.5 rounded-lg shadow cursor-pointer">
-                    🎟️ 30 VIP Passes
-                </button>
-                <button onclick="window.print()" class="bg-green-600 hover:bg-green-500 text-white font-bold px-5 py-2.5 rounded-lg shadow cursor-pointer">
-                    🖨️ PRINT / SAVE PDF
-                </button>
+                <button onclick="renderHostView('list')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-lg shadow">📋 Guest List</button>
+                <button onclick="renderHostView('invites')" class="bg-red-600 hover:bg-red-500 text-white font-bold px-4 py-2.5 rounded-lg shadow">🎟️ VIP Passes</button>
+                <button onclick="window.print()" class="bg-green-600 hover:bg-green-500 text-white font-bold px-5 py-2.5 rounded-lg shadow">🖨️ PRINT PDF</button>
             </div>
         </div>
 
-        <!-- Summary KPI Cards -->
         <div id="host-stats-bar" class="grid grid-cols-2 md:grid-cols-6 gap-3 mb-6"></div>
-
-        <!-- Search & Filter Controls (Shown on List View) -->
-        <div id="host-filter-bar" class="card-bg p-4 rounded-xl mb-6 flex flex-col md:flex-row justify-between items-center gap-3">
-            <input type="text" id="host-search-input" oninput="filterHostTable()" placeholder="Search child name, parent, code, phone, or allergy..." class="w-full md:w-80 bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-yellow-400">
-            <div class="flex flex-wrap gap-2 text-xs font-bold">
-                <button onclick="setHostStatusFilter('ALL')" class="host-filter-pill bg-yellow-400 text-black px-3 py-1.5 rounded-lg cursor-pointer" data-filter="ALL">All</button>
-                <button onclick="setHostStatusFilter('Attending')" class="host-filter-pill bg-gray-800 text-green-400 border border-green-700 px-3 py-1.5 rounded-lg cursor-pointer" data-filter="Attending">Attending</button>
-                <button onclick="setHostStatusFilter('Maybe')" class="host-filter-pill bg-gray-800 text-amber-400 border border-amber-700 px-3 py-1.5 rounded-lg cursor-pointer" data-filter="Maybe">Maybe</button>
-                <button onclick="setHostStatusFilter('Declined')" class="host-filter-pill bg-gray-800 text-red-400 border border-red-700 px-3 py-1.5 rounded-lg cursor-pointer" data-filter="Declined">Declined</button>
-                <button onclick="setHostStatusFilter('Awaiting')" class="host-filter-pill bg-gray-800 text-gray-300 border border-gray-600 px-3 py-1.5 rounded-lg cursor-pointer" data-filter="Awaiting">Awaiting</button>
-            </div>
-        </div>
-
-        <!-- Host Content Container -->
         <div id="host-content-area"></div>
     </div>
 
-    <!-- 3. PERSONALIZED GUEST FLYER + RSVP VIEW -->
+    <!-- 3. PERSONALIZED GUEST FLYER -->
     <div id="main-content" class="max-w-2xl w-full hidden opacity-0 my-6 relative z-20">
         
-        <!-- Top Action Bar -->
         <div class="flex justify-between items-center mb-4 no-print">
-            <span class="text-xs text-gray-300 bg-gray-900/90 px-3 py-1.5 rounded-lg border border-gray-700">
-                VIP Code: <strong id="badge-code" class="text-yellow-400"></strong>
-            </span>
-            <button onclick="window.print()" id="print-btn" class="bg-blue-600 hover:bg-blue-500 text-white roblox-font text-xs px-4 py-2.5 rounded-lg shadow flex items-center gap-2 cursor-pointer">
-                🖨️ PRINT / SAVE FLYER PDF
-            </button>
+            <span class="text-xs text-gray-300 bg-gray-900/90 px-3 py-1.5 rounded-lg border border-gray-700">VIP Code: <strong id="badge-code" class="text-yellow-400"></strong></span>
+            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-500 text-white roblox-font text-xs px-4 py-2.5 rounded-lg flex items-center gap-2">🖨️ PRINT FLYER</button>
         </div>
 
-        <!-- Returning Guest Excited Banner -->
         <div id="returning-top-banner" class="hidden card-bg border-green-500 rounded-2xl p-5 mb-6 text-center no-print">
             <p class="roblox-font text-lg text-green-400 mb-1">🎉 WE ARE SO EXCITED TO SEE YOU AGAIN, <span id="returning-banner-name"></span>!</p>
             <p class="text-sm text-gray-200">Your RSVP is already on our list below. You can review your details or amend your response anytime!</p>
         </div>
 
-        <!-- PRINTABLE PERSONALIZED PARTY FLYER -->
         <div id="printable-flyer" class="p-8 md:p-10 mb-8 text-center">
-            <div class="inline-block bg-red-600 text-white roblox-font text-xs px-4 py-1.5 rounded-full uppercase tracking-widest mb-3">
-                Official VIP Level-Up Pass
-            </div>
-
-            <!-- Personalized Invitation Heading -->
+            <div class="inline-block bg-red-600 text-white roblox-font text-xs px-4 py-1.5 rounded-full uppercase tracking-widest mb-3">Official VIP Level-Up Pass</div>
             <p class="text-xs font-extrabold uppercase tracking-widest text-gray-500">Exclusive Personal Invitation For</p>
             <h2 id="flyer-guest-name" class="roblox-font text-3xl md:text-5xl text-blue-600 mt-1 mb-4 tracking-wide">FRIEND</h2>
 
             <div class="border-y-4 border-dashed border-gray-300 py-5 my-4">
-                <p class="text-gray-700 font-bold uppercase text-xs tracking-wider mb-1">
-                    <span id="flyer-sub-name" class="text-red-600">You</span>, come join the adventure at
-                </p>
-                <h1 class="roblox-font text-3xl md:text-5xl text-gray-900 leading-tight">
-                    <span id="display-name">MANAB</span>'S <span id="display-age" class="text-red-600">9TH</span> BIRTHDAY!
-                </h1>
-                <div class="mt-3 inline-block bg-gray-900 text-yellow-400 roblox-font text-sm px-4 py-1.5 rounded-lg">
-                    ⏳ <span id="countdown">Loading Countdown...</span>
-                </div>
+                <p class="text-gray-700 font-bold uppercase text-xs tracking-wider mb-1"><span id="flyer-sub-name" class="text-red-600">You</span>, come join the adventure at</p>
+                <h1 class="roblox-font text-3xl md:text-5xl text-gray-900 leading-tight"><span id="display-name">MANAB</span>'S <span id="display-age" class="text-red-600">9TH</span> BIRTHDAY!</h1>
+                <div class="mt-3 inline-block bg-gray-900 text-yellow-400 roblox-font text-sm px-4 py-1.5 rounded-lg">⏳ <span id="countdown">Loading...</span></div>
             </div>
 
-            <!-- Event Details Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left my-6">
                 <div class="bg-gray-100 p-4 rounded-xl border-2 border-gray-200">
                     <p class="roblox-font text-xs text-red-600 uppercase mb-1">📅 Date & Time</p>
@@ -449,12 +206,12 @@
             </div>
 
             <div class="bg-yellow-100 border-2 border-yellow-400 rounded-xl p-3 text-xs text-gray-800 font-semibold">
-                🎟️ Personal VIP Code for <strong id="flyer-footer-name">Guest</strong>: <span id="flyer-code-display" class="roblox-font text-base text-red-600 ml-1"></span>
+                🎟️ Connected VIP Code(s): <span id="flyer-code-display" class="roblox-font text-base text-red-600 ml-1"></span>
                 <span class="block text-gray-600 font-normal mt-0.5">Manage RSVP online at <span id="flyer-url-display" class="underline"></span></span>
             </div>
         </div>
 
-        <!-- SAVED RSVP SUMMARY CARD (Shown when code was already RSVPed) -->
+        <!-- SAVED RSVP -->
         <div id="existing-rsvp-card" class="hidden card-bg border-2 border-yellow-400 rounded-2xl p-6 mb-6 no-print">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-gray-700 pb-4 mb-4">
                 <div>
@@ -463,7 +220,6 @@
                 </div>
                 <span id="saved-status-badge" class="px-3 py-1 rounded-full text-xs font-extrabold uppercase"></span>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-gray-300 mb-5">
                 <p><strong class="text-white">Parent Name:</strong> <span id="saved-parent"></span></p>
                 <p><strong class="text-white">Phone:</strong> <span id="saved-phone"></span></p>
@@ -472,95 +228,82 @@
                 <p class="md:col-span-2"><strong class="text-white">Allergies / Dietary:</strong> <span id="saved-allergies"></span></p>
                 <p class="md:col-span-2"><strong class="text-white">Notes:</strong> <span id="saved-notes"></span></p>
             </div>
-
-            <button type="button" onclick="openAmendForm()" class="w-full bg-yellow-400 hover:bg-yellow-300 text-black roblox-font text-sm py-3 rounded-xl shadow cursor-pointer transition">
-                ✏️ AMEND / UPDATE YOUR RSVP ANSWER
-            </button>
+            <button type="button" onclick="openAmendForm()" class="w-full bg-yellow-400 hover:bg-yellow-300 text-black roblox-font text-sm py-3 rounded-xl shadow">✏️ AMEND / UPDATE RSVP</button>
         </div>
 
         <!-- RSVP FORM SECTION -->
         <div class="card-bg rounded-2xl p-8 no-print" id="rsvp-section">
-            <h2 id="rsvp-heading" class="roblox-font text-2xl text-center mb-2 text-white tracking-wide">Parent RSVP</h2>
-            <p class="text-center text-sm text-gray-400 mb-6">Confirm <span id="prompt-child-name" class="text-yellow-400 font-bold">your child</span>'s spot at Manab's 9th Birthday!</p>
+            <h2 id="rsvp-heading" class="roblox-font text-2xl text-center mb-2 text-white">Family RSVP</h2>
+            <p class="text-center text-sm text-gray-400 mb-6">Confirm <span id="prompt-child-name" class="text-yellow-400 font-bold"></span>'s spot at Manab's 9th Birthday!</p>
 
-            <!-- Attendance Choice Buttons (Encourages Yes, Discourages Maybe/No) -->
             <div class="space-y-3 mb-5">
-                <label class="block text-sm font-semibold text-gray-300">Will <span id="question-child-name" class="text-yellow-400">your child</span> join the party? *</label>
+                <label class="block text-sm font-semibold text-gray-300">Will <span id="question-child-name" class="text-yellow-400"></span> join the party? *</label>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <button type="button" onclick="selectStatus('Attending')" id="btn-status-yes" class="status-choice-btn yes-highlight">
-                        <span class="block text-[10px] uppercase tracking-wider text-green-300 font-extrabold mb-1">⭐ Best Choice!</span>
-                        🎉 YES! <span id="label-child-name">Child</span> will attend!
+                        <span class="block text-[10px] uppercase text-green-300 font-extrabold mb-1">⭐ Best Choice!</span>
+                        🎉 YES! <span id="label-child-name" class="block truncate"></span> will attend!
                     </button>
                     <button type="button" onclick="selectStatus('Maybe')" id="btn-status-maybe" class="status-choice-btn">
-                        <span class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1">Not sure yet</span>
+                        <span class="block text-[10px] uppercase text-gray-400 mb-1">Not sure yet</span>
                         🤔 Maybe / Unsure
                     </button>
                     <button type="button" onclick="selectStatus('Declined')" id="btn-status-no" class="status-choice-btn">
-                        <span class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1">Miss the fun</span>
+                        <span class="block text-[10px] uppercase text-gray-400 mb-1">Miss the fun</span>
                         😢 Can't attend
                     </button>
                 </div>
             </div>
 
-            <!-- Persuasive Feedback Banner -->
             <div id="persuasion-banner" class="hidden rounded-xl p-4 mb-6 text-sm font-medium"></div>
 
             <form id="rsvp-form" class="space-y-4 hidden">
                 <input type="hidden" id="input-status-value">
-                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-300 mb-1">Child's Name *</label>
-                        <input type="text" id="rsvp-child-name" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-red-500 focus:outline-none">
+                        <label class="block text-sm font-semibold text-gray-300 mb-1">Child(ren) Name</label>
+                        <input type="text" id="rsvp-child-name" readonly class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-gray-400 cursor-not-allowed">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-300 mb-1">Parent's Name *</label>
-                        <input type="text" id="rsvp-parent-name" required placeholder="Your full name" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-red-500 focus:outline-none">
+                        <input type="text" id="rsvp-parent-name" required placeholder="Your full name" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-red-500">
                     </div>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-300 mb-1">Parent's Email (For Personalized Confirmation)</label>
-                        <input type="email" id="rsvp-email" placeholder="parent@example.com" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-red-500 focus:outline-none">
+                        <label class="block text-sm font-semibold text-gray-300 mb-1">Parent's Email</label>
+                        <input type="email" id="rsvp-email" placeholder="Required for confirmation" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-red-500">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-300 mb-1">Parent's Phone Number *</label>
-                        <input type="tel" id="rsvp-phone" required placeholder="0400 000 000" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-red-500 focus:outline-none">
+                        <input type="tel" id="rsvp-phone" required class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-red-500">
                     </div>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-semibold text-gray-300 mb-1">Total Attendees (Kids + Adults)</label>
-                        <input type="number" id="rsvp-attendees" min="1" max="10" value="1" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-red-500 focus:outline-none">
+                        <input type="number" id="rsvp-attendees" min="1" max="10" value="1" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-red-500">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-300 mb-1">Food Allergies / Dietary Needs</label>
-                        <input type="text" id="rsvp-allergies" placeholder="e.g. Peanuts, Dairy, None" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-red-500 focus:outline-none">
+                        <label class="block text-sm font-semibold text-gray-300 mb-1">Food Allergies / Dietary</label>
+                        <input type="text" id="rsvp-allergies" placeholder="e.g. Peanuts, None" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-red-500">
                     </div>
                 </div>
-
                 <div>
-                    <label class="block text-sm font-semibold text-gray-300 mb-1">Notes or Questions for Manab's Parents</label>
-                    <textarea id="rsvp-notes" rows="2" placeholder="Optional message..." class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-red-500 focus:outline-none"></textarea>
+                    <label class="block text-sm font-semibold text-gray-300 mb-1">Notes for Host</label>
+                    <textarea id="rsvp-notes" rows="2" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-red-500"></textarea>
                 </div>
-
                 <div class="bg-gray-900/80 p-4 rounded-xl border border-gray-700 flex items-start gap-3 mt-4">
-                    <input type="checkbox" id="rsvp-agreement" required class="mt-1 w-5 h-5 accent-red-600 rounded cursor-pointer">
-                    <label for="rsvp-agreement" class="text-sm text-gray-300 cursor-pointer">
-                        <span class="font-bold text-white">Parent Agreement:</span> I confirm my child has permission to attend Manab's 9th Birthday Party and will arrange appropriate supervision/drop-off. *
+                    <input type="checkbox" id="rsvp-agreement" required class="mt-1 w-5 h-5 accent-red-600 rounded">
+                    <label for="rsvp-agreement" class="text-sm text-gray-300">
+                        <span class="font-bold text-white">Parent Agreement:</span> I confirm permission to attend and will arrange supervision. *
                     </label>
                 </div>
-
-                <button type="submit" id="rsvp-submit-btn" class="roblox-font roblox-btn w-full py-4 rounded-xl text-xl text-white shadow-lg mt-2">
-                    ✉️ SEND RSVP TO MANAB'S PARENTS
-                </button>
+                <button type="submit" id="rsvp-submit-btn" class="roblox-font roblox-btn w-full py-4 rounded-xl text-xl text-white shadow-lg mt-2">✉️ SEND RSVP</button>
             </form>
         </div>
     </div>
 
-    <!-- 4. CHARACTER DELIVERY ANIMATION OVERLAY -->
+    <!-- DELIVERY ANIMATION -->
     <div id="delivery-overlay">
         <div id="carrier-box" class="relative flex flex-col items-center">
             <div class="relative mb-6" style="width: 58px; height: 90px;">
@@ -572,44 +315,30 @@
                 <div class="rbx-leg-r" style="background:#98FB98; width:16px; height:32px; top:58px; right:12px;"></div>
             </div>
             <div class="bg-yellow-100 border-4 border-yellow-500 rounded-xl p-4 text-black text-center shadow-2xl flex items-center gap-3">
-                <span class="text-3xl">✉️</span>
-                <div class="text-left">
-                    <p class="roblox-font text-xs text-red-600">VIP RSVP DISPATCH</p>
-                    <p class="font-bold text-sm">To: Manab's Parents</p>
-                </div>
+                <span class="text-3xl">✉️</span><div class="text-left"><p class="roblox-font text-xs text-red-600">VIP RSVP DISPATCH</p><p class="font-bold text-sm">To: Manab's Parents</p></div>
             </div>
-            <p id="delivery-msg" class="roblox-font text-xl text-yellow-400 mt-6 text-center animate-pulse">
-                Sending RSVP & drafting personalized email...
-            </p>
+            <p id="delivery-msg" class="roblox-font text-xl text-yellow-400 mt-6 text-center animate-pulse">Syncing to Database & Drafting Email...</p>
         </div>
     </div>
 
     <script>
         let verifiedChildName = "";
-        let verifiedCode = "";
+        let verifiedFamilyCodes = [];
         let isReturningGuest = false;
         let savedRsvpRecord = null;
         let liveConfig = {};
         let allHostData = [];
-        let currentHostFilter = "ALL";
-        let currentHostView = "list";
 
-        document.getElementById('friend-code-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') verifyFriendCode();
-        });
+        function setDbStatus(color) {
+            const dot = document.getElementById('db-status-dot');
+            dot.className = `status-dot dot-${color} animate-pulse`;
+        }
 
-        // Countdown Timer
+        document.getElementById('friend-code-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') verifyFriendCode(); });
         setInterval(() => {
-            const target = new Date(window.PARTY_CONFIG.countdownTarget).getTime();
-            const dist = target - Date.now();
-            const el = document.getElementById("countdown");
-            if (!el) return;
-            if (dist < 0) { el.innerText = "IT'S PARTY TIME!"; return; }
-            const d = Math.floor(dist / 86400000);
-            const h = Math.floor((dist % 86400000) / 3600000);
-            const m = Math.floor((dist % 3600000) / 60000);
-            const s = Math.floor((dist % 60000) / 1000);
-            el.innerText = `${d}d ${h}h ${m}m ${s}s`;
+            const t = new Date(window.PARTY_CONFIG.countdownTarget).getTime() - Date.now();
+            if (t < 0) { document.getElementById("countdown").innerText = "IT'S PARTY TIME!"; return; }
+            document.getElementById("countdown").innerText = `${Math.floor(t / 86400000)}d ${Math.floor((t % 86400000) / 3600000)}h ${Math.floor((t % 3600000) / 60000)}m ${Math.floor((t % 60000) / 1000)}s`;
         }, 1000);
 
         function applyEventDetails(cfg) {
@@ -622,23 +351,14 @@
             document.getElementById('flyer-url-display').innerText = cfg.Website_URL || window.PARTY_CONFIG.websiteUrl;
         }
 
-        // 1. Verify Code (or MA18 Host Admin Backdoor)
         async function verifyFriendCode() {
             const code = document.getElementById('friend-code-input').value.trim().toUpperCase();
             const errorText = document.getElementById('verify-error');
             const loading = document.getElementById('verify-loading');
             const btn = document.getElementById('verify-btn');
 
-            if (code === "MA18") {
-                errorText.classList.add('hidden');
-                loading.classList.remove('hidden');
-                btn.classList.add('hidden');
-                await loadHostDashboard();
-                return;
-            }
-
-            if (code.length !== 4) {
-                errorText.innerText = "Please enter your 4-digit friend code.";
+            if (code.length !== 6) {
+                errorText.innerText = "Please enter your 6-character code.";
                 errorText.classList.remove('hidden');
                 return;
             }
@@ -646,17 +366,26 @@
             errorText.classList.add('hidden');
             loading.classList.remove('hidden');
             btn.classList.add('hidden');
+            setDbStatus('yellow');
 
             try {
                 const response = await fetch(`${window.PARTY_CONFIG.googleSheetWebhookUrl}?code=${encodeURIComponent(code)}`);
                 const data = await response.json();
+                if (!data.valid) throw new Error("Invalid");
 
                 liveConfig = data.config || {};
                 applyEventDetails(liveConfig);
+                setDbStatus('green');
 
-                if (data.valid) {
-                    verifiedCode = code;
-                    verifiedChildName = data.name;
+                if (data.isHost) {
+                    allHostData = data.guests || [];
+                    document.getElementById('welcome-modal').style.display = 'none';
+                    document.getElementById('host-dashboard').classList.remove('hidden');
+                    renderHostStats();
+                    renderHostView('list');
+                } else {
+                    verifiedFamilyCodes = data.family.map(f => f.code);
+                    verifiedChildName = data.family.map(f => f.firstName).join(" & ");
                     isReturningGuest = Boolean(data.alreadyRsvped);
                     savedRsvpRecord = data.rsvp || null;
 
@@ -664,49 +393,38 @@
                     document.getElementById('unlocked-section').classList.remove('hidden');
                     document.getElementById('auth-child-name').innerText = verifiedChildName;
 
-                    // If already RSVPed, show excited welcome back message
                     if (isReturningGuest && savedRsvpRecord) {
-                        const retBox = document.getElementById('returning-welcome-box');
-                        const retTxt = document.getElementById('returning-welcome-text');
-                        retBox.classList.remove('hidden');
-                        if (savedRsvpRecord.status === "Attending") {
-                            retTxt.innerText = `We are SO excited to see ${verifiedChildName} again! Your confirmed RSVP details are ready inside.`;
-                        } else {
-                            retTxt.innerText = `We're so excited to see you back, ${verifiedChildName}! View your saved RSVP or update it to join the fun!`;
-                        }
+                        document.getElementById('returning-welcome-box').classList.remove('hidden');
+                        document.getElementById('returning-welcome-text').innerText = savedRsvpRecord.status === "Attending" 
+                            ? `We are SO excited to see ${verifiedChildName} again! Your confirmed RSVP details are saved.`
+                            : `Welcome back, ${verifiedChildName}! Update your RSVP below to join the fun!`;
                     }
 
-                    // Populate personalized flyer & form labels
                     document.getElementById('flyer-guest-name').innerText = verifiedChildName.toUpperCase();
                     document.getElementById('flyer-sub-name').innerText = verifiedChildName;
                     document.getElementById('flyer-footer-name').innerText = verifiedChildName;
-                    document.getElementById('badge-code').innerText = verifiedCode;
-                    document.getElementById('flyer-code-display').innerText = verifiedCode;
+                    document.getElementById('badge-code').innerText = verifiedFamilyCodes.join(" | ");
+                    document.getElementById('flyer-code-display').innerText = verifiedFamilyCodes.join(" | ");
                     document.getElementById('prompt-child-name').innerText = verifiedChildName;
                     document.getElementById('question-child-name').innerText = verifiedChildName;
                     document.getElementById('label-child-name').innerText = verifiedChildName;
                     document.getElementById('rsvp-child-name').value = verifiedChildName;
-                } else {
-                    throw new Error("Invalid code");
                 }
             } catch (err) {
                 loading.classList.add('hidden');
                 btn.classList.remove('hidden');
-                errorText.innerText = "Code not found! Please check your invitation pass and try again.";
+                errorText.innerText = "Code not found! Check your invitation.";
                 errorText.classList.remove('hidden');
+                setDbStatus('red');
+                setTimeout(() => setDbStatus('green'), 3000);
             }
         }
 
         function openInvitation() {
-            const modal = document.getElementById('welcome-modal');
-            modal.style.opacity = '0';
-            setTimeout(() => modal.style.display = 'none', 400);
-
-            const content = document.getElementById('main-content');
-            content.classList.remove('hidden');
-            content.classList.add('letter-open-anim');
-
-            // Show floating bot controls & launch animated characters
+            document.getElementById('welcome-modal').style.display = 'none';
+            document.getElementById('main-content').classList.remove('hidden');
+            document.getElementById('main-content').classList.add('letter-open-anim');
+            
             document.getElementById('bot-controls').style.display = 'flex';
             initInteractiveCharacters();
             setTimeout(launchBalloonParade, 700);
@@ -714,49 +432,30 @@
             playBirthdayTune();
             confetti({ particleCount: 160, spread: 100, origin: { y: 0.5 }, colors: ['#e52521', '#ffffff', '#FFD700'] });
 
-            // If returning guest, populate saved RSVP card & hide form until they click Amend
-            if (isReturningGuest && savedRsvpRecord) {
-                renderSavedRsvpCard(savedRsvpRecord);
-            }
+            if (isReturningGuest && savedRsvpRecord) renderSavedRsvpCard(savedRsvpRecord);
         }
 
         function renderSavedRsvpCard(rsvp) {
             document.getElementById('returning-top-banner').classList.remove('hidden');
             document.getElementById('returning-banner-name').innerText = verifiedChildName.toUpperCase();
-
-            const card = document.getElementById('existing-rsvp-card');
-            card.classList.remove('hidden');
-
-            document.getElementById('saved-child-title').innerText = rsvp.childName || verifiedChildName;
+            document.getElementById('existing-rsvp-card').classList.remove('hidden');
+            document.getElementById('saved-child-title').innerText = verifiedChildName;
             document.getElementById('saved-parent').innerText = rsvp.parentName || '-';
             document.getElementById('saved-phone').innerText = rsvp.phone || '-';
             document.getElementById('saved-email').innerText = rsvp.email || 'Not provided';
             document.getElementById('saved-attendees').innerText = rsvp.attendees || '1';
             document.getElementById('saved-allergies').innerText = rsvp.allergies || 'None';
             document.getElementById('saved-notes').innerText = rsvp.notes || 'None';
-
             const badge = document.getElementById('saved-status-badge');
             badge.innerText = rsvp.status;
-            if (rsvp.status === 'Attending') {
-                badge.className = 'px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-green-600 text-white';
-            } else if (rsvp.status === 'Maybe') {
-                badge.className = 'px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-amber-600 text-white';
-            } else {
-                badge.className = 'px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-red-600 text-white';
-            }
-
-            // Hide form initially so they see their saved info cleanly; clicking Amend opens it pre-filled
+            badge.className = `px-3 py-1 rounded-full text-xs font-extrabold uppercase text-white ${rsvp.status==='Attending'?'bg-green-600':rsvp.status==='Maybe'?'bg-amber-600':'bg-red-600'}`;
             document.getElementById('rsvp-section').classList.add('hidden');
         }
 
         function openAmendForm() {
-            const sec = document.getElementById('rsvp-section');
-            sec.classList.remove('hidden');
+            document.getElementById('rsvp-section').classList.remove('hidden');
             document.getElementById('rsvp-heading').innerText = "Amend Your RSVP";
-            document.getElementById('rsvp-submit-btn').innerText = "✉️ UPDATE RSVP FOR MANAB'S PARENTS";
-
             if (savedRsvpRecord) {
-                document.getElementById('rsvp-child-name').value = savedRsvpRecord.childName || verifiedChildName;
                 document.getElementById('rsvp-parent-name').value = savedRsvpRecord.parentName || '';
                 document.getElementById('rsvp-email').value = savedRsvpRecord.email || '';
                 document.getElementById('rsvp-phone').value = savedRsvpRecord.phone || '';
@@ -766,10 +465,9 @@
                 document.getElementById('rsvp-agreement').checked = true;
                 selectStatus(savedRsvpRecord.status || 'Attending');
             }
-            sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.getElementById('rsvp-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // Attendance Choice with Positive Reinforcement for Yes & Gentle Nudge against Maybe/No
         function selectStatus(status) {
             document.getElementById('input-status-value').value = status;
             document.getElementById('btn-status-yes').className = 'status-choice-btn yes-highlight' + (status === 'Attending' ? ' selected-yes' : '');
@@ -778,30 +476,24 @@
 
             const banner = document.getElementById('persuasion-banner');
             banner.classList.remove('hidden');
-
             if (status === 'Attending') {
                 banner.className = 'rounded-xl p-4 mb-6 text-sm font-semibold bg-green-900/60 border border-green-500 text-green-100';
-                banner.innerHTML = `🌟 <strong>Awesome choice!</strong> Manab is going to be SO thrilled to celebrate with <strong>${verifiedChildName}</strong>! Games, cake, and VIP Roblox fun await!`;
+                banner.innerHTML = `🌟 <strong>Awesome choice!</strong> Manab is going to be SO thrilled to celebrate with <strong>${verifiedChildName}</strong>!`;
             } else if (status === 'Maybe') {
                 banner.className = 'rounded-xl p-4 mb-6 text-sm font-medium bg-amber-900/60 border border-amber-500 text-amber-100';
-                banner.innerHTML = `🤔 <strong>Are you sure?</strong> Manab would really love for <strong>${verifiedChildName}</strong> to be there! Why not lock in <em>"Yes"</em> now so we save a party loot bag? You can always amend it later if plans change!`;
+                banner.innerHTML = `🤔 <strong>Are you sure?</strong> Manab would really love for <strong>${verifiedChildName}</strong> to be there! Why not lock in <em>"Yes"</em> now so we save a loot bag? You can always amend it later!`;
             } else {
                 banner.className = 'rounded-xl p-4 mb-6 text-sm font-medium bg-red-900/60 border border-red-500 text-red-100';
-                banner.innerHTML = `😢 <strong>Oh no, Manab will miss ${verifiedChildName}!</strong> Even if you can only drop by for an hour, we'd love to see you! Are you sure you can't make it?`;
+                banner.innerHTML = `😢 <strong>Oh no, we will miss ${verifiedChildName}!</strong> Even if you can only drop by for a bit, we'd love to see you! Are you sure you can't make it?`;
             }
-
-            const form = document.getElementById('rsvp-form');
-            form.classList.remove('hidden');
+            document.getElementById('rsvp-form').classList.remove('hidden');
         }
 
-        // Submit or Amend RSVP
         document.getElementById('rsvp-form').addEventListener('submit', async function(e) {
             e.preventDefault();
-            if (!document.getElementById('rsvp-agreement').checked) return;
-
             const payload = {
-                code: verifiedCode,
-                child_name: document.getElementById('rsvp-child-name').value.trim(),
+                codes: verifiedFamilyCodes, // Send Array for Sibling Syncing
+                child_name: verifiedChildName,
                 parent_name: document.getElementById('rsvp-parent-name').value.trim(),
                 attendance_status: document.getElementById('input-status-value').value || 'Attending',
                 email: document.getElementById('rsvp-email').value.trim(),
@@ -814,426 +506,118 @@
 
             const overlay = document.getElementById('delivery-overlay');
             const box = document.getElementById('carrier-box');
-            const msg = document.getElementById('delivery-msg');
-            
             overlay.style.display = 'flex';
-            box.style.transform = 'translateY(100px) scale(0.7)';
-            box.style.transition = 'all 0.5s ease-out';
-            setTimeout(() => box.style.transform = 'translateY(0) scale(1)', 50);
-
+            setDbStatus('yellow');
+            
             try {
-                await fetch(window.PARTY_CONFIG.googleSheetWebhookUrl, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+                await fetch(window.PARTY_CONFIG.googleSheetWebhookUrl, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
             } catch (err) {}
 
             setTimeout(() => {
-                box.style.transition = 'all 0.9s ease-in';
-                box.style.transform = 'translateY(-600px) scale(0.4)';
-            }, 1300);
-
-            setTimeout(() => {
-                msg.classList.remove('animate-pulse');
-                msg.innerHTML = `✅ ${isReturningGuest ? 'Amended RSVP Updated!' : "Sent to Manab's Parents!"}<br><span class="text-sm text-gray-300 font-normal">${payload.email ? 'A personalized confirmation email has been sent to ' + payload.email : 'Your response is saved in our guest list!'}</span>`;
-                box.style.transition = 'all 0.5s ease-out';
-                box.style.transform = 'translateY(0) scale(1)';
+                document.getElementById('delivery-msg').innerHTML = `✅ ${isReturningGuest?'Amended RSVP Updated':"Sent to Manab's Parents!"}<br><span class="text-sm font-normal">Database updated. ${payload.email?'Confirmation email sending...':''}</span>`;
                 confetti({ particleCount: 180, spread: 100, origin: { y: 0.5 } });
+                setDbStatus('green');
 
-                // Update local record state
                 isReturningGuest = true;
-                savedRsvpRecord = {
-                    status: payload.attendance_status,
-                    childName: payload.child_name,
-                    parentName: payload.parent_name,
-                    email: payload.email,
-                    phone: payload.phone,
-                    attendees: payload.attendee_count,
-                    allergies: payload.allergies,
-                    notes: payload.notes
-                };
+                savedRsvpRecord = { status: payload.attendance_status, childName: payload.child_name, parentName: payload.parent_name, email: payload.email, phone: payload.phone, attendees: payload.attendee_count, allergies: payload.allergies, notes: payload.notes };
 
                 setTimeout(() => {
                     overlay.style.display = 'none';
                     renderSavedRsvpCard(savedRsvpRecord);
                     document.getElementById('existing-rsvp-card').scrollIntoView({ behavior: 'smooth' });
                 }, 2800);
-            }, 2200);
+            }, 1800);
         });
 
-        // ==========================================
-        // HOST ADMIN DASHBOARD (MA18)
-        // ==========================================
-        async function loadHostDashboard() {
-            try {
-                const res = await fetch(`${window.PARTY_CONFIG.googleSheetWebhookUrl}?action=getAll&host=MA18`);
-                const data = await res.json();
-                if (data.error) throw new Error("Unauthorized");
-                
-                allHostData = data.guests || [];
-                liveConfig = data.config || {};
-                
-                document.getElementById('welcome-modal').style.display = 'none';
-                document.getElementById('main-content').style.display = 'none';
-                document.getElementById('host-dashboard').classList.remove('hidden');
-                
-                renderHostStats();
-                renderHostView('list');
-            } catch (err) {
-                document.getElementById('verify-loading').classList.add('hidden');
-                document.getElementById('verify-btn').classList.remove('hidden');
-                document.getElementById('verify-error').innerText = "Could not load Host Dashboard. Ensure Apps Script is deployed as a New Version.";
-                document.getElementById('verify-error').classList.remove('hidden');
-            }
-        }
-
+        // HOST DASHBOARD
         function renderHostStats() {
-            const total = allHostData.length;
-            const attendingList = allHostData.filter(g => g.status === 'Attending');
-            const maybeCount = allHostData.filter(g => g.status === 'Maybe').length;
-            const declinedCount = allHostData.filter(g => g.status === 'Declined').length;
-            const awaitingCount = allHostData.filter(g => !g.status || g.status === 'Awaiting').length;
-            const totalHeadcount = attendingList.reduce((sum, g) => sum + (parseInt(g.attendees, 10) || 1), 0);
-
+            const guestOnly = allHostData.filter(g => g.role.toLowerCase() !== 'host');
+            const att = guestOnly.filter(g => g.status === 'Attending');
             document.getElementById('host-stats-bar').innerHTML = `
-                <div class="card-bg p-4 rounded-xl text-center">
-                    <p class="text-[11px] uppercase text-gray-400 font-bold">Total Codes</p>
-                    <p class="roblox-font text-2xl text-white mt-1">${total}</p>
-                </div>
-                <div class="card-bg p-4 rounded-xl text-center border-green-600">
-                    <p class="text-[11px] uppercase text-green-400 font-bold">Attending</p>
-                    <p class="roblox-font text-2xl text-green-400 mt-1">${attendingList.length}</p>
-                </div>
-                <div class="card-bg p-4 rounded-xl text-center border-blue-600">
-                    <p class="text-[11px] uppercase text-blue-400 font-bold">Total Headcount</p>
-                    <p class="roblox-font text-2xl text-blue-400 mt-1">${totalHeadcount}</p>
-                </div>
-                <div class="card-bg p-4 rounded-xl text-center border-amber-600">
-                    <p class="text-[11px] uppercase text-amber-400 font-bold">Maybe</p>
-                    <p class="roblox-font text-2xl text-amber-400 mt-1">${maybeCount}</p>
-                </div>
-                <div class="card-bg p-4 rounded-xl text-center border-red-600">
-                    <p class="text-[11px] uppercase text-red-400 font-bold">Declined</p>
-                    <p class="roblox-font text-2xl text-red-400 mt-1">${declinedCount}</p>
-                </div>
-                <div class="card-bg p-4 rounded-xl text-center">
-                    <p class="text-[11px] uppercase text-gray-400 font-bold">Awaiting</p>
-                    <p class="roblox-font text-2xl text-gray-300 mt-1">${awaitingCount}</p>
-                </div>
+                <div class="card-bg p-4 rounded-xl text-center"><p class="text-[11px] uppercase text-gray-400 font-bold">Total Codes</p><p class="roblox-font text-2xl text-white mt-1">${guestOnly.length}</p></div>
+                <div class="card-bg p-4 rounded-xl text-center border-green-600"><p class="text-[11px] uppercase text-green-400 font-bold">Attending</p><p class="roblox-font text-2xl text-green-400 mt-1">${att.length}</p></div>
+                <div class="card-bg p-4 rounded-xl text-center border-blue-600"><p class="text-[11px] uppercase text-blue-400 font-bold">Headcount</p><p class="roblox-font text-2xl text-blue-400 mt-1">${att.reduce((s, g) => s + (parseInt(g.attendees)||1), 0)}</p></div>
+                <div class="card-bg p-4 rounded-xl text-center border-amber-600"><p class="text-[11px] uppercase text-amber-400 font-bold">Maybe</p><p class="roblox-font text-2xl text-amber-400 mt-1">${guestOnly.filter(g=>g.status==='Maybe').length}</p></div>
             `;
         }
 
-        function setHostStatusFilter(filter) {
-            currentHostFilter = filter;
-            document.querySelectorAll('.host-filter-pill').forEach(btn => {
-                if (btn.dataset.filter === filter) {
-                    btn.classList.add('ring-2', 'ring-white');
-                } else {
-                    btn.classList.remove('ring-2', 'ring-white');
-                }
-            });
-            if (currentHostView === 'list') renderHostView('list');
-        }
-
-        function filterHostTable() {
-            if (currentHostView === 'list') renderHostView('list');
-        }
-
         function renderHostView(type) {
-            currentHostView = type;
             const container = document.getElementById('host-content-area');
-            const filterBar = document.getElementById('host-filter-bar');
-
+            const guestOnly = allHostData.filter(g => g.role.toLowerCase() !== 'host');
+            
             if (type === 'invites') {
-                filterBar.classList.add('hidden');
-                container.innerHTML = `<div class="bulk-grid grid grid-cols-1 md:grid-cols-2 gap-6">
-                    ${allHostData.map(g => `
-                        <div class="vip-pass text-center flex flex-col">
-                            <div class="vip-hole"></div>
-                            <div class="bg-red-600 text-white py-2.5 mt-3"><h2 class="roblox-font text-2xl tracking-widest">VIP PARTY PASS</h2></div>
-                            <div class="p-5 flex-1 bg-white">
-                                <p class="text-gray-500 font-bold uppercase text-[11px]">Specially Invited Guest</p>
-                                <h4 class="roblox-font text-2xl text-blue-600 mt-0.5 mb-3">${g.name}</h4>
-                                <p class="text-xs font-extrabold text-gray-800 uppercase mb-3">
-                                    ${(liveConfig.Child_Name || 'Manab').toUpperCase()}'S ${(liveConfig.Age || '9th').toUpperCase()} BIRTHDAY CELEBRATION
-                                </p>
-                                <div class="text-left text-xs text-gray-800 font-semibold mb-3 bg-gray-100 p-3 rounded-lg space-y-1">
-                                    <p>📅 <strong>Date:</strong> ${liveConfig.Date || ''}</p>
-                                    <p>⏰ <strong>Time:</strong> ${liveConfig.Time || ''}</p>
-                                    <p>📍 <strong>Venue:</strong> ${liveConfig.Venue_Name || ''} (${liveConfig.Venue_Address || ''})</p>
-                                </div>
-                                <div class="bg-yellow-300 p-3 rounded-lg border-2 border-yellow-500 text-gray-900">
-                                    <p class="text-[10px] uppercase font-bold mb-1">Unlock Flyer & RSVP Online:</p>
-                                    <p class="text-[11px] font-bold bg-white px-2 py-1 rounded mb-2 truncate">${liveConfig.Website_URL || window.PARTY_CONFIG.websiteUrl}</p>
-                                    <div class="flex justify-center items-center gap-2">
-                                        <span class="text-xs font-bold uppercase">Friend Code:</span>
-                                        <span class="roblox-font text-xl tracking-widest bg-black text-white px-3 py-0.5 rounded">${g.code}</span>
-                                    </div>
-                                </div>
+                container.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 gap-6">${guestOnly.map(g => `
+                    <div class="vip-pass text-center flex flex-col"><div class="vip-hole"></div><div class="bg-red-600 text-white py-2.5 mt-3"><h2 class="roblox-font text-2xl tracking-widest">VIP PARTY PASS</h2></div>
+                        <div class="p-5 flex-1 bg-white">
+                            <p class="text-gray-500 font-bold uppercase text-[11px]">Specially Invited Guest</p><h4 class="roblox-font text-2xl text-blue-600 mt-0.5 mb-3">${g.firstName} ${g.lastName}</h4>
+                            <div class="bg-yellow-300 p-3 rounded-lg border-2 border-yellow-500 text-gray-900">
+                                <p class="text-[11px] font-bold bg-white px-2 py-1 rounded mb-2">${liveConfig.Website_URL || window.PARTY_CONFIG.websiteUrl}</p>
+                                <span class="roblox-font text-xl bg-black text-white px-3 py-0.5 rounded">${g.code}</span>
                             </div>
-                            <div class="barcode"></div>
-                        </div>
-                    `).join('')}
-                </div>`;
+                        </div><div class="barcode"></div></div>`).join('')}</div>`;
             } else {
-                filterBar.classList.remove('hidden');
-                const search = (document.getElementById('host-search-input').value || '').toLowerCase();
-                
-                const filtered = allHostData.filter(g => {
-                    const matchesStatus = currentHostFilter === 'ALL' || (g.status || 'Awaiting') === currentHostFilter;
-                    const hay = `${g.code} ${g.name} ${g.status} ${g.parent} ${g.phone} ${g.email} ${g.allergies} ${g.notes}`.toLowerCase();
-                    return matchesStatus && hay.includes(search);
-                });
-
-                container.innerHTML = `
-                <div class="card-bg p-4 md:p-6 rounded-2xl overflow-x-auto bg-white">
-                    <table class="w-full text-left bg-white text-gray-900 border-collapse border border-gray-300 text-xs md:text-sm">
-                        <thead class="bg-gray-100 text-gray-800 uppercase text-xs">
-                            <tr>
-                                <th class="p-3 border border-gray-300">Code</th>
-                                <th class="p-3 border border-gray-300">Child Name</th>
-                                <th class="p-3 border border-gray-300">RSVP Status</th>
-                                <th class="p-3 border border-gray-300">Parent Name</th>
-                                <th class="p-3 border border-gray-300">Phone</th>
-                                <th class="p-3 border border-gray-300">Email</th>
-                                <th class="p-3 border border-gray-300 text-center">Guests</th>
-                                <th class="p-3 border border-gray-300">Allergies</th>
-                                <th class="p-3 border border-gray-300">Notes</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${filtered.length === 0 ? `<tr><td colspan="9" class="p-6 text-center text-gray-500 font-semibold">No guests match your filter.</td></tr>` :
-                            filtered.map(g => {
-                                let badgeClass = "bg-gray-200 text-gray-700";
-                                if (g.status === "Attending") badgeClass = "bg-green-100 text-green-800 border border-green-400";
-                                else if (g.status === "Maybe") badgeClass = "bg-amber-100 text-amber-800 border border-amber-400";
-                                else if (g.status === "Declined") badgeClass = "bg-red-100 text-red-800 border border-red-400";
-
-                                return `
-                                <tr class="hover:bg-gray-50">
-                                    <td class="p-3 border border-gray-300 roblox-font text-red-600">${g.code}</td>
-                                    <td class="p-3 border border-gray-300 font-bold text-gray-900">${g.name}</td>
-                                    <td class="p-3 border border-gray-300"><span class="px-2.5 py-1 rounded-full text-xs font-extrabold ${badgeClass}">${g.status || 'Awaiting'}</span></td>
-                                    <td class="p-3 border border-gray-300">${g.parent || '-'}</td>
-                                    <td class="p-3 border border-gray-300 whitespace-nowrap">${g.phone || '-'}</td>
-                                    <td class="p-3 border border-gray-300">${g.email || '-'}</td>
-                                    <td class="p-3 border border-gray-300 text-center font-bold">${g.attendees || '-'}</td>
-                                    <td class="p-3 border border-gray-300 ${g.allergies && g.allergies !== 'None' ? 'text-red-600 font-bold' : ''}">${g.allergies || '-'}</td>
-                                    <td class="p-3 border border-gray-300 text-gray-600">${g.notes || '-'}</td>
-                                </tr>`;
-                            }).join('')}
-                        </tbody>
-                    </table>
-                </div>`;
+                container.innerHTML = `<div class="card-bg p-4 rounded-2xl overflow-x-auto bg-white">
+                    <table class="w-full text-left border-collapse border border-gray-300 text-xs">
+                        <thead class="bg-gray-100 uppercase"><tr><th class="p-2 border border-gray-300">Code</th><th class="p-2 border border-gray-300">Name</th><th class="p-2 border border-gray-300">Status</th><th class="p-2 border border-gray-300">Parent</th><th class="p-2 border border-gray-300">Phone</th><th class="p-2 border border-gray-300">Email</th><th class="p-2 border border-gray-300">Ttl</th><th class="p-2 border border-gray-300">Notes</th></tr></thead>
+                        <tbody>${guestOnly.map(g => `<tr class="hover:bg-gray-50"><td class="p-2 border border-gray-300 text-red-600 font-bold">${g.code}</td><td class="p-2 border border-gray-300 font-bold">${g.firstName} ${g.lastName}</td><td class="p-2 border border-gray-300 font-bold text-${g.status==='Attending'?'green':g.status==='Declined'?'red':'amber'}-600">${g.status||'Awaiting'}</td><td class="p-2 border border-gray-300">${g.parent}</td><td class="p-2 border border-gray-300">${g.phone}</td><td class="p-2 border border-gray-300">${g.email}</td><td class="p-2 border border-gray-300 font-bold">${g.attendees}</td><td class="p-2 border border-gray-300">${g.notes}</td></tr>`).join('')}</tbody>
+                    </table></div>`;
             }
         }
 
-        // ==========================================
-        // ANIMATED ROBLOX CHARACTERS + PERSONALIZED BALLOON PARADE
-        // ==========================================
-        const charThemes = [
-            { head: "#FFE600", torso: "#0055FF", leg: "#98FB98", arm: "#FFE600", face: "•‿•", bal: "#e52521" },
-            { head: "#F5C396", torso: "#D32F2F", leg: "#37474F", arm: "#F5C396", face: "¬‿¬", bal: "#0055FF" },
-            { head: "#FFE600", torso: "#212121", leg: "#1565C0", arm: "#FFE600", face: "•_•", bal: "#eab308" },
-            { head: "#F5C396", torso: "#FF9800", leg: "#424242", arm: "#F5C396", face: "★‿★", bal: "#16a34a" },
-            { head: "#E0F7FA", torso: "#00BCD4", leg: "#006064", arm: "#E0F7FA", face: "^‿^", bal: "#9333ea" }
-        ];
-
+        // Animated Roblox Characters
+        const charThemes = [{ head:"#FFE600", torso:"#0055FF", leg:"#98FB98", arm:"#FFE600", face:"•‿•", bal:"#e52521" }, { head:"#F5C396", torso:"#D32F2F", leg:"#37474F", arm:"#F5C396", face:"¬‿¬", bal:"#0055FF" }, { head:"#FFE600", torso:"#212121", leg:"#1565C0", arm:"#FFE600", face:"•_•", bal:"#eab308" }];
         const stage = document.getElementById('roblox-characters-stage');
-        let botList = [];
-        let animLoopRunning = false;
-        let isParadeActive = false;
-
-        function buildPhraseRows() {
-            // Includes the invited child's name dynamically in the balloon animation!
-            const cleanGuest = (verifiedChildName || "FRIEND").toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);
-            return [
-                "HAPPY".split(''),
-                "BIRTHDAY".split(''),
-                "MANAB".split(''),
-                ("FOR" + cleanGuest).split('')
-            ];
-        }
+        let botList = [], animLoopRunning = false;
 
         function initInteractiveCharacters() {
-            stage.innerHTML = '';
-            botList = [];
-
-            const rows = buildPhraseRows();
-            const totalNeeded = rows.reduce((sum, r) => sum + r.length, 0);
-
-            for (let i = 0; i < totalNeeded; i++) {
+            stage.innerHTML = ''; botList = [];
+            const cleanName = (verifiedChildName||"GUEST").toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 10);
+            const letters = [...("HAPPYBIRTHDAYMANAB".split('')), ...(("FOR"+cleanName).split(''))];
+            letters.forEach((char, i) => {
                 const t = charThemes[i % charThemes.length];
-                const el = document.createElement('div');
-                el.className = 'rbx-character';
-                el.innerHTML = `
-                    <div class="rbx-bubble">OOF!</div>
-                    <div class="rbx-balloon" style="background:${t.bal}">
-                        <div class="rbx-letter"></div>
-                        <div class="rbx-balloon-string"></div>
-                    </div>
-                    <div class="rbx-head" style="background:${t.head}">${t.face}</div>
-                    <div class="rbx-torso" style="background:${t.torso}"></div>
-                    <div class="rbx-arm-l" style="background:${t.arm}"></div>
-                    <div class="rbx-arm-r" style="background:${t.arm}"></div>
-                    <div class="rbx-leg-l" style="background:${t.leg}"></div>
-                    <div class="rbx-leg-r" style="background:${t.leg}"></div>
-                `;
+                const el = document.createElement('div'); el.className = 'rbx-character';
+                el.innerHTML = `<div class="rbx-bubble">OOF!</div><div class="rbx-balloon" style="background:${t.bal}"><div class="rbx-letter"></div><div class="rbx-balloon-string"></div></div><div class="rbx-head" style="background:${t.head}">${t.face}</div><div class="rbx-torso" style="background:${t.torso}"></div><div class="rbx-arm-l" style="background:${t.arm}"></div><div class="rbx-arm-r" style="background:${t.arm}"></div><div class="rbx-leg-l" style="background:${t.leg}"></div><div class="rbx-leg-r" style="background:${t.leg}"></div>`;
                 stage.appendChild(el);
-
-                const bot = {
-                    el,
-                    letterEl: el.querySelector('.rbx-letter'),
-                    x: Math.random() * (window.innerWidth - 50),
-                    y: window.innerHeight + 120,
-                    vx: (Math.random() - 0.5) * 5,
-                    vy: -(7 + Math.random() * 6),
-                    state: 'BOUNCING',
-                    isHovered: false,
-                    targetX: 0,
-                    targetY: 0
-                };
-
-                // Hover freezes character; mouseleave triggers a crazy jump!
-                el.addEventListener('mouseenter', () => {
-                    bot.isHovered = true;
-                    el.classList.add('hovered');
-                });
-                el.addEventListener('mouseleave', () => {
-                    bot.isHovered = false;
-                    el.classList.remove('hovered');
-                    el.classList.add('oof');
-                    bot.vy = -(16 + Math.random() * 14);
-                    bot.vx = (Math.random() - 0.5) * 28;
-                    setTimeout(() => el.classList.remove('oof'), 1100);
-                });
-
+                const bot = { el, letterEl: el.querySelector('.rbx-letter'), char, x: Math.random()*(window.innerWidth-50), y: window.innerHeight+120, vx: (Math.random()-0.5)*5, vy: -(7+Math.random()*6), state: 'BOUNCING' };
+                el.addEventListener('mouseenter', () => { bot.isHovered = true; el.classList.add('hovered'); });
+                el.addEventListener('mouseleave', () => { bot.isHovered = false; el.classList.remove('hovered'); el.classList.add('oof'); bot.vy = -(16+Math.random()*14); bot.vx = (Math.random()-0.5)*28; setTimeout(()=>el.classList.remove('oof'),1100); });
                 botList.push(bot);
-            }
-
-            if (!animLoopRunning) {
-                animLoopRunning = true;
-                requestAnimationFrame(animateAllBots);
-            }
-        }
-
-        function computeParadeTargets() {
-            const rows = buildPhraseRows();
-            const charW = 44;
-            const gap = window.innerWidth < 640 ? 2 : 12;
-            const startY = 75;
-            const rowH = 98;
-            const targets = [];
-
-            rows.forEach((rowLetters, rIdx) => {
-                const rowWidth = rowLetters.length * charW + (rowLetters.length - 1) * gap;
-                const startX = Math.max(8, (window.innerWidth - rowWidth) / 2);
-                rowLetters.forEach((char, cIdx) => {
-                    targets.push({
-                        char,
-                        x: startX + cIdx * (charW + gap),
-                        y: startY + rIdx * rowH
-                    });
-                });
             });
-            return targets;
+            if(!animLoopRunning) { animLoopRunning = true; requestAnimationFrame(animateAllBots); }
         }
 
         function launchBalloonParade() {
             toggleBots(true);
-            if (botList.length === 0) initInteractiveCharacters();
-
-            const targets = computeParadeTargets();
-            isParadeActive = true;
-
+            const w = window.innerWidth;
             botList.forEach((bot, idx) => {
-                const t = targets[idx];
-                if (!t) return;
-                bot.letterEl.innerText = t.char;
-                bot.targetX = t.x;
-                bot.targetY = t.y;
-                bot.x = Math.random() * (window.innerWidth - 50);
-                bot.y = window.innerHeight + 100 + idx * 12;
-                bot.state = 'PARADE';
-                setTimeout(() => bot.el.classList.add('has-balloon'), idx * 70);
+                bot.letterEl.innerText = bot.char;
+                bot.targetX = (w / 2) - 150 + Math.random() * 300; 
+                bot.targetY = 80 + Math.random() * 150;
+                bot.state = 'PARADE'; bot.x = Math.random() * w; bot.y = window.innerHeight + 100 + idx * 10;
+                setTimeout(() => bot.el.classList.add('has-balloon'), idx * 50);
             });
-
-            // Hold the personalized balloon formation, then release into playful bouncing
-            setTimeout(() => {
-                isParadeActive = false;
-                botList.forEach(bot => {
-                    bot.el.classList.remove('has-balloon');
-                    bot.state = 'BOUNCING';
-                    bot.vx = (Math.random() - 0.5) * 6;
-                    bot.vy = -(8 + Math.random() * 8);
-                });
-            }, 8500);
+            setTimeout(() => { botList.forEach(b => { b.el.classList.remove('has-balloon'); b.state = 'BOUNCING'; b.vx = (Math.random()-0.5)*6; b.vy = -(8+Math.random()*8); }); }, 8500);
         }
 
         function animateAllBots() {
             const ground = window.innerHeight - 72;
-            const maxW = window.innerWidth - 46;
-
             botList.forEach((bot, idx) => {
                 if (bot.isHovered) return;
-
                 if (bot.state === 'PARADE') {
-                    bot.x += (bot.targetX - bot.x) * 0.05;
-                    bot.y += (bot.targetY - bot.y) * 0.05;
-                    const bob = Math.sin(Date.now() / 360 + idx) * 9;
-                    const sway = Math.cos(Date.now() / 520 + idx) * 4;
-                    bot.el.style.transform = `translate3d(${bot.x}px, ${bot.y + bob}px, 0) rotate(${sway}deg)`;
+                    bot.x += (bot.targetX - bot.x) * 0.05; bot.y += (bot.targetY - bot.y) * 0.05;
+                    bot.el.style.transform = `translate3d(${bot.x}px, ${bot.y + Math.sin(Date.now()/360+idx)*9}px, 0)`;
                 } else {
-                    // Playful bouncing mode (keeps only first 8 bots visible so screen stays readable)
-                    if (idx >= 8) {
-                        bot.el.style.opacity = '0';
-                        bot.el.style.pointerEvents = 'none';
-                        return;
-                    }
-                    bot.el.style.opacity = '1';
-                    bot.el.style.pointerEvents = 'auto';
-
-                    bot.x += bot.vx;
-                    bot.y += bot.vy;
-                    bot.vy += 0.35;
-
-                    if (bot.x <= 0) { bot.x = 0; bot.vx = Math.abs(bot.vx); }
-                    if (bot.x >= maxW) { bot.x = maxW; bot.vx = -Math.abs(bot.vx); }
-                    if (bot.y >= ground) {
-                        bot.y = ground;
-                        bot.vy = -(8 + Math.random() * 6);
-                    }
-
-                    const facing = bot.vx >= 0 ? 1 : -1;
-                    const tilt = Math.sin(Date.now() / 150 + idx) * 6;
-                    bot.el.style.transform = `translate3d(${bot.x}px, ${bot.y}px, 0) scaleX(${facing}) rotate(${tilt}deg)`;
+                    if (idx >= 10) { bot.el.style.opacity = '0'; bot.el.style.pointerEvents = 'none'; return; }
+                    bot.el.style.opacity = '1'; bot.el.style.pointerEvents = 'auto';
+                    bot.x += bot.vx; bot.y += bot.vy; bot.vy += 0.35;
+                    if (bot.x <= 0 || bot.x >= window.innerWidth-46) bot.vx *= -1;
+                    if (bot.y >= ground) { bot.y = ground; bot.vy = -(8+Math.random()*6); }
+                    bot.el.style.transform = `translate3d(${bot.x}px, ${bot.y}px, 0) scaleX(${bot.vx>=0?1:-1}) rotate(${Math.sin(Date.now()/150+idx)*6}deg)`;
                 }
             });
-
             requestAnimationFrame(animateAllBots);
         }
-
-        function toggleBots(show) {
-            stage.style.opacity = show ? '1' : '0';
-            stage.style.pointerEvents = show ? 'none' : 'none';
-        }
-
-        async function playBirthdayTune() {
-            try {
-                await Tone.start();
-                const synth = new Tone.Synth({ oscillator: { type: "square" }, envelope: { attack: 0.05, decay: 0.2, sustain: 0.2, release: 1 } }).toDestination();
-                synth.volume.value = -12;
-                const now = Tone.now();
-                synth.triggerAttackRelease("G4", "8n", now);
-                synth.triggerAttackRelease("G4", "8n", now + 0.3);
-                synth.triggerAttackRelease("A4", "4n", now + 0.6);
-                synth.triggerAttackRelease("G4", "4n", now + 1.2);
-                synth.triggerAttackRelease("C5", "4n", now + 1.8);
-                synth.triggerAttackRelease("B4", "2n", now + 2.4);
-            } catch (e) {}
-        }
+        function toggleBots(show) { stage.style.opacity = show ? '1' : '0'; stage.style.pointerEvents = show ? 'auto' : 'none'; }
     </script>
 </body>
 </html>
