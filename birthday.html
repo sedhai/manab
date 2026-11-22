@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manab's 9th Birthday — Roblox VIP Invitation</title>
+    <title>Manab's 9th Birthday — Roblox VIP Pass & RSVP</title>
     
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -87,7 +87,7 @@
             100% { transform: scaleY(1) scaleX(1); opacity: 1; }
         }
         .letter-open-anim {
-            animation: unfoldLetter 0.95s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            animation: unfoldLetter 0.9s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
             transform-origin: center center;
         }
 
@@ -108,26 +108,6 @@
         .dot-yellow { background-color: #facc15; color: #facc15; }
         .dot-red { background-color: #ef4444; color: #ef4444; }
 
-        /* Roblox-Themed Invitation Card */
-        #printable-flyer {
-            background: #ffffff;
-            color: #111827;
-            border: 6px solid #111827;
-            border-radius: 20px;
-            box-shadow: 0 24px 55px rgba(0, 0, 0, 0.9);
-            position: relative;
-            overflow: hidden;
-        }
-        #printable-flyer::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            opacity: 0.045;
-            pointer-events: none;
-            background-image: radial-gradient(#000 2px, transparent 2px);
-            background-size: 18px 18px;
-        }
-
         /* Status Choice Buttons */
         .status-choice-btn {
             border: 2px solid #475569;
@@ -139,6 +119,8 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
+            position: relative;
+            z-index: 2;
         }
         .status-choice-btn:hover { border-color: #94a3b8; }
         .status-choice-btn.yes-highlight {
@@ -166,10 +148,32 @@
             box-shadow: 0 0 16px rgba(239, 68, 68, 0.45);
         }
 
-        /* Animated Roblox Characters */
-        #roblox-characters-stage { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 35; transition: opacity 0.3s; }
-        .rbx-character { position: absolute; width: 44px; height: 70px; cursor: pointer; pointer-events: auto; transform-origin: center center; user-select: none; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.65)); will-change: transform; }
-        .rbx-head, .rbx-torso, .rbx-arm-l, .rbx-arm-r, .rbx-leg-l, .rbx-leg-r { position: absolute; border: 2px solid #111; box-sizing: border-box; }
+        /* Animated Roblox Characters Stage:
+           ALWAYS pointer-events: none so it NEVER blocks RSVP buttons or inputs! */
+        #roblox-characters-stage {
+            position: fixed;
+            inset: 0;
+            pointer-events: none !important;
+            overflow: hidden;
+            z-index: 25;
+            transition: opacity 0.3s;
+        }
+        .rbx-character {
+            position: absolute;
+            width: 44px;
+            height: 70px;
+            cursor: pointer;
+            pointer-events: auto;
+            transform-origin: center center;
+            user-select: none;
+            filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.65));
+            will-change: transform;
+        }
+        .rbx-head, .rbx-torso, .rbx-arm-l, .rbx-arm-r, .rbx-leg-l, .rbx-leg-r {
+            position: absolute;
+            border: 2px solid #111;
+            box-sizing: border-box;
+        }
         .rbx-head { top: 0; left: 12px; width: 20px; height: 18px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 8px; }
         .rbx-torso { top: 18px; left: 9px; width: 26px; height: 27px; border-radius: 2px; }
         .rbx-arm-l { top: 18px; left: 0px; width: 9px; height: 27px; border-radius: 2px; }
@@ -186,30 +190,60 @@
         .rbx-letter { font-family: 'Bungee', cursive; font-size: 19px; color: #fff; text-shadow: 1px 1px 0 #000, -1px -1px 0 #000; }
         .rbx-character.has-balloon .rbx-balloon { opacity: 1; }
 
-        #bot-controls { position: fixed; bottom: 16px; right: 16px; background: rgba(17, 24, 39, 0.92); border: 2px solid #374151; padding: 8px 10px; border-radius: 10px; z-index: 80; display: none; gap: 6px; backdrop-filter: blur(6px); }
+        #bot-controls { position: fixed; bottom: 16px; right: 16px; background: rgba(17, 24, 39, 0.94); border: 2px solid #374151; padding: 8px 10px; border-radius: 10px; z-index: 80; display: none; gap: 6px; backdrop-filter: blur(6px); }
         .control-btn { font-family: 'Bungee', cursive; font-size: 10px; padding: 6px 10px; border-radius: 6px; color: white; cursor: pointer; transition: transform 0.15s; }
         .control-btn:hover { transform: scale(1.05); }
 
-        /* Printable VIP Pass Lanyard */
-        .vip-pass { background: #ffffff; color: #111; border: 5px solid #111; border-radius: 18px; position: relative; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45); page-break-inside: avoid; break-inside: avoid; }
-        .vip-hole { width: 56px; height: 11px; background: #e5e7eb; border: 2px solid #9ca3af; border-radius: 20px; margin: 10px auto; }
-        .barcode-strip { height: 26px; width: 100%; opacity: 0.85; background: repeating-linear-gradient(90deg, #000, #000 2px, transparent 2px, transparent 5px, #000 5px, #000 6px, transparent 6px, transparent 10px, #000 10px, #000 15px, transparent 15px, transparent 18px); }
+        /* Unified Printable & Digital VIP Party Pass */
+        .vip-pass {
+            background: #ffffff;
+            color: #111827;
+            border: 5px solid #111827;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65);
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        .vip-pass::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: 0.04;
+            pointer-events: none;
+            background-image: radial-gradient(#000 2px, transparent 2px);
+            background-size: 18px 18px;
+        }
+        .vip-hole {
+            width: 58px;
+            height: 11px;
+            background: #e5e7eb;
+            border: 2px solid #9ca3af;
+            border-radius: 20px;
+            margin: 10px auto;
+        }
+        .barcode-strip {
+            height: 26px;
+            width: 100%;
+            opacity: 0.88;
+            background: repeating-linear-gradient(90deg, #000, #000 2px, transparent 2px, transparent 5px, #000 5px, #000 6px, transparent 6px, transparent 10px, #000 10px, #000 15px, transparent 15px, transparent 18px);
+        }
 
         #delivery-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.92); z-index: 999; display: none; flex-direction: column; align-items: center; justify-content: center; }
 
         /* PRINT MEDIA STYLES */
         @media print {
             body { background: #ffffff !important; color: #000000 !important; margin: 0; padding: 0; }
-            .no-print, #welcome-modal, #rsvp-section, #existing-rsvp-card, #roblox-characters-stage, #bot-controls, #bulk-toolbar, #host-stats-bar, #db-status-badge { display: none !important; }
+            .no-print, #welcome-modal, #rsvp-section, #existing-rsvp-card, #roblox-characters-stage, #bot-controls, #bulk-toolbar, #host-stats-bar, #db-status-badge, #returning-top-banner, #top-action-bar { display: none !important; }
             
             body.print-single-mode #host-dashboard { display: none !important; }
-            body.print-single-mode #single-print-container { display: block !important; margin: 10mm auto; width: 100%; max-width: 420px; }
+            body.print-single-mode #single-print-container { display: block !important; margin: 10mm auto; width: 100%; max-width: 440px; }
             
             body:not(.print-single-mode):not(.print-flyer-mode) #host-dashboard { display: block !important; padding: 0 !important; max-width: 100% !important; }
             body:not(.print-single-mode):not(.print-flyer-mode) .bulk-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 8mm !important; margin: 5mm; }
             
-            body.print-flyer-mode #main-content { display: block !important; opacity: 1 !important; margin: 0 !important; max-width: 100% !important; }
-            body.print-flyer-mode #printable-flyer { box-shadow: none !important; border: 5px solid #111 !important; margin: 0 auto; }
+            body.print-flyer-mode #main-content { display: block !important; opacity: 1 !important; margin: 5mm auto !important; max-width: 460px !important; }
             
             .vip-pass { border: 4px solid #000 !important; box-shadow: none !important; }
             table { width: 100%; border-collapse: collapse; font-size: 11px; }
@@ -239,13 +273,13 @@
         <span id="db-status-dot" class="status-dot dot-yellow animate-pulse"></span>
     </div>
 
-    <!-- Animated Roblox Characters -->
+    <!-- Animated Roblox Characters (z-index 25, pointer-events: none on container) -->
     <div id="roblox-characters-stage" class="no-print"></div>
     <div id="bot-controls" class="no-print">
-        <button onclick="playBirthdayTune()" class="control-btn bg-yellow-500 text-black hover:bg-yellow-400">🎵 TUNE</button>
-        <button onclick="toggleBots(false)" class="control-btn bg-gray-700 hover:bg-gray-600">HIDE BOTS</button>
-        <button onclick="toggleBots(true)" class="control-btn bg-blue-600 hover:bg-blue-500">SHOW BOTS</button>
-        <button onclick="launchBalloonParade()" class="control-btn bg-red-600 hover:bg-red-500">🎈 PARADE</button>
+        <button type="button" onclick="playBirthdayTune()" class="control-btn bg-yellow-500 text-black hover:bg-yellow-400">🎵 TUNE</button>
+        <button type="button" onclick="toggleBots(false)" class="control-btn bg-gray-700 hover:bg-gray-600">HIDE BOTS</button>
+        <button type="button" onclick="toggleBots(true)" class="control-btn bg-blue-600 hover:bg-blue-500">SHOW BOTS</button>
+        <button type="button" onclick="launchBalloonParade()" class="control-btn bg-red-600 hover:bg-red-500">🎈 PARADE</button>
     </div>
 
     <!-- 1. WELCOME / VIP CODE GATE MODAL -->
@@ -254,40 +288,28 @@
             <div class="roblox-studs"></div>
             <div class="p-8">
                 <div class="inline-flex items-center gap-2 bg-red-600 text-white roblox-font text-xs uppercase px-3.5 py-1 rounded-full mb-3 tracking-wider border border-black">
-                    <span>🎮</span> LEVEL 9 SERVER ACCESS
+                    <span>🎮</span> LEVEL 9 VIP ACCESS
                 </div>
                 <h1 class="roblox-font text-3xl mb-2 text-white">Manab's 9th Birthday</h1>
                 
                 <!-- QR Auto-Unlock Notice -->
                 <div id="qr-auto-banner" class="hidden bg-blue-900/60 border border-blue-400 rounded-xl p-3 mb-4 text-xs text-blue-100 font-semibold">
-                    📷 QR Pass Scanned! Code autofilled — unlocking your invitation...
+                    📷 QR Pass Scanned! Code autofilled — loading your VIP Pass...
                 </div>
 
                 <div id="auth-section">
-                    <p class="mb-5 text-gray-300 text-sm">Enter the VIP code from your invitation pass to unlock your personalized party briefing & RSVP.</p>
+                    <p class="mb-5 text-gray-300 text-sm">Enter your VIP code from your pass to view your official party pass & RSVP.</p>
                     <input type="text" id="friend-code-input" maxlength="12" placeholder="••••••" class="w-full bg-gray-900 border-2 border-gray-600 rounded-xl p-4 text-white focus:outline-none focus:border-yellow-400 text-center mb-4 text-3xl roblox-font tracking-[0.35em] uppercase">
                     
-                    <button id="verify-btn" onclick="verifyFriendCode(false)" class="roblox-font roblox-btn w-full py-4 rounded-xl text-xl text-white shadow-lg">
-                        UNLOCK VIP INVITATION
+                    <button type="button" id="verify-btn" onclick="verifyFriendCode()" class="roblox-font roblox-btn w-full py-4 rounded-xl text-xl text-white shadow-lg">
+                        VIEW VIP PASS & RSVP
                     </button>
                     
                     <div id="verify-loading" class="hidden mt-4">
                         <div class="spinner"></div>
-                        <p class="text-yellow-400 mt-2 text-sm roblox-font">Connecting to Party Server...</p>
+                        <p class="text-yellow-400 mt-2 text-sm roblox-font">Loading VIP Pass...</p>
                     </div>
                     <p id="verify-error" class="hidden text-red-400 mt-4 text-sm font-semibold"></p>
-                </div>
-
-                <div id="unlocked-section" class="hidden">
-                    <div id="returning-welcome-box" class="hidden bg-green-900/50 border border-green-500 rounded-xl p-4 mb-5">
-                        <p class="roblox-font text-sm text-green-300 mb-1">🎉 WELCOME BACK!</p>
-                        <p id="returning-welcome-text" class="text-sm text-gray-100">Your RSVP details are saved inside.</p>
-                    </div>
-                    <p class="text-yellow-400 font-bold mb-1 uppercase tracking-wider text-xs">VIP Code Verified!</p>
-                    <p class="text-gray-100 mb-6 text-xl">Exclusive Invitation for <span id="auth-child-name" class="font-extrabold text-yellow-400 underline"></span>!</p>
-                    <button onclick="openInvitation(false)" class="roblox-font roblox-btn w-full py-4 rounded-xl text-xl text-white shadow-lg animate-pulse">
-                        OPEN VIP INVITATION
-                    </button>
                 </div>
             </div>
         </div>
@@ -301,9 +323,9 @@
                 <h2 class="roblox-font text-2xl text-white">Manab's 9th Birthday Guest & Pass Manager</h2>
             </div>
             <div class="flex flex-wrap gap-3">
-                <button onclick="renderHostView('list')" class="roblox-btn-blue text-white font-bold px-4 py-2.5 rounded-lg shadow">📋 Guest List & RSVPs</button>
-                <button onclick="renderHostView('invites')" class="roblox-btn text-white font-bold px-4 py-2.5 rounded-lg shadow">🎟️ Batch VIP Passes (QR)</button>
-                <button id="bulk-print-btn" onclick="executePrint('bulk')" class="hidden roblox-btn-green text-white font-bold px-5 py-2.5 rounded-lg shadow">🖨️ PRINT ALL PASSES (PDF)</button>
+                <button type="button" onclick="renderHostView('list')" class="roblox-btn-blue text-white font-bold px-4 py-2.5 rounded-lg shadow">📋 Guest List & RSVPs</button>
+                <button type="button" onclick="renderHostView('invites')" class="roblox-btn text-white font-bold px-4 py-2.5 rounded-lg shadow">🎟️ Batch VIP Passes (QR)</button>
+                <button type="button" id="bulk-print-btn" onclick="executePrint('bulk')" class="hidden roblox-btn-green text-white font-bold px-5 py-2.5 rounded-lg shadow">🖨️ PRINT ALL PASSES (PDF)</button>
             </div>
         </div>
 
@@ -313,114 +335,29 @@
 
     <div id="single-print-container" class="hidden"></div>
 
-    <!-- 3. PERSONALIZED ROBLOX BIRTHDAY INVITATION + RSVP -->
-    <div id="main-content" class="max-w-2xl w-full hidden opacity-0 my-6 relative z-20">
+    <!-- 3. PERSONALIZED GUEST VIEW: EXACT VIP PASS FIRST, THEN INVITATION TO RSVP -->
+    <div id="main-content" class="max-w-xl w-full hidden opacity-0 my-6 relative z-40">
         
-        <div class="flex justify-between items-center mb-4 no-print">
-            <span class="text-xs text-gray-300 bg-gray-900/90 px-3 py-1.5 rounded-lg border border-gray-700">
+        <div id="top-action-bar" class="flex justify-between items-center mb-4 no-print">
+            <span class="text-xs text-gray-300 bg-gray-900/95 px-3 py-1.5 rounded-lg border border-gray-700">
                 VIP Code: <strong id="badge-code" class="text-yellow-400"></strong>
             </span>
-            <button onclick="executePrint('flyer')" class="roblox-btn-blue text-white roblox-font text-xs px-4 py-2 rounded-lg flex items-center gap-2">
-                🖨️ PRINT INVITATION
+            <button type="button" onclick="executePrint('flyer')" class="roblox-btn-blue text-white roblox-font text-xs px-4 py-2 rounded-lg flex items-center gap-2">
+                🖨️ PRINT VIP PASS
             </button>
         </div>
 
         <!-- Returning Guest Banner -->
         <div id="returning-top-banner" class="hidden card-bg border-green-500 rounded-2xl p-5 mb-6 text-center no-print">
             <p class="roblox-font text-lg text-green-400 mb-1">🎉 SO EXCITED TO SEE YOU AGAIN, <span id="returning-banner-name"></span>!</p>
-            <p class="text-sm text-gray-200">Your RSVP is already confirmed on our party server below. You can review or update your response anytime!</p>
+            <p class="text-sm text-gray-200">Your RSVP is already saved on our party server below. Review your pass or update your response anytime!</p>
         </div>
 
-        <!-- ROBLOX BIRTHDAY INVITATION CARD -->
-        <div id="printable-flyer" class="mb-8 text-center">
-            <!-- Top Roblox Studs -->
-            <div class="roblox-studs"></div>
+        <!-- EXACT VIP PARTY PASS (Matches Printable VIP Pass 1:1) -->
+        <div id="guest-vip-pass-slot" class="mb-8"></div>
 
-            <!-- Dark Gaming Header Banner with Roblox Party Character -->
-            <div class="bg-gray-900 text-white px-6 py-6 border-b-4 border-black relative">
-                <div class="flex flex-col md:flex-row items-center justify-center gap-4">
-                    <!-- Blocky Roblox Birthday Character SVG -->
-                    <div class="shrink-0 bg-yellow-400 p-2 rounded-xl border-4 border-black shadow-md transform -rotate-3">
-                        <svg width="58" height="68" viewBox="0 0 60 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Party Hat -->
-                            <polygon points="30,0 18,16 42,16" fill="#E52521" stroke="#111" stroke-width="2.5"/>
-                            <circle cx="30" cy="2" r="3" fill="#FACC15" stroke="#111" stroke-width="1.5"/>
-                            <!-- Roblox Head -->
-                            <rect x="16" y="16" width="28" height="24" rx="4" fill="#FFE600" stroke="#111" stroke-width="3"/>
-                            <circle cx="24" cy="26" r="2.2" fill="#111"/>
-                            <circle cx="36" cy="26" r="2.2" fill="#111"/>
-                            <path d="M24 32 Q30 37 36 32" stroke="#111" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-                            <!-- Roblox Torso -->
-                            <rect x="13" y="40" width="34" height="28" rx="3" fill="#0066FF" stroke="#111" stroke-width="3"/>
-                            <text x="30" y="58" text-anchor="middle" fill="#FFF" font-family="sans-serif" font-weight="900" font-size="11">LVL 9</text>
-                            <!-- Arms -->
-                            <rect x="2" y="40" width="11" height="26" rx="2" fill="#FFE600" stroke="#111" stroke-width="3"/>
-                            <rect x="47" y="40" width="11" height="26" rx="2" fill="#FFE600" stroke="#111" stroke-width="3"/>
-                        </svg>
-                    </div>
-
-                    <div class="text-center md:text-left">
-                        <div class="inline-block bg-red-600 text-white roblox-font text-[11px] px-3 py-1 rounded uppercase tracking-widest mb-1.5 border border-black">
-                            🎮 Official Roblox Party Invite
-                        </div>
-                        <p class="text-xs font-bold uppercase tracking-widest text-yellow-400">VIP Guest Pass For</p>
-                        <h2 id="flyer-guest-name" class="roblox-font text-3xl md:text-4xl text-white tracking-wide">FRIEND</h2>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-6 md:p-8">
-                <div class="border-b-4 border-dashed border-gray-300 pb-5 mb-5">
-                    <p class="text-gray-700 font-bold uppercase text-xs tracking-wider mb-1">
-                        <span id="flyer-sub-name" class="text-red-600">You</span>, join the ultimate party server for
-                    </p>
-                    <h1 class="roblox-font text-3xl md:text-5xl text-gray-900 leading-tight">
-                        <span id="display-name">MANAB</span>'S <span id="display-age" class="text-red-600">9TH</span> BIRTHDAY!
-                    </h1>
-                    <div class="mt-3 inline-flex items-center gap-2 bg-gray-900 text-yellow-400 roblox-font text-xs md:text-sm px-4 py-2 rounded-xl border-2 border-black">
-                        <span>⏳</span> <span id="countdown">Loading Countdown...</span>
-                    </div>
-                </div>
-
-                <!-- Event Details Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left mb-6">
-                    <div class="bg-blue-50 p-4 rounded-xl border-2 border-blue-200">
-                        <p class="roblox-font text-xs text-blue-700 uppercase mb-1">📅 Date & Server Time</p>
-                        <p id="display-date" class="font-extrabold text-lg text-gray-900"></p>
-                        <p id="display-time" class="font-semibold text-gray-700 mt-0.5"></p>
-                    </div>
-                    <div class="bg-red-50 p-4 rounded-xl border-2 border-red-200">
-                        <p class="roblox-font text-xs text-red-600 uppercase mb-1">📍 Party Map & Venue</p>
-                        <p id="display-venue" class="font-extrabold text-lg text-gray-900"></p>
-                        <p id="display-address" class="text-sm text-gray-700 mt-0.5"></p>
-                    </div>
-                </div>
-
-                <!-- Direct RSVP Action Button on Card + QR Pass Box -->
-                <div class="bg-yellow-300 border-4 border-black rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-left">
-                    <div class="flex-1">
-                        <p class="roblox-font text-xs text-red-700 uppercase">🎟️ VIP Pass: <span id="flyer-footer-name">Guest</span></p>
-                        <p class="text-xs font-bold text-gray-900 mt-0.5">
-                            Access Code: <span id="flyer-code-display" class="roblox-font text-base bg-black text-yellow-400 px-2.5 py-0.5 rounded ml-1"></span>
-                        </p>
-                        <p class="text-[11px] text-gray-800 mt-1.5 font-medium">
-                            Scan QR code anytime to reload your pass or update your RSVP.
-                        </p>
-                        <!-- Direct Button to Open RSVP Form -->
-                        <button type="button" onclick="jumpToRsvpForm()" class="no-print mt-3 roblox-btn-green text-white roblox-font text-sm px-5 py-2.5 rounded-xl shadow-md w-full sm:w-auto">
-                            🎟️ RSVP NOW
-                        </button>
-                    </div>
-                    <div class="bg-white p-2 rounded-xl border-2 border-black shrink-0 text-center">
-                        <canvas id="card-qr-canvas"></canvas>
-                        <span class="block text-[9px] font-extrabold uppercase text-gray-700 mt-1">Scan Pass</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SAVED RSVP INFO CARD (For Returning Guests) -->
-        <div id="existing-rsvp-card" class="hidden card-bg border-2 border-yellow-400 rounded-2xl p-6 mb-6 no-print">
+        <!-- SAVED RSVP INFO CARD (Shown when code already has an RSVP) -->
+        <div id="existing-rsvp-card" class="hidden card-bg border-2 border-yellow-400 rounded-2xl p-6 mb-6 no-print relative z-40">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-gray-700 pb-4 mb-4">
                 <div>
                     <span class="text-xs uppercase font-bold text-yellow-400 tracking-wider">Saved RSVP Record</span>
@@ -436,18 +373,29 @@
                 <p class="md:col-span-2"><strong class="text-white">Allergies / Dietary:</strong> <span id="saved-allergies"></span></p>
                 <p class="md:col-span-2"><strong class="text-white">Notes:</strong> <span id="saved-notes"></span></p>
             </div>
-            <button type="button" onclick="openAmendForm()" class="w-full bg-yellow-400 hover:bg-yellow-300 text-black roblox-font text-sm py-3 rounded-xl shadow cursor-pointer border-2 border-black">
+            <button type="button" onclick="openAmendForm()" class="w-full bg-yellow-400 hover:bg-yellow-300 text-black roblox-font text-sm py-3.5 rounded-xl shadow cursor-pointer border-2 border-black">
                 ✏️ AMEND / UPDATE RSVP
             </button>
         </div>
 
-        <!-- RSVP FORM SECTION -->
-        <div class="card-bg rounded-2xl overflow-hidden no-print" id="rsvp-section">
+        <!-- INVITATION TO RSVP SECTION (Positioned at z-index 40 above bots) -->
+        <div class="card-bg rounded-2xl overflow-hidden no-print relative z-40" id="rsvp-section">
             <div class="roblox-studs-blue"></div>
-            <div class="p-8">
-                <h2 id="rsvp-heading" class="roblox-font text-2xl text-center mb-2 text-white">Parent RSVP</h2>
-                <p class="text-center text-sm text-gray-400 mb-6">Confirm <span id="prompt-child-name" class="text-yellow-400 font-bold"></span>'s spot at Manab's 9th Birthday!</p>
+            <div class="p-6 md:p-8">
+                <div class="text-center mb-6">
+                    <span class="inline-block bg-blue-600 text-white roblox-font text-[10px] uppercase px-3 py-1 rounded-full tracking-wider mb-2 border border-black">
+                        🎮 Invitation to RSVP
+                    </span>
+                    <h2 id="rsvp-heading" class="roblox-font text-2xl text-white">Join Manab's 9th Birthday!</h2>
+                    <p class="text-sm text-gray-300 mt-1">
+                        Confirm <span id="prompt-child-name" class="text-yellow-400 font-bold"></span>'s spot below — tap a response to open the RSVP form!
+                    </p>
+                    <div class="mt-3 inline-flex items-center gap-2 bg-gray-900 text-yellow-400 roblox-font text-xs px-3.5 py-1.5 rounded-lg border border-gray-700">
+                        <span>⏳</span> <span id="countdown">Loading Countdown...</span>
+                    </div>
+                </div>
 
+                <!-- Attendance Choice Buttons -->
                 <div class="space-y-3 mb-5">
                     <label class="block text-sm font-semibold text-gray-300">Will <span id="question-child-name" class="text-yellow-400"></span> join the party? *</label>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -555,7 +503,6 @@
             dot.className = `status-dot dot-${color}` + (color === 'yellow' ? ' animate-pulse' : '');
         }
 
-        // Resolves the exact live URL of this page for QR codes so scanning always lands here
         function getInvitationBaseUrl() {
             if (window.location.protocol.startsWith('http')) {
                 return window.location.href.split('?')[0].split('#')[0];
@@ -563,7 +510,6 @@
             return (liveConfig.Website_URL || window.PARTY_CONFIG.websiteUrl).split('?')[0].split('#')[0];
         }
 
-        // Extracts ?code=XXXXXX or #code=XXXXXX or #XXXXXX from QR code scan
         function getScannedCodeFromUrl() {
             const urlParams = new URLSearchParams(window.location.search);
             const qCode = urlParams.get('code') || urlParams.get('c');
@@ -579,13 +525,12 @@
             return "";
         }
 
-        // On Page Load: Detect QR Scan first for instant autofill & direct unlock
+        // On Page Load: Auto-verify immediately if scanned via QR Code
         window.addEventListener('DOMContentLoaded', async () => {
             setDbStatus('yellow');
             const scannedCode = getScannedCodeFromUrl();
 
             if (scannedCode) {
-                // Immediately autofill code in the input field & trigger direct unlock!
                 document.getElementById('friend-code-input').value = scannedCode;
                 document.getElementById('qr-auto-banner').classList.remove('hidden');
                 await verifyFriendCode(true);
@@ -598,7 +543,6 @@
                 const data = await res.json();
                 if (data && data.config) {
                     liveConfig = data.config;
-                    applyEventDetails(liveConfig);
                 }
                 setDbStatus('green');
             } catch (err) {
@@ -621,16 +565,7 @@
             el.innerText = `${Math.floor(t / 86400000)}d ${Math.floor((t % 86400000) / 3600000)}h ${Math.floor((t % 3600000) / 60000)}m ${Math.floor((t % 60000) / 1000)}s`;
         }, 1000);
 
-        function applyEventDetails(cfg) {
-            document.getElementById('display-name').innerText = (cfg.Child_Name || window.PARTY_CONFIG.childName).toUpperCase();
-            document.getElementById('display-age').innerText = (cfg.Age || window.PARTY_CONFIG.birthdayAge).toUpperCase();
-            document.getElementById('display-date').innerText = cfg.Date || window.PARTY_CONFIG.partyDateText;
-            document.getElementById('display-time').innerText = cfg.Time || window.PARTY_CONFIG.partyTimeText;
-            document.getElementById('display-venue').innerText = cfg.Venue_Name || window.PARTY_CONFIG.partyVenueName;
-            document.getElementById('display-address').innerText = cfg.Venue_Address || window.PARTY_CONFIG.partyVenueAddress;
-        }
-
-        async function verifyFriendCode(isQrDirect = false) {
+        async function verifyFriendCode(fromQr = false) {
             const code = document.getElementById('friend-code-input').value.trim().toUpperCase();
             const errorText = document.getElementById('verify-error');
             const loading = document.getElementById('verify-loading');
@@ -666,7 +601,6 @@
                 }
 
                 liveConfig = data.config || {};
-                applyEventDetails(liveConfig);
 
                 if (data.isHost) {
                     allHostData = data.guests || [];
@@ -677,45 +611,33 @@
                 } else {
                     verifiedFamilyCodes = data.family.map(f => f.code);
                     verifiedChildName = data.family.map(f => f.firstName).join(" & ");
+                    const fullGuestDisplay = data.family.map(f => `${f.firstName} ${f.lastName}`.trim()).join(" & ");
                     isReturningGuest = Boolean(data.alreadyRsvped);
                     savedRsvpRecord = data.rsvp || null;
 
-                    // Populate invitation card & RSVP form
-                    document.getElementById('flyer-guest-name').innerText = verifiedChildName.toUpperCase();
-                    document.getElementById('flyer-sub-name').innerText = verifiedChildName;
-                    document.getElementById('flyer-footer-name').innerText = verifiedChildName;
                     document.getElementById('badge-code').innerText = verifiedFamilyCodes.join(" | ");
-                    document.getElementById('flyer-code-display').innerText = verifiedFamilyCodes.join(" | ");
                     document.getElementById('prompt-child-name').innerText = verifiedChildName;
                     document.getElementById('question-child-name').innerText = verifiedChildName;
                     document.getElementById('label-child-name').innerText = verifiedChildName;
                     document.getElementById('rsvp-child-name').value = verifiedChildName;
 
-                    // Render QR code right onto the digital invitation card
+                    // Render the EXACT VIP Party Pass immediately upon code entry or QR scan!
+                    const passSlot = document.getElementById('guest-vip-pass-slot');
+                    passSlot.innerHTML = buildPassHTML({
+                        displayName: fullGuestDisplay || verifiedChildName,
+                        code: verifiedFamilyCodes.join(" | "),
+                        qrCodeValue: verifiedFamilyCodes[0]
+                    }, "qr-guest-main");
+
                     const baseUrl = getInvitationBaseUrl();
                     new QRious({
-                        element: document.getElementById('card-qr-canvas'),
+                        element: document.getElementById('qr-guest-main'),
                         value: `${baseUrl}?code=${verifiedFamilyCodes[0]}`,
                         size: 86,
                         level: 'M'
                     });
 
-                    // If opened via QR Code scan, bypass extra button and open directly!
-                    if (isQrDirect) {
-                        openInvitation(true);
-                        return;
-                    }
-
-                    document.getElementById('auth-section').classList.add('hidden');
-                    document.getElementById('unlocked-section').classList.remove('hidden');
-                    document.getElementById('auth-child-name').innerText = verifiedChildName;
-
-                    if (isReturningGuest && savedRsvpRecord) {
-                        document.getElementById('returning-welcome-box').classList.remove('hidden');
-                        document.getElementById('returning-welcome-text').innerText = savedRsvpRecord.status === "Attending" 
-                            ? `We are SO excited to see ${verifiedChildName} again! Your confirmed RSVP details are saved.`
-                            : `Welcome back, ${verifiedChildName}! Update your RSVP below to join the fun!`;
-                    }
+                    openInvitation(fromQr);
                 }
             } catch (err) {
                 loading.classList.add('hidden');
@@ -729,7 +651,7 @@
         function openInvitation(fromQr = false) {
             const modal = document.getElementById('welcome-modal');
             modal.style.opacity = '0';
-            setTimeout(() => modal.style.display = 'none', 350);
+            setTimeout(() => modal.style.display = 'none', 300);
 
             const content = document.getElementById('main-content');
             content.classList.remove('hidden');
@@ -737,7 +659,7 @@
             
             document.getElementById('bot-controls').style.display = 'flex';
             initInteractiveCharacters();
-            setTimeout(launchBalloonParade, 600);
+            setTimeout(launchBalloonParade, 500);
 
             if (!fromQr) playBirthdayTune();
             confetti({ particleCount: 160, spread: 100, origin: { y: 0.5 }, colors: ['#e52521', '#ffffff', '#FFD700'] });
@@ -745,19 +667,6 @@
             if (isReturningGuest && savedRsvpRecord) {
                 renderSavedRsvpCard(savedRsvpRecord);
             }
-        }
-
-        // Smoothly opens the RSVP form when clicking the "RSVP NOW" button on the invitation card
-        function jumpToRsvpForm() {
-            if (isReturningGuest && savedRsvpRecord) {
-                openAmendForm();
-                return;
-            }
-            const rsvpSec = document.getElementById('rsvp-section');
-            rsvpSec.classList.remove('hidden');
-            selectStatus('Attending');
-            rsvpSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            setTimeout(() => document.getElementById('rsvp-parent-name').focus(), 450);
         }
 
         function renderSavedRsvpCard(rsvp) {
@@ -815,7 +724,7 @@
             document.getElementById('rsvp-form').classList.remove('hidden');
         }
 
-        // Submit RSVP to Google Sheet with full error handling
+        // Submit RSVP to Google Sheet
         document.getElementById('rsvp-form').addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -847,7 +756,6 @@
 
             let syncSuccess = false;
             try {
-                // Attempt readable CORS POST first (supported by GAS with text/plain)
                 const res = await fetch(window.PARTY_CONFIG.googleSheetWebhookUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -860,7 +768,6 @@
                     throw new Error(result.message || "Sheet update failed");
                 }
             } catch (err) {
-                // Fallback no-cors POST if browser blocks redirect response reading
                 try {
                     await fetch(window.PARTY_CONFIG.googleSheetWebhookUrl, {
                         method: 'POST',
@@ -910,6 +817,116 @@
         });
 
         // =====================================
+        // UNIFIED VIP PASS TEMPLATE (WITH ROBLOX CHARACTERS & BALLOONS)
+        // =====================================
+        function buildPassHTML(guestObj, canvasId) {
+            const guestName = guestObj.displayName || `${guestObj.firstName || ''} ${guestObj.lastName || ''}`.trim();
+            const codeText = guestObj.code;
+            const hostName = (liveConfig.Child_Name || window.PARTY_CONFIG.childName).toUpperCase();
+            const hostAge = (liveConfig.Age || window.PARTY_CONFIG.birthdayAge).toUpperCase();
+            const dateStr = liveConfig.Date || window.PARTY_CONFIG.partyDateText;
+            const timeStr = liveConfig.Time || window.PARTY_CONFIG.partyTimeText;
+            const venueStr = liveConfig.Venue_Name || window.PARTY_CONFIG.partyVenueName;
+            const addrStr = liveConfig.Venue_Address || window.PARTY_CONFIG.partyVenueAddress;
+
+            return `
+                <div class="vip-pass text-center flex flex-col">
+                    <div class="roblox-studs"></div>
+                    <div class="vip-hole"></div>
+                    
+                    <!-- Red Header with Balloons -->
+                    <div class="bg-red-600 text-white py-2.5 px-3 border-y-2 border-black flex items-center justify-center gap-2">
+                        <span class="text-lg">🎈</span>
+                        <h2 class="roblox-font text-xl md:text-2xl tracking-widest">VIP PARTY PASS</h2>
+                        <span class="text-lg">🎈</span>
+                    </div>
+
+                    <div class="p-5 flex-1 bg-white flex flex-col justify-between">
+                        <!-- Guest Name flanked by Roblox Birthday Characters holding Balloons -->
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <!-- Left Roblox Character + Balloon -->
+                            <svg width="56" height="84" viewBox="0 0 64 96" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+                                <!-- Red Balloon -->
+                                <ellipse cx="14" cy="16" rx="10" ry="13" fill="#E52521" stroke="#111" stroke-width="2"/>
+                                <path d="M14 29 L14 54" stroke="#111" stroke-width="1.8"/>
+                                <!-- Party Hat -->
+                                <polygon points="38,14 28,28 48,28" fill="#0066FF" stroke="#111" stroke-width="2"/>
+                                <circle cx="38" cy="14" r="2.5" fill="#FACC15" stroke="#111" stroke-width="1.5"/>
+                                <!-- Head -->
+                                <rect x="26" y="28" width="24" height="20" rx="3" fill="#FFE600" stroke="#111" stroke-width="2.5"/>
+                                <circle cx="33" cy="36" r="2" fill="#111"/>
+                                <circle cx="43" cy="36" r="2" fill="#111"/>
+                                <path d="M33 42 Q38 46 43 42" stroke="#111" stroke-width="2" fill="none"/>
+                                <!-- Torso -->
+                                <rect x="23" y="48" width="30" height="24" rx="2" fill="#0066FF" stroke="#111" stroke-width="2.5"/>
+                                <!-- Arms -->
+                                <rect x="12" y="48" width="11" height="22" rx="2" fill="#FFE600" stroke="#111" stroke-width="2.5"/>
+                                <rect x="53" y="48" width="10" height="22" rx="2" fill="#FFE600" stroke="#111" stroke-width="2.5"/>
+                                <!-- Legs -->
+                                <rect x="24" y="72" width="13" height="20" fill="#22C55E" stroke="#111" stroke-width="2.5"/>
+                                <rect x="39" y="72" width="13" height="20" fill="#22C55E" stroke="#111" stroke-width="2.5"/>
+                            </svg>
+
+                            <div class="flex-1 min-w-0">
+                                <p class="text-gray-500 font-extrabold uppercase text-[10px] tracking-wider">Specially Invited Guest</p>
+                                <h4 class="roblox-font text-2xl md:text-3xl text-blue-600 mt-0.5 mb-1 break-words">${guestName}</h4>
+                                <p class="text-xs font-extrabold text-gray-900 uppercase">
+                                    ${hostName}'S <span class="text-red-600">${hostAge}</span> BIRTHDAY
+                                </p>
+                            </div>
+
+                            <!-- Right Roblox Character + Balloon -->
+                            <svg width="56" height="84" viewBox="0 0 64 96" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+                                <!-- Yellow Balloon -->
+                                <ellipse cx="50" cy="16" rx="10" ry="13" fill="#FACC15" stroke="#111" stroke-width="2"/>
+                                <path d="M50 29 L50 54" stroke="#111" stroke-width="1.8"/>
+                                <!-- Party Hat -->
+                                <polygon points="26,14 16,28 36,28" fill="#16A34A" stroke="#111" stroke-width="2"/>
+                                <circle cx="26" cy="14" r="2.5" fill="#E52521" stroke="#111" stroke-width="1.5"/>
+                                <!-- Head -->
+                                <rect x="14" y="28" width="24" height="20" rx="3" fill="#F5C396" stroke="#111" stroke-width="2.5"/>
+                                <circle cx="21" cy="36" r="2" fill="#111"/>
+                                <circle cx="31" cy="36" r="2" fill="#111"/>
+                                <path d="M21 42 Q26 46 31 42" stroke="#111" stroke-width="2" fill="none"/>
+                                <!-- Torso -->
+                                <rect x="11" y="48" width="30" height="24" rx="2" fill="#E52521" stroke="#111" stroke-width="2.5"/>
+                                <!-- Arms -->
+                                <rect x="1" y="48" width="10" height="22" rx="2" fill="#F5C396" stroke="#111" stroke-width="2.5"/>
+                                <rect x="41" y="48" width="11" height="22" rx="2" fill="#F5C396" stroke="#111" stroke-width="2.5"/>
+                                <!-- Legs -->
+                                <rect x="12" y="72" width="13" height="20" fill="#1E293B" stroke="#111" stroke-width="2.5"/>
+                                <rect x="27" y="72" width="13" height="20" fill="#1E293B" stroke="#111" stroke-width="2.5"/>
+                            </svg>
+                        </div>
+
+                        <!-- Event Details Box -->
+                        <div class="text-left text-xs text-gray-800 bg-gray-100 p-3 rounded-xl border-2 border-gray-300 mb-3 space-y-1 font-semibold">
+                            <p>📅 <strong>Date:</strong> ${dateStr}</p>
+                            <p>⏰ <strong>Time:</strong> ${timeStr}</p>
+                            <p>📍 <strong>Location:</strong> ${venueStr} — <span class="font-normal">${addrStr}</span></p>
+                        </div>
+
+                        <!-- QR Code & VIP Access Code Strip -->
+                        <div class="bg-yellow-300 p-3 rounded-xl border-2 border-black text-gray-900 flex justify-between items-center gap-3">
+                            <div class="text-left">
+                                <p class="text-[10px] uppercase font-extrabold text-red-700">🎈 Scan QR Pass to RSVP:</p>
+                                <p class="text-[10px] text-gray-800 font-semibold mb-1.5">Opens your pass automatically!</p>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="text-[10px] font-bold uppercase">Code:</span>
+                                    <span class="roblox-font text-base tracking-widest bg-black text-yellow-400 px-2.5 py-0.5 rounded">${codeText}</span>
+                                </div>
+                            </div>
+                            <div class="bg-white p-1.5 rounded-lg border-2 border-black shrink-0">
+                                <canvas id="${canvasId}" class="block"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="barcode-strip"></div>
+                </div>
+            `;
+        }
+
+        // =====================================
         // HOST DASHBOARD & VIP PASS GENERATION
         // =====================================
         function renderHostStats() {
@@ -923,44 +940,6 @@
             `;
         }
 
-        function buildPassHTML(g) {
-            return `
-                <div class="vip-pass text-center flex flex-col">
-                    <div class="roblox-studs"></div>
-                    <div class="vip-hole"></div>
-                    <div class="bg-red-600 text-white py-2 px-3 border-y-2 border-black">
-                        <h2 class="roblox-font text-xl tracking-widest">🎮 VIP PARTY PASS</h2>
-                    </div>
-                    <div class="p-4 flex-1 bg-white flex flex-col justify-between">
-                        <div>
-                            <p class="text-gray-500 font-bold uppercase text-[10px] tracking-wider">Exclusive Invitation For</p>
-                            <h4 class="roblox-font text-2xl text-blue-600 mt-0.5 mb-1">${g.firstName} ${g.lastName}</h4>
-                            <p class="text-xs font-extrabold text-gray-900 uppercase mb-2">
-                                ${(liveConfig.Child_Name||'Manab').toUpperCase()}'S ${(liveConfig.Age||'9th').toUpperCase()} BIRTHDAY
-                            </p>
-                            <div class="text-left text-[11px] text-gray-800 bg-gray-100 p-2.5 rounded-lg border border-gray-300 mb-3 space-y-0.5 font-semibold">
-                                <p>📅 ${liveConfig.Date || window.PARTY_CONFIG.partyDateText}</p>
-                                <p>⏰ ${liveConfig.Time || window.PARTY_CONFIG.partyTimeText}</p>
-                                <p>📍 ${liveConfig.Venue_Name || window.PARTY_CONFIG.partyVenueName}</p>
-                            </div>
-                        </div>
-                        <div class="bg-yellow-300 p-3 rounded-xl border-2 border-black text-gray-900 flex justify-between items-center gap-3">
-                            <div class="text-left">
-                                <p class="text-[10px] uppercase font-extrabold text-red-700">Scan QR to Open & RSVP:</p>
-                                <p class="text-[10px] text-gray-800 font-semibold mb-1.5">Auto-unlocks your pass!</p>
-                                <div class="flex items-center gap-1.5">
-                                    <span class="text-[10px] font-bold uppercase">Code:</span>
-                                    <span class="roblox-font text-base tracking-widest bg-black text-yellow-400 px-2.5 py-0.5 rounded">${g.code}</span>
-                                </div>
-                            </div>
-                            <canvas id="qr-${g.code}" class="rounded-lg bg-white p-1 border border-black shrink-0"></canvas>
-                        </div>
-                    </div>
-                    <div class="barcode-strip"></div>
-                </div>
-            `;
-        }
-
         function renderHostView(type) {
             const container = document.getElementById('host-content-area');
             const bulkPrintBtn = document.getElementById('bulk-print-btn');
@@ -969,7 +948,7 @@
             
             if (type === 'invites') {
                 bulkPrintBtn.classList.remove('hidden');
-                container.innerHTML = `<div class="bulk-grid grid grid-cols-1 md:grid-cols-2 gap-6">${guestOnly.map(g => buildPassHTML(g)).join('')}</div>`;
+                container.innerHTML = `<div class="bulk-grid grid grid-cols-1 md:grid-cols-2 gap-6">${guestOnly.map(g => buildPassHTML(g, 'qr-' + g.code)).join('')}</div>`;
                 
                 setTimeout(() => {
                     guestOnly.forEach(g => {
@@ -978,7 +957,7 @@
                             new QRious({
                                 element: canvas,
                                 value: `${baseUrl}?code=${g.code}`,
-                                size: 84,
+                                size: 80,
                                 level: 'M'
                             });
                         }
@@ -1002,7 +981,7 @@
                             <td class="p-2 border border-gray-300">${g.parent||'-'}</td><td class="p-2 border border-gray-300">${g.phone||'-'}</td>
                             <td class="p-2 border border-gray-300">${g.email||'-'}</td><td class="p-2 border border-gray-300 font-bold">${g.attendees||'-'}</td>
                             <td class="p-2 border border-gray-300">${g.allergies||'-'}</td><td class="p-2 border border-gray-300">${g.notes||'-'}</td>
-                            <td class="p-2 border border-gray-300 text-center"><button onclick="printSinglePass('${g.code}')" class="bg-blue-600 hover:bg-blue-500 text-white px-2.5 py-1 rounded text-[10px] font-bold cursor-pointer">🖨️ Pass</button></td>
+                            <td class="p-2 border border-gray-300 text-center"><button type="button" onclick="printSinglePass('${g.code}')" class="bg-blue-600 hover:bg-blue-500 text-white px-2.5 py-1 rounded text-[10px] font-bold cursor-pointer">🖨️ Pass</button></td>
                         </tr>`).join('')}</tbody>
                     </table></div>`;
             }
@@ -1023,13 +1002,13 @@
             if (!guest) return;
 
             const container = document.getElementById('single-print-container');
-            container.innerHTML = buildPassHTML(guest);
+            container.innerHTML = buildPassHTML(guest, 'qr-single-' + guest.code);
             
             const baseUrl = getInvitationBaseUrl();
             new QRious({
-                element: document.getElementById('qr-' + guest.code),
+                element: document.getElementById('qr-single-' + guest.code),
                 value: `${baseUrl}?code=${guest.code}`,
-                size: 100,
+                size: 96,
                 level: 'M'
             });
 
@@ -1121,9 +1100,10 @@
             requestAnimationFrame(animateAllBots);
         }
 
+        // Toggle Bots Visibility without ever blocking clicks on page elements
         function toggleBots(show) {
+            stage.style.display = show ? 'block' : 'none';
             stage.style.opacity = show ? '1' : '0';
-            stage.style.pointerEvents = show ? 'auto' : 'none';
         }
     </script>
 </body>
