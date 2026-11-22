@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manab's 9th Birthday VIP Pass -:)</title>
+    <title>Manab's     9th     Birthday VIP Pass :)</title>
     
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- QR Code Generator Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
@@ -79,27 +77,23 @@
         .control-btn { font-family: 'Bungee', cursive; font-size: 10px; padding: 6px 10px; border-radius: 6px; color: white; cursor: pointer; transition: transform 0.15s; }
         .control-btn:hover { transform: scale(1.05); }
 
-        /* Printable VIP Pass Lanyard (Physical Layout) */
+        /* Printable VIP Pass Lanyard */
         .vip-pass { background: #ffffff; color: #111; border: 6px solid #111; border-radius: 18px; position: relative; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45); page-break-inside: avoid; break-inside: avoid; }
         .vip-hole { width: 56px; height: 11px; background: #e5e7eb; border-radius: 20px; margin: 12px auto 0; box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.35); }
         .barcode-strip { height: 30px; width: 100%; opacity: 0.85; background: repeating-linear-gradient(90deg, #000, #000 2px, transparent 2px, transparent 5px, #000 5px, #000 6px, transparent 6px, transparent 10px, #000 10px, #000 15px, transparent 15px, transparent 18px); }
 
         #delivery-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); z-index: 999; display: none; flex-direction: column; align-items: center; justify-content: center; }
 
-        /* ADVANCED PRINT MEDIA STYLES */
         @media print {
             body { background: #ffffff !important; color: #000000 !important; margin: 0; padding: 0; }
             .no-print, #welcome-modal, #rsvp-section, #existing-rsvp-card, #roblox-characters-stage, #bot-controls, #bulk-toolbar, #host-stats-bar, #db-status-badge { display: none !important; }
             
-            /* If printing single guest from dashboard */
             body.print-single-mode #host-dashboard { display: none !important; }
             body.print-single-mode #single-print-container { display: block !important; margin: 0 auto; width: 100%; max-width: 400px; }
             
-            /* If printing bulk guests from dashboard */
             body:not(.print-single-mode) #host-dashboard { display: block !important; padding: 0 !important; max-width: 100% !important; }
             body:not(.print-single-mode) .bulk-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 10mm !important; margin: 5mm; }
             
-            /* If normal guest printing their digital flyer */
             body.print-flyer-mode #main-content { display: block !important; opacity: 1 !important; margin: 0 !important; max-width: 100% !important; }
             body.print-flyer-mode #printable-flyer { box-shadow: none !important; border: 6px solid #e52521 !important; margin: 0 auto; }
             
@@ -112,22 +106,26 @@
 
     <script>
         window.PARTY_CONFIG = {
-            googleSheetWebhookUrl: "https://script.google.com/macros/s/AKfycbw4WeUZP9DWko6cFTUGiaPckqaUVLJO5krTYGTB_lPaWBHhIS1eROi1rJXxjIuRZJP9RA/exec", // <-- YOUR APPS SCRIPT URL!
+            googleSheetWebhookUrl: "https://script.google.com/macros/s/AKfycbzgsliaYYMKFus2l7lEoxyIP1Dlm3C_E-kr_-mGuLNizzUEO1Zop3ySo_DxoemKHXUmbg/exec",
             websiteUrl: "https://manab.sedhai.com/birthday.html",
-            childName: "Manab", birthdayAge: "9th", countdownTarget: "2027-01-06T14:00:00",
-            partyDateText: "Wednesday, January 6, 2027", partyTimeText: "2:00 PM – 5:00 PM",
-            partyVenueName: "Venue To Be Announced", partyVenueAddress: "Details updating soon!"
+            childName: "Manab",
+            birthdayAge: "9th",
+            countdownTarget: "2027-01-06T14:00:00",
+            partyDateText: "Wednesday, January 6, 2027",
+            partyTimeText: "2:00 PM – 5:00 PM",
+            partyVenueName: "Venue To Be Announced",
+            partyVenueAddress: "Details updating soon!"
         };
     </script>
 </head>
 <body class="relative flex flex-col items-center justify-center p-4">
 
-    <!-- DB Status Indicator -->
-    <div id="db-status-badge" title="Google Sheet Connection" class="fixed top-4 right-4 z-50 flex items-center justify-center bg-gray-900/80 p-2.5 rounded-full border border-gray-600 backdrop-blur cursor-help">
+    <!-- DB Status Indicator (Symbol Only: Yellow = Connecting, Green = Ready, Red = Connection Issue) -->
+    <div id="db-status-badge" title="Google Sheet Status" class="fixed top-4 right-4 z-50 flex items-center justify-center bg-gray-900/80 p-2.5 rounded-full border border-gray-600 backdrop-blur">
         <span id="db-status-dot" class="status-dot dot-yellow animate-pulse"></span>
     </div>
 
-    <!-- Bots -->
+    <!-- Animated Roblox Characters -->
     <div id="roblox-characters-stage" class="no-print"></div>
     <div id="bot-controls" class="no-print">
         <button onclick="toggleBots(false)" class="control-btn bg-gray-700 hover:bg-gray-600">HIDE BOTS</button>
@@ -142,14 +140,14 @@
             <h1 class="roblox-font text-3xl mb-2 text-white">Manab's 9th Birthday</h1>
             
             <div id="auth-section">
-                <p class="mb-5 text-gray-300 text-sm">Enter your 6-digit VIP code from your physical invitation to unlock your secret party briefing.</p>
-                <input type="text" id="friend-code-input" maxlength="6" placeholder="••••••" class="w-full bg-gray-900 border-2 border-gray-600 rounded-xl p-4 text-white focus:outline-none focus:border-yellow-400 text-center mb-4 text-3xl roblox-font tracking-[0.5em] uppercase">
+                <p class="mb-5 text-gray-300 text-sm">Enter your VIP code from your invitation pass to unlock your personalized party briefing.</p>
+                <input type="text" id="friend-code-input" maxlength="12" placeholder="••••••" class="w-full bg-gray-900 border-2 border-gray-600 rounded-xl p-4 text-white focus:outline-none focus:border-yellow-400 text-center mb-4 text-3xl roblox-font tracking-[0.4em] uppercase">
                 
                 <button id="verify-btn" onclick="verifyFriendCode()" class="roblox-font roblox-btn w-full py-4 rounded-xl text-xl text-white shadow-lg">UNLOCK VIP PASS</button>
                 
                 <div id="verify-loading" class="hidden mt-4">
                     <div class="spinner"></div>
-                    <p class="text-yellow-400 mt-2 text-sm roblox-font">Connecting Database...</p>
+                    <p class="text-yellow-400 mt-2 text-sm roblox-font">Checking Guest List...</p>
                 </div>
                 <p id="verify-error" class="hidden text-red-400 mt-4 text-sm font-semibold"></p>
             </div>
@@ -166,7 +164,7 @@
         </div>
     </div>
 
-    <!-- 2. HOST ADMIN DASHBOARD -->
+    <!-- 2. HOST ADMIN DASHBOARD (Unlocked when Role = Host in 5th column) -->
     <div id="host-dashboard" class="hidden w-full max-w-6xl mx-auto my-6 z-50">
         <div id="bulk-toolbar" class="card-bg p-6 rounded-2xl mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
@@ -175,8 +173,7 @@
             </div>
             <div class="flex flex-wrap gap-3">
                 <button onclick="renderHostView('list')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-lg shadow cursor-pointer">📋 Guest List</button>
-                <button onclick="renderHostView('invites')" class="bg-red-600 hover:bg-red-500 text-white font-bold px-4 py-2.5 rounded-lg shadow cursor-pointer">🎟️ Print Batch VIP Passes</button>
-                <!-- Bulk Print Button -->
+                <button onclick="renderHostView('invites')" class="bg-red-600 hover:bg-red-500 text-white font-bold px-4 py-2.5 rounded-lg shadow cursor-pointer">🎟️ Batch VIP Passes</button>
                 <button id="bulk-print-btn" onclick="executePrint('bulk')" class="hidden bg-green-600 hover:bg-green-500 text-white font-bold px-5 py-2.5 rounded-lg shadow cursor-pointer">🖨️ PRINT ALL PDF</button>
             </div>
         </div>
@@ -185,7 +182,6 @@
         <div id="host-content-area"></div>
     </div>
 
-    <!-- Hidden Container for printing an individual pass -->
     <div id="single-print-container" class="hidden"></div>
 
     <!-- 3. PERSONALIZED GUEST DIGITAL PASS & RSVP -->
@@ -227,7 +223,7 @@
 
             <div class="bg-yellow-100 border-2 border-yellow-400 rounded-xl p-3 text-xs text-gray-800 font-semibold">
                 🎟️ Linked Access Code(s) for <strong id="flyer-footer-name">Guest</strong>: <span id="flyer-code-display" class="roblox-font text-base text-red-600 ml-1"></span>
-                <span class="block text-gray-600 font-normal mt-0.5">Need to update your RSVP? Just log back in anytime!</span>
+                <span class="block text-gray-600 font-normal mt-0.5">Need to update your RSVP? Re-enter your VIP code anytime!</span>
             </div>
         </div>
 
@@ -251,7 +247,7 @@
             <button type="button" onclick="openAmendForm()" class="w-full bg-yellow-400 hover:bg-yellow-300 text-black roblox-font text-sm py-3 rounded-xl shadow cursor-pointer">✏️ AMEND / UPDATE RSVP</button>
         </div>
 
-        <!-- RSVP FORM SECTION (Hidden from Print) -->
+        <!-- RSVP FORM SECTION -->
         <div class="card-bg rounded-2xl p-8 no-print" id="rsvp-section">
             <h2 id="rsvp-heading" class="roblox-font text-2xl text-center mb-2 text-white">Family RSVP Form</h2>
             <p class="text-center text-sm text-gray-400 mb-6">Confirm <span id="prompt-child-name" class="text-yellow-400 font-bold"></span>'s spot at Manab's 9th Birthday!</p>
@@ -350,19 +346,20 @@
         let allHostData = [];
 
         function setDbStatus(color) {
-            document.getElementById('db-status-dot').className = `status-dot dot-${color} animate-pulse`;
+            const dot = document.getElementById('db-status-dot');
+            dot.className = `status-dot dot-${color}` + (color === 'yellow' ? ' animate-pulse' : '');
         }
 
         // On Load: Ping Sheet & Check for ?code= param (QR Scan Auto-login)
         window.addEventListener('DOMContentLoaded', async () => {
             setDbStatus('yellow');
             
-            // Check URL for QR Code parameter
             const urlParams = new URLSearchParams(window.location.search);
             const autoCode = urlParams.get('code');
 
             try {
                 const res = await fetch(window.PARTY_CONFIG.googleSheetWebhookUrl);
+                if (!res.ok) throw new Error("HTTP " + res.status);
                 const data = await res.json();
                 if (data && data.config) {
                     liveConfig = data.config;
@@ -370,13 +367,15 @@
                 }
                 setDbStatus('green');
 
-                // If QR scanned, auto-verify immediately!
-                if (autoCode && autoCode.length === 6) {
-                    document.getElementById('friend-code-input').value = autoCode.toUpperCase();
+                if (autoCode && autoCode.trim().length >= 3) {
+                    document.getElementById('friend-code-input').value = autoCode.trim().toUpperCase();
                     verifyFriendCode();
                 }
             } catch (err) {
                 setDbStatus('red');
+                const errEl = document.getElementById('verify-error');
+                errEl.innerText = "Cannot reach Google Sheet. Ensure Apps Script is deployed as Web App with access set to 'Anyone'.";
+                errEl.classList.remove('hidden');
             }
         });
 
@@ -399,7 +398,6 @@
             document.getElementById('display-time').innerText = cfg.Time || window.PARTY_CONFIG.partyTimeText;
             document.getElementById('display-venue').innerText = cfg.Venue_Name || window.PARTY_CONFIG.partyVenueName;
             document.getElementById('display-address').innerText = cfg.Venue_Address || window.PARTY_CONFIG.partyVenueAddress;
-            document.getElementById('flyer-url-display').innerText = (cfg.Website_URL || window.PARTY_CONFIG.websiteUrl).split('?')[0]; // Clean URL for display
         }
 
         async function verifyFriendCode() {
@@ -408,8 +406,8 @@
             const loading = document.getElementById('verify-loading');
             const btn = document.getElementById('verify-btn');
 
-            if (code.length !== 6) {
-                errorText.innerText = "Please enter your 6-character code.";
+            if (code.length < 3) {
+                errorText.innerText = "Please enter your VIP code.";
                 errorText.classList.remove('hidden');
                 return;
             }
@@ -421,12 +419,25 @@
 
             try {
                 const response = await fetch(`${window.PARTY_CONFIG.googleSheetWebhookUrl}?code=${encodeURIComponent(code)}`);
+                if (!response.ok) throw new Error("Server returned HTTP " + response.status);
+                
                 const data = await response.json();
-                if (!data.valid) throw new Error(data.error || "Invalid");
+                setDbStatus('green');
+
+                if (data.error) {
+                    throw new Error("Sheet script error: " + data.error);
+                }
+
+                if (!data.valid) {
+                    loading.classList.add('hidden');
+                    btn.classList.remove('hidden');
+                    errorText.innerText = `Code "${code}" was not found in the guest list. Please check your invitation pass.`;
+                    errorText.classList.remove('hidden');
+                    return;
+                }
 
                 liveConfig = data.config || {};
                 applyEventDetails(liveConfig);
-                setDbStatus('green');
 
                 if (data.isHost) {
                     allHostData = data.guests || [];
@@ -464,10 +475,9 @@
             } catch (err) {
                 loading.classList.add('hidden');
                 btn.classList.remove('hidden');
-                errorText.innerText = "Code not found! Check your invitation pass.";
-                errorText.classList.remove('hidden');
                 setDbStatus('red');
-                setTimeout(() => setDbStatus('green'), 3000);
+                errorText.innerText = "Connection error: " + err.message;
+                errorText.classList.remove('hidden');
             }
         }
 
@@ -560,7 +570,12 @@
             setDbStatus('yellow');
             
             try {
-                await fetch(window.PARTY_CONFIG.googleSheetWebhookUrl, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                await fetch(window.PARTY_CONFIG.googleSheetWebhookUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
             } catch (err) {}
 
             setTimeout(() => {
@@ -593,9 +608,7 @@
             `;
         }
 
-        // Generates the HTML for a single VIP Pass (used in bulk and individual print)
         function buildPassHTML(g) {
-            const baseUrl = (liveConfig.Website_URL || window.PARTY_CONFIG.websiteUrl).split('?')[0];
             return `
                 <div class="vip-pass text-center flex flex-col">
                     <div class="vip-hole"></div>
@@ -603,11 +616,12 @@
                     <div class="p-5 flex-1 bg-white flex flex-col justify-between">
                         <div>
                             <p class="text-gray-500 font-bold uppercase text-[11px]">Specially Invited Guest</p>
-                            <h4 class="roblox-font text-2xl text-blue-600 mt-0.5 mb-3">${g.firstName} ${g.lastName}</h4>
+                            <h4 class="roblox-font text-2xl text-blue-600 mt-0.5 mb-2">${g.firstName} ${g.lastName}</h4>
+                            <p class="text-xs font-extrabold text-gray-800 uppercase mb-3">${(liveConfig.Child_Name||'Manab').toUpperCase()}'S ${(liveConfig.Age||'9th').toUpperCase()} BIRTHDAY</p>
                         </div>
                         <div class="bg-yellow-300 p-3 rounded-lg border-2 border-yellow-500 text-gray-900 flex justify-between items-center gap-3">
                             <div class="text-left w-full">
-                                <p class="text-[10px] uppercase font-bold mb-1">Scan to RSVP & Unlock Details:</p>
+                                <p class="text-[10px] uppercase font-bold mb-1">Scan to Unlock & RSVP:</p>
                                 <div class="flex items-center gap-2 mb-1">
                                     <span class="text-[10px] font-bold uppercase">Code:</span>
                                     <span class="roblox-font text-lg tracking-widest bg-black text-white px-2 py-0.5 rounded">${g.code}</span>
@@ -630,7 +644,6 @@
                 bulkPrintBtn.classList.remove('hidden');
                 container.innerHTML = `<div class="bulk-grid grid grid-cols-1 md:grid-cols-2 gap-6">${guestOnly.map(g => buildPassHTML(g)).join('')}</div>`;
                 
-                // Render QRious QR codes
                 setTimeout(() => {
                     const baseUrl = (liveConfig.Website_URL || window.PARTY_CONFIG.websiteUrl).split('?')[0];
                     guestOnly.forEach(g => {
@@ -649,7 +662,8 @@
                             <th class="p-2 border border-gray-300">Code</th><th class="p-2 border border-gray-300">Child Name</th>
                             <th class="p-2 border border-gray-300">Status</th><th class="p-2 border border-gray-300">Parent</th>
                             <th class="p-2 border border-gray-300">Phone</th><th class="p-2 border border-gray-300">Email</th>
-                            <th class="p-2 border border-gray-300">Ttl</th><th class="p-2 border border-gray-300">Action</th>
+                            <th class="p-2 border border-gray-300">Ttl</th><th class="p-2 border border-gray-300">Allergies</th>
+                            <th class="p-2 border border-gray-300">Notes</th><th class="p-2 border border-gray-300">Action</th>
                         </tr></thead>
                         <tbody>${guestOnly.map(g => `<tr class="hover:bg-gray-50">
                             <td class="p-2 border border-gray-300 text-red-600 font-bold">${g.code}</td>
@@ -657,20 +671,20 @@
                             <td class="p-2 border border-gray-300 font-bold text-${g.status==='Attending'?'green':g.status==='Declined'?'red':'amber'}-600">${g.status||'Awaiting'}</td>
                             <td class="p-2 border border-gray-300">${g.parent||'-'}</td><td class="p-2 border border-gray-300">${g.phone||'-'}</td>
                             <td class="p-2 border border-gray-300">${g.email||'-'}</td><td class="p-2 border border-gray-300 font-bold">${g.attendees||'-'}</td>
-                            <td class="p-2 border border-gray-300 text-center"><button onclick="printSinglePass('${g.code}')" class="bg-blue-600 text-white px-2 py-1 rounded text-[10px] font-bold">🖨️ Pass</button></td>
+                            <td class="p-2 border border-gray-300">${g.allergies||'-'}</td><td class="p-2 border border-gray-300">${g.notes||'-'}</td>
+                            <td class="p-2 border border-gray-300 text-center"><button onclick="printSinglePass('${g.code}')" class="bg-blue-600 text-white px-2 py-1 rounded text-[10px] font-bold cursor-pointer">🖨️ Pass</button></td>
                         </tr>`).join('')}</tbody>
                     </table></div>`;
             }
         }
 
-        // Print Flow Logic (Determines what CSS to apply for printing)
         function executePrint(mode) {
             if (mode === 'flyer') {
                 document.body.classList.add('print-flyer-mode');
                 window.print();
                 document.body.classList.remove('print-flyer-mode');
             } else if (mode === 'bulk') {
-                window.print(); // Relies on standard media print rules
+                window.print();
             }
         }
 
@@ -693,6 +707,27 @@
                 window.print();
                 document.body.classList.remove('print-single-mode');
             }, 150);
+        }
+
+        // ==========================================
+        // 8-BIT BIRTHDAY TUNE
+        // ==========================================
+        async function playBirthdayTune() {
+            try {
+                await Tone.start();
+                const synth = new Tone.Synth({
+                    oscillator: { type: "square" },
+                    envelope: { attack: 0.05, decay: 0.2, sustain: 0.2, release: 1 }
+                }).toDestination();
+                synth.volume.value = -12;
+                const now = Tone.now();
+                synth.triggerAttackRelease("G4", "8n", now);
+                synth.triggerAttackRelease("G4", "8n", now + 0.3);
+                synth.triggerAttackRelease("A4", "4n", now + 0.6);
+                synth.triggerAttackRelease("G4", "4n", now + 1.2);
+                synth.triggerAttackRelease("C5", "4n", now + 1.8);
+                synth.triggerAttackRelease("B4", "2n", now + 2.4);
+            } catch (e) {}
         }
 
         // ==========================================
@@ -750,7 +785,11 @@
             });
             requestAnimationFrame(animateAllBots);
         }
-        function toggleBots(show) { stage.style.opacity = show ? '1' : '0'; stage.style.pointerEvents = show ? 'auto' : 'none'; }
+
+        function toggleBots(show) {
+            stage.style.opacity = show ? '1' : '0';
+            stage.style.pointerEvents = show ? 'auto' : 'none';
+        }
     </script>
 </body>
 </html>
